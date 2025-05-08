@@ -107,6 +107,9 @@ RUN echo "source /home/$NAME/robot_ws/install/setup.bash" >> /home/$NAME/.bashrc
 RUN echo "export RCUTILS_COLORIZED_OUTPUT=1" >> ~/.bashrc
 RUN touch ~/.hushlogin
 
+# Set up tmuxp for scripting purposes
+RUN pip3 install tmuxp
+
 # Add local python binaries to the PATH
 ENV PATH="$PATH:/home/$NAME/.local/bin"
 
