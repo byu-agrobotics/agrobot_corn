@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 import os
 from glob import glob
 
-package_name = 'rover_localization'
+package_name = 'robot_bringup'
 
 setup(
     name=package_name,
@@ -13,19 +13,15 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
-        (os.path.join('share', package_name, 'config'), glob('config/*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='Nelson Durrant',
     maintainer_email='snelsondurrant@gmail.com',
-    description='Localization capabilities for the Mars Rover',
-    license='MIT',
+    description='Full-system launch files for the BYU Agrobotics Team',
+    license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
-        'console_scripts': [
-            'pvt_to_nsf = rover_localization.pvt_to_nsf:main',
-            'sync_origin = rover_localization.sync_origin:main',
-        ],
+        'console_scripts': [],
     },
 )
