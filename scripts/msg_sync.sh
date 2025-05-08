@@ -3,7 +3,7 @@
 #
 # Syncs custom messages between the ROS2 and micro-ROS workspaces
 
-rsync -avc --delete ~/robot_ws/src/robot_interfaces ~/firmware/teensy_pio/extra_packages
+rsync -avc --delete ~/agrobot_ws/src/agrobot_interfaces ~/firmware/teensy_pio/extra_packages
 
 cd ~/firmware/teensy_pio
 pio run --target clean_microros

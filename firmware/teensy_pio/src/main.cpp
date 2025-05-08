@@ -11,7 +11,7 @@
  * - TODO: Add other subscribers
  *
  * Publishes:
- * - battery_status (agrobot_interfaces/msg/BatteryStatus)
+ * - battery_status (agagrobot_interfaces/msg/BatteryStatus)
  * - TODO: Add other publishers
  *
  *

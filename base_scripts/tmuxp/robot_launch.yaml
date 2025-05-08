@@ -1,7 +1,7 @@
 # Created by Nelson Durrant, Mar 2025
 # https://tmuxp.git-pull.com/configuration/examples.html
 session_name: robot_launch
-start_directory: "~/robot_ws" # inside the container
+start_directory: "~/agrobot_ws" # inside the container
 windows:
   - window_name: main
     layout: even-horizontal
@@ -10,8 +10,8 @@ windows:
       mouse: "on"
     panes:
       - shell_command:
-          - source ~/robot_ws/install/setup.bash
-          - ros2 launch robot_bringup agrobot.launch.py
+          - source ~/agrobot_ws/install/setup.bash
+          - ros2 launch agrobot_bringup agrobot.launch.py
       - shell_command:
           - cd ~/scripts
           - cmd: bash start_task.sh

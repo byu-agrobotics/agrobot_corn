@@ -3,7 +3,7 @@
 
 #include "publisher.h"
 #include <Wire.h>
-#include <agrobot_interfaces/msg/battery_status.h>
+#include <agagrobot_interfaces/msg/battery_status.h>
 
 /**
  * @author Nelson Durrant
@@ -31,7 +31,7 @@ public:
   using Publisher::destroy;
 
 private:
-  agrobot_interfaces__msg__BatteryStatus msg;
+  agagrobot_interfaces__msg__BatteryStatus msg;
 };
 
 #endif // BATTERY_PUB 
