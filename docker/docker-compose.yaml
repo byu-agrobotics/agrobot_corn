@@ -1,7 +1,7 @@
 # Created by Nelson Durrant, Oct 2024
 services:
   agrobot:
-    image: byuagrobot1/agrobot_2.0:latest
+    image: byuagrobotics1/agrobot_2.0:latest
     container_name: agrobot-ct
     build: .
     user: agrobot-docker

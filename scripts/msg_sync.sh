@@ -5,7 +5,7 @@
 
 rsync -avc --delete ~/robot_ws/src/robot_interfaces ~/firmware/teensy_pio/extra_packages
 
-cd ~/firmware/agrobot_pio
+cd ~/firmware/teensy_pio
 pio run --target clean_microros
 pio pkg install
 pio run
