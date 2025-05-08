@@ -1,0 +1,28 @@
+# Created by Nelson Durrant, Oct 2024
+services:
+  agrobot:
+    image: byuagrobot1/agrobot_2.0:latest
+    container_name: agrobot-ct
+    build: .
+    user: agrobot-docker
+    network_mode: host
+    privileged: true
+    environment:
+      - DISPLAY=$DISPLAY # Required for GUI applications
+      - QT_X11_NO_MITSHM=1 # Required for GUI applications
+    volumes:
+      - ../robot_ws:/home/agrobot-docker/robot_ws # Robot ROS 2 workspace
+      - ../firmware:/home/agrobot-docker/firmware # PIO microcontroller projects
+      - ../scripts:/home/agrobot-docker/scripts # Helpful scripts
+      - ../tutorial_ws:/home/agrobot-docker/tutorial_ws # Tutorial ROS 2 workspace
+      - ../base_scripts/tmuxp/tmp:/home/agrobot-docker/.tmuxp # Temporary tmuxp config files
+      - ./startup:/startup # Startup scripts
+      - /dev:/dev:rw
+      - /etc/udev:/etc/udev:rw
+      - /dev/shm:/dev/shm # Required for inter-container communication
+      - /etc/localtime:/etc/localtime:ro # Syncs the container's time with the host
+      - /tmp/.X11-unix:/tmp/.X11-unix # Required for GUI applications
+    stdin_open: true  # Equivalent to -it in docker run
+    tty: true  # Equivalent to -it in docker run
+    restart: always  # Keeps the container running after exit unless you want it to be removed like with --rm
+    entrypoint: ["/startup/entrypoint.sh"]
