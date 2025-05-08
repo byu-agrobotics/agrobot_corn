@@ -10,7 +10,7 @@ ROBOCLAW_BAUD = 115200
 ROBOCLAW_NAME = "/dev/roboclaw"
 TIMEOUT_THRESHOLD = 2  # seconds
 
-ENABLE_MOTORS = False # Set to True to enable motor control
+ENABLE_MOTORS = True
 
 # --- YOU MUST CONFIGURE THESE VALUES FOR YOUR ROBOT ---
 WHEEL_BASE = 0.3  # meters - Distance between the center of the left and right wheels
@@ -18,19 +18,19 @@ MAX_ROBOT_SPEED_MPS = 0.5  # m/s - Maximum speed your robot can achieve at Roboc
 ROBOCLAW_MAX_CMD_VAL = 127 # Maximum speed value for Roboclaw commands (typically 0-127)
 # --- END OF ROBOT SPECIFIC CONFIGURATION ---
 
-class DriveInterface(Node):
+class RoboclawWrapper(Node):
     '''
     :author: Nelson Durrant (w Google Gemini 2.5 Pro)
     :date: May 2024
 
-    Node that interfaces with the drive system of the robot.
+    Node that interfaces with the roboclaw motor controller to drive the robot.
 
     Subscribers:
          - cmd_vel (geometry_msgs/msg/Twist)
     '''
 
     def __init__(self):
-        super().__init__('drive_interface')
+        super().__init__('roboclaw_wrapper')
 
         self.cmd_vel_sub = self.create_subscription(
             Twist,
@@ -42,6 +42,7 @@ class DriveInterface(Node):
         # Initialize robot parameters
         self.wheel_base = self.declare_parameter('wheel_base', WHEEL_BASE).get_parameter_value().double_value
         self.max_robot_speed_mps = self.declare_parameter('max_robot_speed_mps', MAX_ROBOT_SPEED_MPS).get_parameter_value().double_value
+        global ENABLE_MOTORS # Use global to modify module-level variable
         
         self.get_logger().info(f"DriveInterface initialized with wheel_base: {self.wheel_base} m, max_robot_speed_mps: {self.max_robot_speed_mps} m/s")
 
@@ -56,7 +57,6 @@ class DriveInterface(Node):
                 else:
                     self.get_logger().error('Failed to open Roboclaw port. MOTORS DISABLED.')
                     self.roboclaw = None # Ensure roboclaw is None if not opened
-                    global ENABLE_MOTORS # Use global to modify module-level variable
                     ENABLE_MOTORS = False
             except Exception as e:
                 self.get_logger().error(f'Exception opening Roboclaw: {str(e)}. MOTORS DISABLED.')
@@ -100,7 +100,7 @@ class DriveInterface(Node):
         left_cmd_scaled_float = (target_left_mps / self.max_robot_speed_mps) * ROBOCLAW_MAX_CMD_VAL
         right_cmd_scaled_float = (target_right_mps / self.max_robot_speed_mps) * ROBOCLAW_MAX_CMD_VAL
         
-        # self.get_logger().info(f"CmdVel: lin_x={linear_x:.2f}, ang_z={angular_z:.2f} -> L_mps={target_left_mps:.2f}, R_mps={target_right_mps:.2f} -> L_raw={left_cmd_scaled_float:.2f}, R_raw={right_cmd_scaled_float:.2f}")
+        self.get_logger().info(f"CmdVel: lin_x={linear_x:.2f}, ang_z={angular_z:.2f} -> L_mps={target_left_mps:.2f}, R_mps={target_right_mps:.2f} -> L_raw={left_cmd_scaled_float:.2f}, R_raw={right_cmd_scaled_float:.2f}")
 
         # Determine direction and prepare command value for Roboclaw for Left Motor (M1)
         if left_cmd_scaled_float >= 0:
@@ -118,7 +118,7 @@ class DriveInterface(Node):
             right_command_val = min(int(abs(right_cmd_scaled_float)), ROBOCLAW_MAX_CMD_VAL)
             self.roboclaw.BackwardM2(ROBOCLAW_ADDR, right_command_val)
         
-        # self.get_logger().info(f"Roboclaw Cmds: L={left_command_val}, R={right_command_val} (Directions: L_fwd={left_cmd_scaled_float>=0}, R_fwd={right_cmd_scaled_float>=0})")
+        self.get_logger().info(f"Roboclaw Cmds: L={left_command_val}, R={right_command_val} (Directions: L_fwd={left_cmd_scaled_float>=0}, R_fwd={right_cmd_scaled_float>=0})")
 
         self.last_time_cmd_received = time.time()
 
@@ -143,18 +143,18 @@ class DriveInterface(Node):
 def main(args=None):
     rclpy.init(args=args)
 
-    drive_interface_node = DriveInterface()
-    rclpy.spin(drive_interface_node)
+    roboclaw_wrapper_node = RoboclawWrapper()
+    rclpy.spin(roboclaw_wrapper_node)
 
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
-    if drive_interface_node.roboclaw is not None and ENABLE_MOTORS: # Ensure motors are stopped on shutdown
-        drive_interface_node.get_logger().info('Shutting down, stopping motors.')
-        drive_interface_node.roboclaw.ForwardM1(ROBOCLAW_ADDR, 0)
-        drive_interface_node.roboclaw.ForwardM2(ROBOCLAW_ADDR, 0)
+    if roboclaw_wrapper_node.roboclaw is not None and ENABLE_MOTORS: # Ensure motors are stopped on shutdown
+        roboclaw_wrapper_node.get_logger().info('Shutting down, stopping motors.')
+        roboclaw_wrapper_node.roboclaw.ForwardM1(ROBOCLAW_ADDR, 0)
+        roboclaw_wrapper_node.roboclaw.ForwardM2(ROBOCLAW_ADDR, 0)
 
-    drive_interface_node.destroy_node()
+    roboclaw_wrapper_node.destroy_node()
     rclpy.shutdown()
 
 

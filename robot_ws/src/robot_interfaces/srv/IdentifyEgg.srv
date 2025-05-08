@@ -1,0 +1,6 @@
+# IdentifyEgg.srv - Nelson Durrant, Feb 2025
+# Used to request egg identification
+
+                    # request, none
+---
+int8 egg_type       # response, 1: small, 2: large, 3: bad

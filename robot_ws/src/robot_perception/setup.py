@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 import os
 from glob import glob
 
-package_name = 'robot_bringup'
+package_name = 'robot_perception'
 
 setup(
     name=package_name,
@@ -18,10 +18,12 @@ setup(
     zip_safe=True,
     maintainer='Nelson Durrant',
     maintainer_email='snelsondurrant@gmail.com',
-    description='Full-system launch files for the BYU Agrobotics Team',
+    description='Egg computer vision for the BYU Agrobotics Team',
     license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
-        'console_scripts': [],
+        'console_scripts': [
+            'egg_id = robot_perception.egg_id:main',
+        ],
     },
 )

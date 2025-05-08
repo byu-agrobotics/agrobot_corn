@@ -7,23 +7,25 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 
 def generate_launch_description():
-    rover_control_dir = get_package_share_directory("rover_control")
-    rover_control_launch_dir = os.path.join(rover_control_dir, "launch")
+    robot_nav_dir = get_package_share_directory("robot_navigation")
+    robot_nav_launch_dir = os.path.join(robot_nav_dir, "launch")
+    robot_cv_dir = get_package_share_directory("robot_perception")
+    robot_cv_launch_dir = os.path.join(robot_cv_dir, "launch")
 
-    mobility_cmd = IncludeLaunchDescription(
+    nav_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(rover_control_launch_dir, "mobility.launch.py")
+            os.path.join(robot_nav_launch_dir, "robot_navigation.launch.py")
         ),
     )
 
-    peripherals_cmd = IncludeLaunchDescription(
+    cv_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(rover_control_launch_dir, "peripherals.launch.py")
+            os.path.join(robot_cv_launch_dir, "robot_perception.launch.py")
         ),
     )
 
     ld = LaunchDescription()
-    ld.add_action(mobility_cmd)
-    ld.add_action(peripherals_cmd)
+    ld.add_action(nav_cmd)
+    ld.add_action(cv_cmd)
 
     return ld
