@@ -25,32 +25,9 @@ if [ $(docker ps | grep mapproxy | wc -l) -eq 0 ]; then
     docker run -p 8080:8080 -d -t -v ~/mapproxy:/mapproxy danielsnider/mapproxy
 fi
 
-# Launch the specified task configuration over SSH
-case $task in
-    "autonomy")
-        printInfo "Setting up the autonomy task..."
-        # This envsubst allows for the use of environment variables in the tmuxp config
-        envsubst < tmuxp/autonomy/base_launch.yaml > tmuxp/tmp/base_launch.yaml
-        docker exec agrobot-ct tmuxp load -d /home/agrobot-docker/.tmuxp/base_launch.yaml
-        ;;
-    "servicing")
-        printWarning "Not implemented yet"
-        exit
-        ;;
-    "retrieval")
-        printWarning "Not implemented yet"
-        exit
-        ;;
-    "science")
-        printWarning "Not implemented yet"
-        exit
-        ;;
-    *)
-        printError "No task specified"
-        echo "Specify a task using 'bash base_launch.sh -t <task>' (ex. 'bash base_launch.sh -t autonomy')"
-        exit 1
-        ;;
-esac
+# This envsubst allows for the use of environment variables in the tmuxp config
+envsubst < tmuxp/base_launch.yaml > tmuxp/tmp/base_launch.yaml
+docker exec agrobot-ct tmuxp load -d /home/agrobot-docker/.tmuxp/base_launch.yaml
 
 # Attach to the 'base_launch' tmux session
 docker exec -it agrobot-ct tmux attach -t base_launch
