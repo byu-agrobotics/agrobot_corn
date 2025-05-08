@@ -3,7 +3,7 @@
 #
 # Runs automatic commands on Docker container startup
 # - This script won't throw any errors, but it will crash immediately if any command fails
-# - You can view the output of this script by running 'docker logs marsrover-ct'
+# - You can view the output of this script by running 'docker logs agrobot-ct'
 
 set -e
 
