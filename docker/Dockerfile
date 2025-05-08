@@ -169,3 +169,7 @@ RUN apt update && apt install -y \
     python3-opencv \
     v4l-utils
 USER $NAME
+
+# Install the serial library - Nelson Durrant, May 2025
+# Used by the roboclaw library for serial communication
+RUN pip3 install serial
