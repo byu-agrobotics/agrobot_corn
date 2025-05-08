@@ -3,7 +3,7 @@
 
 #include "publisher.h"
 #include <Wire.h>
-#include <agagrobot_interfaces/msg/to_f_data.h>
+#include <agrobot_interfaces/msg/to_f_data.h>
 
 
 /**
@@ -34,7 +34,7 @@ public:
   using Publisher::destroy;
 
 private:
-  agagrobot_interfaces__msg__ToFData msg;
+  agrobot_interfaces__msg__ToFData msg;
 };
 
 #endif // TOF_PUB

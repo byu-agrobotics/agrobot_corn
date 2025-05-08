@@ -4,7 +4,7 @@ void BatteryPub::setup(rcl_node_t node) {
 
   RCCHECK(rclc_publisher_init_best_effort(
       &publisher, &node,
-      ROSIDL_GET_MSG_TYPE_SUPPORT(agagrobot_interfaces, msg, BatteryStatus),
+      ROSIDL_GET_MSG_TYPE_SUPPORT(agrobot_interfaces, msg, BatteryStatus),
       "/battery/data"));
 }
 
