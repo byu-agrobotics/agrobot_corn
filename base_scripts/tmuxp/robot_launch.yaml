@@ -4,12 +4,15 @@ session_name: robot_launch
 start_directory: "~/robot_ws" # inside the container
 windows:
   - window_name: main
-    layout: tiled
+    layout: even-horizontal
     options:
       default-terminal: screen-256color
       mouse: "on"
     panes:
       - shell_command:
           - source ~/robot_ws/install/setup.bash
-          - cmd: add here
+          - ros2 launch robot_bringup agrobot.launch.py
+      - shell_command:
+          - cd ~/scripts
+          - cmd: bash start_task.sh
             enter: false

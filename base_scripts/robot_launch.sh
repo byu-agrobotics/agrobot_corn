@@ -4,7 +4,7 @@
 # Launches tasks on the robot over SSH using the 'robot_launch' tmux session
 
 script_dir=$(dirname "$(readlink -f "$0")")
-source $script_dir/tools/base_common.sh
+source $script_dir/base_common.sh
 
 # Check for a "-t <task>" or "-u <username>" argument
 while getopts ":t:u:" opt; do

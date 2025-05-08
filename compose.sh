@@ -4,7 +4,7 @@
 # Simple script to set up a quick robot development environment
 
 script_dir=$(dirname "$(readlink -f "$0")")
-source $script_dir/base_scripts/tools/base_common.sh
+source $script_dir/base_scripts/base_common.sh
 
 case $1 in
   	"down")
