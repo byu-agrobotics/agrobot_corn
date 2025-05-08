@@ -32,4 +32,3 @@ export current_branch=$(git branch --show-current)
 
 ssh -t $ROBOT_USERNAME@$ROBOT_IP_ADDRESS "cd ~/agrobot_2.0 && git checkout $current_branch"
 ssh -t $ROBOT_USERNAME@$ROBOT_IP_ADDRESS "cd ~/agrobot_2.0 && git pull base ${current_branch}"
-
