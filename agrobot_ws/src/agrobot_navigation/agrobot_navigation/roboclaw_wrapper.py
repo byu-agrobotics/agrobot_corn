@@ -7,7 +7,7 @@ from roboclaw_3 import Roboclaw
 # Roboclaw and Robot Constants
 ROBOCLAW_ADDR = 0x80
 ROBOCLAW_BAUD = 115200
-ROBOCLAW_NAME = "/dev/ttyACM0"  # Change this to your Roboclaw device name
+ROBOCLAW_NAME = "/dev/roboclaw"  # Change this to your Roboclaw device name
 TIMEOUT_THRESHOLD = 2  # seconds
 
 ENABLE_MOTORS = True
@@ -50,8 +50,6 @@ class RoboclawWrapper(Node):
         if ENABLE_MOTORS:
             try:
                 self.roboclaw = Roboclaw(ROBOCLAW_NAME, ROBOCLAW_BAUD)
-                self.roboclaw.ForwardM1(ROBOCLAW_ADDR, 0)  # left side
-                self.roboclaw.ForwardM2(ROBOCLAW_ADDR, 0)  # right side
                 if self.roboclaw.Open():
                     self.get_logger().info('Roboclaw port opened successfully.')
                     self.roboclaw.ForwardM1(ROBOCLAW_ADDR, 0)  # left side
