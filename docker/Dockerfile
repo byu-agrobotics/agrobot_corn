@@ -172,3 +172,7 @@ USER $NAME
 # Install the serial library - Nelson Durrant, May 2025
 # Used by the roboclaw library for serial communication
 RUN pip3 install serial
+
+# Install the pyserial library - Nelson Durrant, May 2025
+# Quick error fix - apparently roboclaw needs this library to work as well?
+RUN pip3 install pyserial
