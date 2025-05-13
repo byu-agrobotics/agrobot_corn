@@ -50,6 +50,8 @@ class RoboclawWrapper(Node):
         if ENABLE_MOTORS:
             try:
                 self.roboclaw = Roboclaw(ROBOCLAW_NAME, ROBOCLAW_BAUD)
+                self.roboclaw.ForwardM1(ROBOCLAW_ADDR, 0)  # left side
+                self.roboclaw.ForwardM2(ROBOCLAW_ADDR, 0)  # right side
                 if self.roboclaw.Open():
                     self.get_logger().info('Roboclaw port opened successfully.')
                     self.roboclaw.ForwardM1(ROBOCLAW_ADDR, 0)  # left side
