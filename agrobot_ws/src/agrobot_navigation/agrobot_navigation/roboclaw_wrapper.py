@@ -10,13 +10,10 @@ ROBOCLAW_BAUD = 115200
 ROBOCLAW_NAME = "/dev/roboclaw"  # Change this to your Roboclaw device name
 TIMEOUT_THRESHOLD = 2  # seconds
 
-ENABLE_MOTORS = True
-
-# --- YOU MUST CONFIGURE THESE VALUES FOR YOUR ROBOT ---
+# TODO: Set these and make them parameters
 WHEEL_BASE = 0.3  # meters - Distance between the center of the left and right wheels
 MAX_ROBOT_SPEED_MPS = 0.5  # m/s - Maximum speed your robot can achieve at Roboclaw command 127
-ROBOCLAW_MAX_CMD_VAL = 127 # Maximum speed value for Roboclaw commands (typically 0-127)
-# --- END OF ROBOT SPECIFIC CONFIGURATION ---
+ROBOCLAW_MAX_CMD_VAL = 127
 
 class RoboclawWrapper(Node):
     '''
@@ -39,34 +36,27 @@ class RoboclawWrapper(Node):
             10)
         self.timer = self.create_timer(0.5, self.timer_callback)
 
-        # Initialize robot parameters
+        # Declare parameters
         self.wheel_base = self.declare_parameter('wheel_base', WHEEL_BASE).get_parameter_value().double_value
         self.max_robot_speed_mps = self.declare_parameter('max_robot_speed_mps', MAX_ROBOT_SPEED_MPS).get_parameter_value().double_value
-        global ENABLE_MOTORS # Use global to modify module-level variable
-        
-        self.get_logger().info(f"DriveInterface initialized with wheel_base: {self.wheel_base} m, max_robot_speed_mps: {self.max_robot_speed_mps} m/s")
 
 
-        if ENABLE_MOTORS:
-            try:
-                self.roboclaw = Roboclaw(ROBOCLAW_NAME, ROBOCLAW_BAUD)
-                if self.roboclaw.Open():
-                    self.get_logger().info('Roboclaw port opened successfully.')
-                    self.roboclaw.ForwardM1(ROBOCLAW_ADDR, 0)  # left side
-                    self.roboclaw.ForwardM2(ROBOCLAW_ADDR, 0)  # right side
-                else:
-                    self.get_logger().error('Failed to open Roboclaw port. MOTORS DISABLED.')
-                    self.roboclaw = None # Ensure roboclaw is None if not opened
-                    ENABLE_MOTORS = False
-            except Exception as e:
-                self.get_logger().error(f'Exception opening Roboclaw: {str(e)}. MOTORS DISABLED.')
-                self.roboclaw = None
-                ENABLE_MOTORS = False
-        else:
-            self.roboclaw = None # Ensure roboclaw attribute exists even if motors are disabled
-            self.get_logger().warn('Motors are disabled by configuration (ENABLE_MOTORS=False).')
+        try:
+            self.roboclaw = Roboclaw(ROBOCLAW_NAME, ROBOCLAW_BAUD)
+            if self.roboclaw.Open():
+                self.get_logger().info('Roboclaw port opened successfully.')
+                self.roboclaw.ForwardM1(ROBOCLAW_ADDR, 0)  # left side
+                self.roboclaw.ForwardM2(ROBOCLAW_ADDR, 0)  # right side
+            else:
+                self.get_logger().error('Failed to open Roboclaw port. MOTORS DISABLED.')
+                self.roboclaw = None # Ensure roboclaw is None if not opened
+        except Exception as e:
+            self.get_logger().error(f'Exception opening Roboclaw: {str(e)}. MOTORS DISABLED.')
+            self.roboclaw = None
 
         self.last_time_cmd_received = time.time() # Initialize with current time
+
+        self.get_logger().info(f'RoboclawWrapper initialized')
 
     def cmd_vel_callback(self, msg):
         '''
@@ -76,10 +66,8 @@ class RoboclawWrapper(Node):
         :type msg: geometry_msgs.msg.Twist
         '''
 
-        global ENABLE_MOTORS # Access the global ENABLE_MOTORS
-
-        if not ENABLE_MOTORS or self.roboclaw is None:
-            self.get_logger().warn('Motors are disabled or Roboclaw not initialized, ignoring cmd_vel.')
+        if self.roboclaw is None:
+            self.get_logger().warn('Roboclaw not initialized, ignoring cmd_vel...')
             return
 
         linear_x = msg.linear.x  # Forward/backward velocity
@@ -127,9 +115,8 @@ class RoboclawWrapper(Node):
         Timer callback function to check for expired commands.
         If no command is received within TIMEOUT_THRESHOLD, motors are stopped.
         '''
-        global ENABLE_MOTORS # Access the global ENABLE_MOTORS
 
-        if not ENABLE_MOTORS or self.roboclaw is None:
+        if self.roboclaw is None:
             return
 
         if time.time() - self.last_time_cmd_received > TIMEOUT_THRESHOLD:
@@ -146,10 +133,8 @@ def main(args=None):
     roboclaw_wrapper_node = RoboclawWrapper()
     rclpy.spin(roboclaw_wrapper_node)
 
-    # Destroy the node explicitly
-    # (optional - otherwise it will be done automatically
-    # when the garbage collector destroys the node object)
-    if roboclaw_wrapper_node.roboclaw is not None and ENABLE_MOTORS: # Ensure motors are stopped on shutdown
+    # Shutdown sequence
+    if roboclaw_wrapper_node.roboclaw is not None: # Ensure motors are stopped on shutdown
         roboclaw_wrapper_node.get_logger().info('Shutting down, stopping motors.')
         roboclaw_wrapper_node.roboclaw.ForwardM1(ROBOCLAW_ADDR, 0)
         roboclaw_wrapper_node.roboclaw.ForwardM2(ROBOCLAW_ADDR, 0)
