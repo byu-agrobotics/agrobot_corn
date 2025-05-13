@@ -7,7 +7,7 @@ from roboclaw_3 import Roboclaw
 # Roboclaw and Robot Constants
 ROBOCLAW_ADDR = 0x80
 ROBOCLAW_BAUD = 115200
-ROBOCLAW_NAME = "/dev/ttyACM0"  # Change this to your Roboclaw device name
+ROBOCLAW_NAME = "/dev/tty0"  # Change this to your Roboclaw device name
 TIMEOUT_THRESHOLD = 2  # seconds
 
 ENABLE_MOTORS = True
