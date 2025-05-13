@@ -4,16 +4,15 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from roboclaw_3 import Roboclaw
 
-# Roboclaw and Robot Constants
+# Roboclaw/Robot Constants
+# TODO: Make these parameters?
 ROBOCLAW_ADDR = 0x80
 ROBOCLAW_BAUD = 115200
 ROBOCLAW_NAME = "/dev/roboclaw"  # Change this to your Roboclaw device name
 TIMEOUT_THRESHOLD = 2  # seconds
-
-# TODO: Set these and make them parameters
 WHEEL_BASE = 0.3  # meters - Distance between the center of the left and right wheels
 MAX_ROBOT_SPEED_MPS = 0.5  # m/s - Maximum speed your robot can achieve at Roboclaw command 127
-ROBOCLAW_MAX_CMD_VAL = 127
+ROBOCLAW_MAX_CMD_VAL = 127  # Maximum command value for Roboclaw (0-127)
 
 class RoboclawWrapper(Node):
     '''
@@ -37,8 +36,7 @@ class RoboclawWrapper(Node):
         self.timer = self.create_timer(0.5, self.timer_callback)
 
         # Declare parameters
-        self.wheel_base = self.declare_parameter('wheel_base', WHEEL_BASE).get_parameter_value().double_value
-        self.max_robot_speed_mps = self.declare_parameter('max_robot_speed_mps', MAX_ROBOT_SPEED_MPS).get_parameter_value().double_value
+        MAX_ROBOT_SPEED_MPS = self.declare_parameter('max_robot_speed_mps', MAX_ROBOT_SPEED_MPS).get_parameter_value().double_value
 
 
         try:
@@ -76,17 +74,17 @@ class RoboclawWrapper(Node):
         # Differential drive kinematics:
         # v_left = linear_x - (angular_z * wheel_base / 2)
         # v_right = linear_x + (angular_z * wheel_base / 2)
-        target_left_mps = linear_x - (angular_z * self.wheel_base / 2.0)
-        target_right_mps = linear_x + (angular_z * self.wheel_base / 2.0)
+        target_left_mps = linear_x - (angular_z * WHEEL_BASE / 2.0)
+        target_right_mps = linear_x + (angular_z * WHEEL_BASE / 2.0)
 
         # Scale m/s to Roboclaw command value (0-ROBOCLAW_MAX_CMD_VAL)
         # Ensure max_robot_speed_mps is not zero to avoid division by zero
-        if self.max_robot_speed_mps == 0:
+        if MAX_ROBOT_SPEED_MPS == 0:
             self.get_logger().error("max_robot_speed_mps is zero, cannot scale motor commands.")
             return
 
-        left_cmd_scaled_float = (target_left_mps / self.max_robot_speed_mps) * ROBOCLAW_MAX_CMD_VAL
-        right_cmd_scaled_float = (target_right_mps / self.max_robot_speed_mps) * ROBOCLAW_MAX_CMD_VAL
+        left_cmd_scaled_float = (target_left_mps / MAX_ROBOT_SPEED_MPS) * ROBOCLAW_MAX_CMD_VAL
+        right_cmd_scaled_float = (target_right_mps / MAX_ROBOT_SPEED_MPS) * ROBOCLAW_MAX_CMD_VAL
         
         self.get_logger().info(f"CmdVel: lin_x={linear_x:.2f}, ang_z={angular_z:.2f} -> L_mps={target_left_mps:.2f}, R_mps={target_right_mps:.2f} -> L_raw={left_cmd_scaled_float:.2f}, R_raw={right_cmd_scaled_float:.2f}")
 
