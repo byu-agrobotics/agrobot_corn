@@ -79,6 +79,7 @@ RUN mkdir microros_ws
 WORKDIR /home/$NAME/microros_ws
 RUN git clone -b humble https://github.com/micro-ROS/micro_ros_setup.git src/micro_ros_setup
 # The below is a quick fix for segfaulting builds - Nelson Durrant, May 2025
+# It looks like someone broke the micro-ROS setup script, so we need to use a specific commit
 WORKDIR /home/$NAME/microros_ws/src/micro_ros_setup
 RUN git reset --hard 91a554f
 WORKDIR /home/$NAME/microros_ws
@@ -173,10 +174,6 @@ RUN apt update && apt install -y \
     v4l-utils
 USER $NAME
 
-# Install the serial library - Nelson Durrant, May 2025
+# Install the serial and pyserial libraries - Nelson Durrant, May 2025
 # Used by the roboclaw library for serial communication
-RUN pip3 install serial
-
-# Install the pyserial library - Nelson Durrant, May 2025
-# Quick error fix - apparently roboclaw needs this library to work as well?
-RUN pip3 install pyserial
+RUN pip3 install serial pyserial
