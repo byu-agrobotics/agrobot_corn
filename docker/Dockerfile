@@ -78,6 +78,8 @@ RUN mkdir microros_ws
 
 WORKDIR /home/$NAME/microros_ws
 RUN git clone -b humble https://github.com/micro-ROS/micro_ros_setup.git src/micro_ros_setup
+# The below is a quick fix for segfaulting builds - Nelson Durrant, May 2025
+RUN git reset --hard 91a554f
 RUN rosdep update
 
 USER root
