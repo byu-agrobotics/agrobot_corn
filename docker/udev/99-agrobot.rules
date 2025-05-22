@@ -1,1 +1,1 @@
-KERNEL=="ttyACM*", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2404", MODE="0666", SYMLINK+="roboclaw"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2404", ATTRS{manufacturer}=="Basicmicro Inc.", ATTRS{product}=="USB Roboclaw 2x7A", MODE="0666", SYMLINK+="roboclaw"
