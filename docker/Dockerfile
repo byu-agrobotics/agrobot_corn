@@ -145,7 +145,7 @@ USER $NAME
 USER root
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
     apt update && apt install -y \
-    ros-humble-plotjuggler-ros \
+    ros-humble-plotjuggler-ros; \
 fi
 USER $NAME
 
