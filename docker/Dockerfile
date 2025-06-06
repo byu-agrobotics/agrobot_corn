@@ -147,7 +147,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     apt update && apt install -y \
     ros-humble-plotjuggler-ros \
 fi
-USER root
+USER $NAME
 
 # Install mobility packages - Nelson Durrant, Feb 2025
 # Used for controlling the robot's movement through a joystick or keyboard
