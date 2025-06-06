@@ -141,9 +141,13 @@ USER $NAME
 
 # Install plotjuggler - Nelson Durrant, Feb 2025
 # Useful for plotting and visualizing data from ROS 2 bags and real-time tests
+# For some reason, this package is not available anymore for arm64
 USER root
-RUN apt update && apt install -y ros-humble-plotjuggler-ros
-USER $NAME
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+    apt update && apt install -y \
+    ros-humble-plotjuggler-ros \
+fi
+USER root
 
 # Install mobility packages - Nelson Durrant, Feb 2025
 # Used for controlling the robot's movement through a joystick or keyboard
