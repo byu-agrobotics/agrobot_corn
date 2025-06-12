@@ -7,4 +7,6 @@ def generate_launch_description():
             package='agrobot_fsm',
             executable='collect_fsm',
         ),
+
+        # TODO: Add other FSM nodes
     ])

@@ -21,7 +21,7 @@ class RoboclawWrapper(Node):
     Node that interfaces with the roboclaw motor controller to drive the robot.
 
     Subscribers:
-         - drive/command (agrobot_interfaces/msg/DriveCommand)
+        - drive/command (agrobot_interfaces/msg/DriveCommand)
     """
 
     def __init__(self):
