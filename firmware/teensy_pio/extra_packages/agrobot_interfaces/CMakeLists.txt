@@ -7,6 +7,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(std_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -27,7 +28,14 @@ find_package(rosidl_default_generators REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "action/GenericTask.action"
+  "action/DriveControl.action"
+  "action/DriveStraight.action"
+  "action/Turn.action"
   "srv/IdentifyEgg.srv"
+  "msg/DriveCommand.msg"
+  "msg/ToFData.msg"
+  "msg/BatteryStatus.msg"
+  DEPENDENCIES std_msgs
 )
 
 ament_package()
