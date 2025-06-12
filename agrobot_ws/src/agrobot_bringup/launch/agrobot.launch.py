@@ -1,5 +1,6 @@
 # Created by Nelson Durrant, Feb 2025
 import os
+import launch_ros.actions
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
@@ -32,9 +33,17 @@ def generate_launch_description():
         ),
     )
 
+    uros_agent = launch_ros.actions.Node(
+        package='micro_ros_agent',
+        executable='micro_ros_agent',
+        output='screen',
+        arguments=['serial', '--dev', '/dev/ttyACM0', '--baudrate', '6000000']
+    )
+
     ld = LaunchDescription()
     ld.add_action(fsm_cmd)
     ld.add_action(nav_cmd)
     ld.add_action(cv_cmd)
+    ld.add_action(uros_agent)
 
     return ld
