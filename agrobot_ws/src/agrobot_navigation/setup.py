@@ -26,6 +26,8 @@ setup(
         'console_scripts': [
             'roboclaw_wrapper = agrobot_navigation.roboclaw_wrapper:main',
             'drive_controller = agrobot_navigation.drive_controller:main',
+            'test_drive_controller = agrobot_navigation.test_drive_controller:main',
+            'mock_tof_sensor = agrobot_navigation.mock_tof_sensor:main',
         ],
     },
 )
