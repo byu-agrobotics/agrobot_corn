@@ -12,9 +12,19 @@ def generate_launch_description():
             executable='drive_controller',
             output='screen',
         ),
+        # launch_ros.actions.Node(
+        #     package='agrobot_navigation',
+        #     executable='test_drive_controller',
+        #     output='screen'
+        # ),
         launch_ros.actions.Node(
             package='agrobot_navigation',
-            executable='test_drive_controller',
+            executable='test_center',
             output='screen'
         ),
+        # launch_ros.actions.Node(
+        #     package='agrobot_navigation',
+        #     executable='test_turn',
+        #     output='screen'
+        # ),
     ])
