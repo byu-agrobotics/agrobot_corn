@@ -23,6 +23,8 @@
 #include "tof_pub.h"
 #include "DFRobot_TMF8x01.h"
 #include <SoftwareSerial.h>
+#include <Servo.h>
+
 // #include <frost_interfaces/msg/u_command.h>
 
 #define ENABLE_ACTUATORS
@@ -30,6 +32,11 @@
 #define ENABLE_LEDS
 #define ENABLE_BATTERY
 #define ENABLE_BT_DEBUG
+// #define ENABLE_BIG_HBRIDGE
+// #define ENABLE_SMALL_HBRIDGE
+// #define ENABLE_IR_SENSOR
+// #define ENABLE_SERVOS
+// #define ENABLE_LED_MATRIX
 
 #define EN1       2                      // EN pin for left TMF8801
 #define EN2       3                      // EN pin for right TMF8801
@@ -431,6 +438,26 @@ void loop() {
 #ifdef ENABLE_TOF_SENSORS
       EXECUTE_EVERY_N_MS(TOF_MS, read_tof_sensor());  //How to run if this has higher baud rate? Also what MS time?
 #endif // ENABLE_TOF_SENSORS
+
+// #ifdef ENABLE_BIG_HBRIDGE
+//       EXECUTE_EVERY_N_MS(TOF_MS, read_tof_sensor());  //How to run if this has higher baud rate? Also what MS time?
+// #endif // ENABLE_BIG_HBRIDGE
+
+// #ifdef ENABLE_SMALL_HBRIDGE
+//       EXECUTE_EVERY_N_MS(TOF_MS, read_tof_sensor());  //How to run if this has higher baud rate? Also what MS time?
+// #endif // ENABLE_SMALL_HBRIDGE
+
+// #ifdef ENABLE_IR_SENSOR
+//       EXECUTE_EVERY_N_MS(TOF_MS, read_tof_sensor());  //How to run if this has higher baud rate? Also what MS time?
+// #endif // ENABLE_IR_SENSOR
+
+// #ifdef ENABLE_SERVOS
+//       EXECUTE_EVERY_N_MS(TOF_MS, read_tof_sensor());  //How to run if this has higher baud rate? Also what MS time?
+// #endif // ENABLE_SERVOS
+
+// #ifdef ENABLE_LED_MATRIX
+//       EXECUTE_EVERY_N_MS(TOF_MS, read_tof_sensor());  //How to run if this has higher baud rate? Also what MS time?
+// #endif // ENABLE_LED_MATRIX
 
       // rclc_executor_spin_some(&executor, RCL_MS_TO_NS(100));
 
