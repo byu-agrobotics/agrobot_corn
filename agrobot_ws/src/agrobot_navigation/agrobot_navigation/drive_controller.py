@@ -4,6 +4,7 @@ from rclpy.node import Node
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.executors import MultiThreadedExecutor
+from rclpy.qos import QoSProfile, ReliabilityPolicy
 from geometry_msgs.msg import Twist
 from agrobot_interfaces.msg import ToFData, DriveCommand
 from agrobot_interfaces.action import DriveStraight, Turn, Center
@@ -16,6 +17,8 @@ CENTERING_TOLERANCE_MM = 5
 DRIVE_STRAIGHT_TOLERANCE_MM = 1
 TURN_ERROR_TOLERANCE_MM = 20
 TURN_TIMEOUT_S = 15.0
+
+best_effort_profile = QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT)
 
 class DriveController(Node):
     def __init__(self):
@@ -54,7 +57,7 @@ class DriveController(Node):
         self.drive_pub = self.create_publisher(DriveCommand, 'cmd/drive', 10)
 
         self.tof_sub = self.create_subscription(
-            ToFData, 'tof/data', self.tof_callback, 10, callback_group=cb_group
+            ToFData, 'tof/data', self.tof_callback, best_effort_profile, callback_group=cb_group
         )
 
         self.center_action_server = ActionServer(

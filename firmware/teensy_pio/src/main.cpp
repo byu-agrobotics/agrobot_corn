@@ -19,7 +19,7 @@
  * approach, see: https://github.com/BYU-FRoSt-Lab/cougars-teensy.git
  */
 
-#include "battery_pub.h"
+// #include "battery_pub.h"
 #include "tof_pub.h"
 #include "DFRobot_TMF8x01.h"
 #include <SoftwareSerial.h>
@@ -80,7 +80,7 @@ rcl_allocator_t allocator;
 rcl_node_t node;
 
 // publisher objects
-BatteryPub battery_pub;
+// BatteryPub battery_pub;
 
 // TOF publisher object
 TofPub tof_pub;
@@ -105,6 +105,16 @@ enum states {
   AGENT_CONNECTED,
   AGENT_DISCONNECTED
 } static state;
+
+// Helper function to blink the LED a specific number of times
+void blink_led(int count, int duration_ms) {
+  for (int i = 0; i < count; i++) {
+    digitalWrite(LED_PIN, HIGH);
+    delay(duration_ms);
+    digitalWrite(LED_PIN, LOW);
+    delay(duration_ms);
+  }
+}
 
 void error_loop() {
   while (1) {
@@ -146,8 +156,11 @@ bool create_entities() {
 #endif // ENABLE_BT_DEBUG
 
   // create publishers
-  battery_pub.setup(node);
+  // battery_pub.setup(node);
+  //  blink_led(2, 250);
+
   tof_pub.setup(node);
+  blink_led(3, 250);
 
 #ifdef ENABLE_BT_DEBUG
   BTSerial.println("[INFO] Micro-ROS entities created successfully");
@@ -165,7 +178,7 @@ void destroy_entities() {
   (void)rmw_uros_set_context_entity_destroy_session_timeout(rmw_context, 0);
 
   // destroy publishers
-  battery_pub.destroy(node);
+  // battery_pub.destroy(node);
   tof_pub.destroy(node);
 
   if (rcl_node_fini(&node) != RCL_RET_OK) {
@@ -343,18 +356,18 @@ void setup() {
  * data (voltage and current) and publishes it to the micro-ROS agent.
  */
 void read_battery() {
-
+  blink_led(1, 30);
   // we did some testing to determine the below params, but
   // it's possible they are not completely accurate
   float voltage = (analogRead(VOLT_PIN) * 0.03437) + 0.68;
   float current = (analogRead(CURRENT_PIN) * 0.122) - 11.95;
 
   // publish the battery data
-  battery_pub.publish(voltage, current);
+  // battery_pub.publish(voltage, current);
 }
 
 void read_tof_sensor() {
-
+blink_led(4, 250);
   // Update the sensors as fast as they're available
   if (tofLeft.isDataReady()) {
     left_distance = tofLeft.getDistance_mm();
@@ -384,11 +397,11 @@ void read_tof_sensor() {
 void loop() {
 
   // blink the indicator light
-  if (millis() % 1000 < 250) {
-    digitalWrite(LED_PIN, LOW);
-  } else {
-    digitalWrite(LED_PIN, HIGH);
-  }
+  // if (millis() % 1000 < 250) {
+  //   digitalWrite(LED_PIN, LOW);
+  // } else {
+  //   digitalWrite(LED_PIN, HIGH);
+  // }
 
   // fail safe for agent disconnect
   if (millis() - last_received > 5000) {
@@ -427,9 +440,9 @@ void loop() {
       // EXECUTES WHEN THE AGENT IS CONNECTED
       //////////////////////////////////////////////////////////
 
-#ifdef ENABLE_BATTERY
-      EXECUTE_EVERY_N_MS(BATTERY_MS, read_battery());
-#endif // ENABLE_BATTERY
+// #ifdef ENABLE_BATTERY
+//       EXECUTE_EVERY_N_MS(BATTERY_MS, read_battery());
+// #endif // ENABLE_BATTERY
 
 #ifdef ENABLE_TOF_SENSORS
       EXECUTE_EVERY_N_MS(TOF_MS, read_tof_sensor());  //How to run if this has higher baud rate? Also what MS time?
