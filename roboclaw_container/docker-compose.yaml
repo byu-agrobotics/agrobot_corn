@@ -1,0 +1,20 @@
+services:
+  roboclaw:
+    image: ros:humble-ros-base
+    container_name: roboclaw-ct
+    build: .
+    user: root
+    network_mode: host
+    privileged: true
+    volumes:
+      - ../agrobot_ws/src/agrobot_navigation:/home/roboclaw/ros2_ws/src/agrobot_navigation # Robot ROS 2 workspace
+      - ../agrobot_ws/src/agrobot_interfaces:/home/roboclaw/ros2_ws/src/agrobot_interfaces # Robot interfaces
+      - ./startup:/startup # Startup scripts
+      - /dev:/dev:rw
+      - /etc/udev:/etc/udev:rw
+      - /dev/shm:/dev/shm # Required for inter-container communication
+      - /etc/localtime:/etc/localtime:ro # Syncs the container's time with the host
+    stdin_open: true  # Equivalent to -it in docker run
+    tty: true  # Equivalent to -it in docker run
+    restart: always  # Keeps the container running after exit unless you want it to be removed like with --rm
+    entrypoint: ["/startup/roboclaw_entrypoint.sh"]
