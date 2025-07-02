@@ -9,8 +9,8 @@ from agrobot_interfaces.msg import DriveCommand
 ROBOCLAW_ADDR = 0x80
 ROBOCLAW_BAUD = 115200
 # ROBOCLAW_NAME = "/dev/roboclaw"  # From udev rule
-ROBOCLAW_NAME = "/dev/ttyACM1"
-# ROBOCLAW_NAME = "/dev/serial/by-id/usb-03eb_USB_Roboclaw_2x7A-if00"  # For testing
+# ROBOCLAW_NAME = "/dev/ttyACM0"
+ROBOCLAW_NAME = "/dev/serial/by-id/usb-03eb_USB_Roboclaw_2x7A-if00"  # For testing
 TIMEOUT_THRESHOLD = 2  # seconds
 ROBOCLAW_MAX_CMD_VAL = 127  # Maximum command value for Roboclaw (0-127)
 
