@@ -10,11 +10,11 @@ WORKDIR /home/roboclaw
 
 # Copy the local 'startup' directory into the image at the root directory.
 # This makes your entrypoint script available inside the container.
-COPY ./startup /startup
+COPY ./roboclaw /roboclaw
 
 # Make the entrypoint script executable.
 # Without execute permissions, the container won't be able to run the script.
-RUN chmod +x /startup/roboclaw_entrypoint.sh
+RUN chmod +x /roboclaw/roboclaw_entrypoint.sh
 
 # Dependencies for the Roboclaw container.
 RUN apt-get update && apt-get install -y \

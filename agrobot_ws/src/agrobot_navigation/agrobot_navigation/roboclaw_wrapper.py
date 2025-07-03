@@ -23,7 +23,7 @@ class RoboclawWrapper(Node):
     Node that interfaces with the roboclaw motor controller to drive the robot.
 
     Subscribers:
-        - drive/command (agrobot_interfaces/msg/DriveCommand)
+        - cmd/drive (agrobot_interfaces/msg/DriveCommand)
     """
 
     def __init__(self):
@@ -31,7 +31,7 @@ class RoboclawWrapper(Node):
 
         self.drive_command_sub = self.create_subscription(
             DriveCommand,
-            "drive/command",
+            "cmd/drive",
             self.drive_command_callback,
             10,
         )
@@ -60,7 +60,7 @@ class RoboclawWrapper(Node):
 
     def drive_command_callback(self, msg):
         """
-        Callback function for the drive/command subscriber.
+        Callback function for the cmd/drive subscriber.
         Receives DriveCommand messages and sends appropriate commands to Roboclaw.
 
         :param msg: The DriveCommand message.
