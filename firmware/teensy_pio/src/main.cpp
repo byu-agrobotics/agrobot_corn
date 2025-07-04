@@ -66,7 +66,7 @@
 
 // sensor update rates
 #define BATTERY_MS 1000 // arbitrary
-#define TOF_MS 500     // arbitrary
+#define TOF_MS 5     // arbitrary
 
 // time of last received command (used as a fail safe)
 unsigned long last_received = 0;
