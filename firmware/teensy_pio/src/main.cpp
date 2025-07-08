@@ -367,7 +367,7 @@ void read_battery() {
 }
 
 void read_tof_sensor() {
-blink_led(4, 250);
+// blink_led(4, 250);
   // Update the sensors as fast as they're available
   if (tofLeft.isDataReady()) {
     left_distance = tofLeft.getDistance_mm();
