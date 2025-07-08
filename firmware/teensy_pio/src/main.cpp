@@ -1,6 +1,7 @@
+
 /**
  * @file main.cpp
- * @author Nelson Durrant
+ * @author Nelson Durrant, Brighton Anderson
  * @date September 2024
  *
  * This node is the micro-ROS node for the agrobot. It controls the actuators
@@ -8,11 +9,11 @@
  * with the Raspberry Pi over micro-ROS.
  *
  * Subscribes:
- * - TODO: Add other subscribers
+ * - /stepper_cmd_vel (geometry_msgs/msg/Twist)
  *
  * Publishes:
- * - battery_status (agrobot_interfaces/msg/BatteryStatus)
- * - TODO: Add other publishers
+ * - /tof/data (frost_interfaces/msg/TofData)
+ * - /stepper_position (std_msgs/msg/Float32)
  *
  *
  * IMPORTANT! For an example of a larger micro-ROS project that follows this
@@ -23,6 +24,8 @@
 #include "tof_pub.h"
 #include "DFRobot_TMF8x01.h"
 #include <SoftwareSerial.h>
+#include <geometry_msgs/msg/twist.h>
+#include <std_msgs/msg/float32.h>
 // #include <frost_interfaces/msg/u_command.h>
 
 #define ENABLE_ACTUATORS
@@ -30,23 +33,30 @@
 #define ENABLE_LEDS
 #define ENABLE_BATTERY
 #define ENABLE_BT_DEBUG
+#define ENABLE_STEPPER_1
 
-#define EN1       2                      // EN pin for left TMF8801
-#define EN2       3                      // EN pin for right TMF8801
-#define EN3       4                      // EN pin for front TMF8801
-#define EN4       5                      // EN pin for back TMF8801
-#define INT      -1                      // INT pin is floating, not used in this demo
+#define EN1       2                   // EN pin for left TMF8801
+#define EN2       3                   // EN pin for right TMF8801
+#define EN3       4                   // EN pin for front TMF8801
+#define EN4       5                   // EN pin for back TMF8801
+#define INT       -1                  // INT pin is floating, not used in this demo
 
-#define EXECUTE_EVERY_N_MS(MS, X)                                              \
-  do {                                                                         \
-    static volatile int64_t init = -1;                                         \
-    if (init == -1) {                                                          \
-      init = uxr_millis();                                                     \
-    }                                                                          \
-    if (uxr_millis() - init > MS) {                                            \
-      X;                                                                       \
-      init = uxr_millis();                                                     \
-    }                                                                          \
+#ifdef ENABLE_STEPPER_1
+  #define STEPPER_STEP_PIN 39
+  #define STEPPER_DIR_PIN 38
+  #define STEPS_PER_REV 200
+#endif
+
+#define EXECUTE_EVERY_N_MS(MS, X)                                             \
+  do {                                                                        \
+    static volatile int64_t init = -1;                                        \
+    if (init == -1) {                                                         \
+      init = uxr_millis();                                                    \
+    }                                                                         \
+    if (uxr_millis() - init > MS) {                                           \
+      X;                                                                      \
+      init = uxr_millis();                                                    \
+    }                                                                         \
   } while (0)
 
 // micro-ROS config values
@@ -78,6 +88,17 @@ uint8_t caliDataBuf[14] = {0x41,0x57,0x01,0xFD,0x04,0x00,0x00,0x00,0x00,0x00,0x0
 rclc_support_t support;
 rcl_allocator_t allocator;
 rcl_node_t node;
+rclc_executor_t executor; // Added executor declaration
+
+// Stepper motor ROS objects
+#ifdef ENABLE_STEPPER_1
+  rcl_subscription_t stepper_subscriber;
+  rcl_publisher_t stepper_publisher;
+  geometry_msgs__msg__Twist twist_msg;
+  std_msgs__msg__Float32 position_msg;
+
+  volatile float motor_position = 0.0; // In revolutions
+#endif
 
 // publisher objects
 // BatteryPub battery_pub;
@@ -105,6 +126,11 @@ enum states {
   AGENT_CONNECTED,
   AGENT_DISCONNECTED
 } static state;
+
+// Added forward declaration for the callback function
+#ifdef ENABLE_STEPPER_1
+  void stepper_callback(const void *msgin);
+#endif
 
 // Helper function to blink the LED a specific number of times
 void blink_led(int count, int duration_ms) {
@@ -155,12 +181,34 @@ bool create_entities() {
   }
 #endif // ENABLE_BT_DEBUG
 
+  // Initialize the executor
+  RCCHECK(rclc_executor_init(&executor, &support.context, CALLBACK_TOTAL, &allocator));
+
   // create publishers
   // battery_pub.setup(node);
   //  blink_led(2, 250);
 
   tof_pub.setup(node);
-  blink_led(3, 250);
+  // blink_led(3, 250);
+
+#ifdef ENABLE_STEPPER_1
+  // Initialize stepper publisher
+  RCCHECK(rclc_publisher_init_default(
+    &stepper_publisher,
+    &node,
+    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32),
+    "/stepper_position"));
+
+  // Initialize stepper subscriber
+  RCCHECK(rclc_subscription_init_default(
+    &stepper_subscriber,
+    &node,
+    ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Twist),
+    "/stepper_cmd_vel"));
+
+  // Add subscriber to the executor
+  RCCHECK(rclc_executor_add_subscription(&executor, &stepper_subscriber, &twist_msg, &stepper_callback, ON_NEW_DATA));
+#endif
 
 #ifdef ENABLE_BT_DEBUG
   BTSerial.println("[INFO] Micro-ROS entities created successfully");
@@ -180,6 +228,9 @@ void destroy_entities() {
   // destroy publishers
   // battery_pub.destroy(node);
   tof_pub.destroy(node);
+
+  // <<< FIXED: Clean up the executor
+  rclc_executor_fini(&executor);
 
   if (rcl_node_fini(&node) != RCL_RET_OK) {
 #ifdef ENABLE_BT_DEBUG
@@ -217,6 +268,15 @@ void setup() {
   BTSerial.println("[INFO] Battery Sensor enabled");
 #endif // ENABLE_BT_DEBUG
 #endif // ENABLE_BATTERY
+
+#ifdef ENABLE_STEPPER_1
+  // Configure stepper pins as outputs
+  pinMode(STEPPER_STEP_PIN, OUTPUT);
+  pinMode(STEPPER_DIR_PIN, OUTPUT);
+  #ifdef ENABLE_BT_DEBUG
+    BTSerial.println("[INFO] Stepper 1 enabled");
+  #endif
+#endif
 
 #ifdef ENABLE_TOF_SENSORS // TODO: Add ifdefs for BTSerial below
   
@@ -366,28 +426,66 @@ void read_battery() {
   // battery_pub.publish(voltage, current);
 }
 
-void read_tof_sensor() {
-// blink_led(4, 250);
-  // Update the sensors as fast as they're available
-  if (tofLeft.isDataReady()) {
-    left_distance = tofLeft.getDistance_mm();
+#ifdef ENABLE_STEPPER_1
+void stepper_callback(const void *msgin) {
+  const geometry_msgs__msg__Twist *twist_msg = (const geometry_msgs__msg__Twist *)msgin;
+
+  // Control direction with angular.z
+  if (twist_msg->angular.z > 0) {
+    digitalWrite(STEPPER_DIR_PIN, HIGH); // Clockwise
+  } else {
+    digitalWrite(STEPPER_DIR_PIN, LOW); // Counter-clockwise
   }
 
-  if (tofRight.isDataReady()) {
-    right_distance = tofRight.getDistance_mm();
-  }
+  // Control speed with linear.x (absolute value)
+  float speed = fabs(twist_msg->linear.x);
+  if (speed > 0) {
+    // Convert speed (rev/s) to delay in microseconds
+    // 1 / (speed * STEPS_PER_REV) = seconds per step
+    // * 1,000,000 = microseconds per step
+    // / 2 because we have two delays per step (HIGH and LOW)
+    int us_delay = (int)(1000000.0 / (speed * STEPS_PER_REV * 2.0));
 
-  if (tofFront.isDataReady()) {
-    front_distance = tofFront.getDistance_mm();
+    // Step the motor
+    digitalWrite(STEPPER_STEP_PIN, HIGH);
+    delayMicroseconds(us_delay);
+    digitalWrite(STEPPER_STEP_PIN, LOW);
+    delayMicroseconds(us_delay);
+    
+    // Update position
+    float position_change = 1.0 / STEPS_PER_REV;
+    if (twist_msg->angular.z < 0) {
+        position_change *= -1;
+    }
+    motor_position += position_change;
   }
-
-  if (tofBack.isDataReady()) {
-    back_distance = tofBack.getDistance_mm();
-  }
-
-  // publish the TOF sensor data [ADD back_distance WHEN able to power all 4 sensors]
-  tof_pub.publish(left_distance, right_distance, front_distance, back_distance);
 }
+#endif
+
+#ifdef ENABLE_TOF_SENSORS
+  void read_tof_sensor() {
+  // blink_led(4, 250);
+    // Update the sensors as fast as they're available
+    if (tofLeft.isDataReady()) {
+      left_distance = tofLeft.getDistance_mm();
+    }
+
+    if (tofRight.isDataReady()) {
+      right_distance = tofRight.getDistance_mm();
+    }
+
+    if (tofFront.isDataReady()) {
+      front_distance = tofFront.getDistance_mm();
+    }
+
+    if (tofBack.isDataReady()) {
+      back_distance = tofBack.getDistance_mm();
+    }
+
+    // publish the TOF sensor data [ADD back_distance WHEN able to power all 4 sensors]
+    tof_pub.publish(left_distance, right_distance, front_distance, back_distance);
+  }
+#endif // ENABLE_TOF_SENSORS
 
 /**
  * This function is the main loop for the micro-ROS node. It manages the
@@ -395,13 +493,6 @@ void read_tof_sensor() {
  * and sensor data collection.
  */
 void loop() {
-
-  // blink the indicator light
-  // if (millis() % 1000 < 250) {
-  //   digitalWrite(LED_PIN, LOW);
-  // } else {
-  //   digitalWrite(LED_PIN, HIGH);
-  // }
 
   // fail safe for agent disconnect
   if (millis() - last_received > 5000) {
@@ -411,7 +502,7 @@ void loop() {
 #endif // ENABLE_ACTUATORS
 
 #ifdef ENABLE_BT_DEBUG
-    BTSerial.println("[INFO] No command received in timeout, stopping actuators");
+    // BTSerial.println("[INFO] No command received in timeout, stopping actuators");
 #endif // ENABLE_BT_DEBUG
   }
 
@@ -430,11 +521,9 @@ void loop() {
 
 //loop that runs when microros agent is connected
   case AGENT_CONNECTED:
-    // EXECUTE_EVERY_N_MS(200, state = (RMW_RET_OK == rmw_uros_ping_agent(100, 1)) ? AGENT_CONNECTED : AGENT_DISCONNECTED;);
-    // if (state == AGENT_CONNECTED) {
     if (RMW_RET_OK != rmw_uros_ping_agent(100, 1)) {
       state = AGENT_DISCONNECTED;
-          }
+    }
     else {
       //////////////////////////////////////////////////////////
       // EXECUTES WHEN THE AGENT IS CONNECTED
@@ -444,11 +533,20 @@ void loop() {
 //       EXECUTE_EVERY_N_MS(BATTERY_MS, read_battery());
 // #endif // ENABLE_BATTERY
 
+#ifdef ENABLE_STEPPER_1
+    // Publish stepper position every 100 ms
+    EXECUTE_EVERY_N_MS(100, {
+        position_msg.data = motor_position;
+        RCSOFTCHECK(rcl_publish(&stepper_publisher, &position_msg, NULL));
+    });
+#endif
+
 #ifdef ENABLE_TOF_SENSORS
-      EXECUTE_EVERY_N_MS(TOF_MS, read_tof_sensor());  //How to run if this has higher baud rate? Also what MS time?
+      EXECUTE_EVERY_N_MS(TOF_MS, read_tof_sensor());
 #endif // ENABLE_TOF_SENSORS
 
-      // rclc_executor_spin_some(&executor, RCL_MS_TO_NS(100));
+      // line to process ROS messages
+      rclc_executor_spin_some(&executor, RCL_MS_TO_NS(10));
 
       //////////////////////////////////////////////////////////
     }
