@@ -34,7 +34,7 @@ class DriveController(Node):
         self.declare_parameter('d_lateral', 0.05)
         self.declare_parameter('turn_speed', 10)
         self.declare_parameter('p_turn', 0.3) # Proportional gain for turning
-        self.declare_parameter('max_turn_speed', 10) # Max speed for proportional turn
+        self.declare_parameter('max_turn_speed', 30) # Max speed for proportional turn
 
         p_forward = self.get_parameter('p_forward').get_parameter_value().double_value
         i_forward = self.get_parameter('i_forward').get_parameter_value().double_value
@@ -48,8 +48,8 @@ class DriveController(Node):
 
         self.pid_forward = PID(p_forward, i_forward, d_forward, setpoint=0)
         self.pid_lateral = PID(p_lateral, i_lateral, d_lateral, setpoint=0)
-        self.pid_forward.output_limits = (-40, 40)
-        self.pid_lateral.output_limits = (-10, 10)
+        self.pid_forward.output_limits = (-30, 30)
+        self.pid_lateral.output_limits = (-30, 30)
         
         self.tof_data = None
         self.active_goal = False
