@@ -26,6 +26,7 @@
 #include <SoftwareSerial.h>
 #include <geometry_msgs/msg/twist.h>
 #include <std_msgs/msg/float32.h>
+#include <FastLED.h>
 // #include <frost_interfaces/msg/u_command.h>
 
 #define ENABLE_ACTUATORS
