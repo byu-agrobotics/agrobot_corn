@@ -4,7 +4,9 @@ from rclpy.node import Node
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.executors import MultiThreadedExecutor
+
 from rclpy.qos import QoSProfile, ReliabilityPolicy
+
 from geometry_msgs.msg import Twist
 from agrobot_interfaces.msg import ToFData, DriveCommand
 from agrobot_interfaces.action import DriveStraight, Turn, Center
@@ -14,6 +16,7 @@ from simple_pid import PID
 # Thresholds for completing actions
 STABILITY_THRESHOLD = 5
 CENTERING_TOLERANCE_MM = 5
+
 DRIVE_STRAIGHT_TOLERANCE_MM = 5
 TURN_ERROR_TOLERANCE_MM = 20
 TURN_TIMEOUT_S = 15.0
@@ -32,6 +35,7 @@ class DriveController(Node):
         self.declare_parameter('p_lateral', 0.02)
         self.declare_parameter('i_lateral', 0.0)
         self.declare_parameter('d_lateral', 0.05)
+
         self.declare_parameter('turn_speed', 10)
         self.declare_parameter('p_turn', 0.3) # Proportional gain for turning
         self.declare_parameter('max_turn_speed', 30) # Max speed for proportional turn
@@ -48,8 +52,10 @@ class DriveController(Node):
 
         self.pid_forward = PID(p_forward, i_forward, d_forward, setpoint=0)
         self.pid_lateral = PID(p_lateral, i_lateral, d_lateral, setpoint=0)
-        self.pid_forward.output_limits = (-30, 30)
-        self.pid_lateral.output_limits = (-30, 30)
+
+        self.pid_forward.output_limits = (-55, 55)
+        self.pid_lateral.output_limits = (-35, 35)
+
         
         self.tof_data = None
         self.active_goal = False
@@ -113,6 +119,7 @@ class DriveController(Node):
         self.get_logger().info(f'Executing goal: Turn {goal_handle.request.angle} degrees')
         angle = goal_handle.request.angle
 
+
         if self.tof_data is None:
             self.get_logger().error("No ToF data available to start turn.")
             goal_handle.abort()
@@ -124,6 +131,7 @@ class DriveController(Node):
         initial_back = self.tof_data.back
         initial_left = self.tof_data.left
         initial_right = self.tof_data.right
+
 
         if angle > 0: # Right Turn (+90 deg)
             target_front = initial_left
@@ -182,7 +190,9 @@ class DriveController(Node):
                     abs(self.tof_data.right - target_right)
                 ])
 
+
                 self.get_logger().info(f"Turn Progress: SignedError={signed_error:.2f}, TotalError={total_error:.2f}, TurnSpeed={turn_speed:.2f}")
+
 
                 if total_error < TURN_ERROR_TOLERANCE_MM:
                     stability_count += 1
@@ -211,9 +221,11 @@ class DriveController(Node):
         rate = self.create_rate(20)
         stability_count = 0
 
+
         # Reset both PID controllers to clear any prior state
         self.pid_forward.reset()
         self.pid_lateral.reset()
+
 
         while rclpy.ok() and self.active_goal:
             if self.tof_data is None:

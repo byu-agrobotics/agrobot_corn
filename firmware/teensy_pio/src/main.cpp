@@ -24,8 +24,11 @@
 #include "tof_pub.h"
 #include "DFRobot_TMF8x01.h"
 #include <SoftwareSerial.h>
+
+#include <Servo.h>
 #include <geometry_msgs/msg/twist.h>
 #include <std_msgs/msg/float32.h>
+
 // #include <frost_interfaces/msg/u_command.h>
 
 #define ENABLE_ACTUATORS
@@ -33,6 +36,13 @@
 #define ENABLE_LEDS
 #define ENABLE_BATTERY
 #define ENABLE_BT_DEBUG
+
+// #define ENABLE_BIG_HBRIDGE
+// #define ENABLE_SMALL_HBRIDGE
+// #define ENABLE_IR_SENSOR
+// #define ENABLE_SERVOS
+// #define ENABLE_LED_MATRIX
+
 #define ENABLE_STEPPER_1
 
 #define EN1       2                   // EN pin for left TMF8801
@@ -57,6 +67,7 @@
       X;                                                                      \
       init = uxr_millis();                                                    \
     }                                                                         \
+
   } while (0)
 
 // micro-ROS config values
@@ -545,8 +556,10 @@ void loop() {
       EXECUTE_EVERY_N_MS(TOF_MS, read_tof_sensor());
 #endif // ENABLE_TOF_SENSORS
 
+
       // line to process ROS messages
       rclc_executor_spin_some(&executor, RCL_MS_TO_NS(10));
+
 
       //////////////////////////////////////////////////////////
     }
