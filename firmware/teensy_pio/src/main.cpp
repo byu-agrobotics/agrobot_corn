@@ -34,11 +34,10 @@
 
 #define ENABLE_ACTUATORS
 #define ENABLE_TOF_SENSORS
-#define ENABLE_LED
+// #define ENABLE_LED
 #define ENABLE_BATTERY
 #define ENABLE_BT_DEBUG
 #define ENABLE_STEPPER_1
-#define EABLE_LED
 #define ENABLE_SERVOS
 
 #define EN1       2                   // EN pin for left TMF8801
