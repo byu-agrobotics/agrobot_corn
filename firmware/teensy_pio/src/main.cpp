@@ -28,6 +28,8 @@
 #include <std_msgs/msg/float32.h>
 #include <std_msgs/msg/int8.h>
 #include <FastLED.h>
+#include <Servo.h>
+#include "agrobot_interfaces/msg/servo_command.h"
 // #include <frost_interfaces/msg/u_command.h>
 
 #define ENABLE_ACTUATORS
@@ -37,6 +39,7 @@
 #define ENABLE_BT_DEBUG
 #define ENABLE_STEPPER_1
 #define EABLE_LED
+#define ENABLE_SERVOS
 
 #define EN1       2                   // EN pin for left TMF8801
 #define EN2       3                   // EN pin for right TMF8801
@@ -49,6 +52,20 @@
   #define STEPPER_DIR_PIN 38
   #define STEPS_PER_REV 200
 #endif
+
+#ifdef ENABLE_SERVOS
+  #define SERVO_PIN1 0
+  #define SERVO_PIN2 1
+  #define SERVO_PIN3 2
+  #define SERVO_PIN4 23
+  // default servo positions
+  #define DEFAULT_SERVO 90
+
+  // servo conversion values
+  #define SERVO_OUT_HIGH 2500
+  #define SERVO_OUT_LOW 500
+
+#endif // ENABLE_SERVOS
 
 #define EXECUTE_EVERY_N_MS(MS, X)                                             \
   do {                                                                        \
@@ -64,7 +81,7 @@
 
 // micro-ROS config values
 #define BAUD_RATE 6000000
-#define CALLBACK_TOTAL 2
+#define CALLBACK_TOTAL 3
 #define SYNC_TIMEOUT 1000
 
 // hardware pin values
@@ -89,9 +106,6 @@
 // time of last received command (used as a fail safe)
 unsigned long last_received = 0;
 
-// initialize LEDs
-CRGB leds[NUM_LEDS];
-
 // TOF Calibration data
 uint8_t caliDataBuf[14] = {0x41,0x57,0x01,0xFD,0x04,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x04};
 
@@ -114,8 +128,21 @@ rclc_executor_t executor; // Added executor declaration
 #ifdef ENABLE_LED
   rcl_subscription_t LED_sub;
   std_msgs__msg__Int8 LED_msg;
+  // initialize LEDs
+  CRGB leds[NUM_LEDS];
+#endif  // ENABLE_LED
 
-#endif
+#ifdef ENABLE_SERVOS
+  agrobot_interfaces__msg__ServoCommand servo_msg;
+  rcl_subscription_t servo_sub;
+
+  // servo objects
+  Servo myServo1; // Large egg
+  Servo myServo2; // Small egg
+  Servo myServo3; // Bad egg
+  Servo myServo4; // sorting servo
+
+#endif // ENABLE_SERVOS
 
 // publisher objects
 // BatteryPub battery_pub;
@@ -149,9 +176,6 @@ enum states {
   void stepper_callback(const void *msgin);
 #endif
 
-#ifdef ENABLE_LED
-
-#endif
 
 // Helper function to blink the LED a specific number of times
 void blink_led(int count, int duration_ms) {
@@ -162,6 +186,28 @@ void blink_led(int count, int duration_ms) {
     delay(duration_ms);
   }
 }
+
+#ifdef ENABLE_SERVOS
+void servo_sub_callback(const void *servo_msgin) {
+  DBG_PRINT("[CALLBACK] servo_sub_callback triggered");
+
+  last_received = millis();
+
+  const agrobot_interfaces__msg__ServoCommand *servo_msg =
+      (const agrobot_interfaces__msg__ServoCommand *)servo_msgin;
+
+#ifdef ENABLE_SERVOS
+  myServo1.write(servo_msg->servo1);
+  myServo2.write(servo_msg->servo2);
+  myServo3.write(servo_msg->servo3);
+  myServo4.write(servo_msg->servo4);
+#endif
+
+}
+
+#endif //ENABLES_SERVOS
+
+
 
 #ifdef ENABLE_LED
 void LED_sub_callback(const void *LED_msgin) {
@@ -264,15 +310,26 @@ bool create_entities() {
 #endif
 
 #ifdef ENABLE_LED
-     RCCHECK(rclc_subscription_init_default(
-      &LED_sub,
-      &node,
-      ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8),
-      "/LED"));
+  RCCHECK(rclc_subscription_init_default(
+    &LED_sub,
+    &node,
+    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8),
+    "/LED"));
 
   // Add subscriber to the executor
   RCCHECK(rclc_executor_add_subscription(&executor, &LED_sub, &LED_msg, &LED_sub_callback, ON_NEW_DATA));
 #endif // ENABLE_LED
+
+#ifdef ENABLE_SERVOS
+  RCCHECK(rclc_subscription_init_default(
+      &servo_sub,
+      &node,
+      ROSIDL_GET_MSG_TYPE_SUPPORT(agrobot_interfaces, msg, ServoCommand),
+      "/servo"));
+
+  RCCHECK(rclc_executor_add_subscription(&executor, &servo_sub, &servo_msg, &servo_sub_callback, ON_NEW_DATA));
+
+#endif // ENABLE_SERVOS
 
 #ifdef ENABLE_BT_DEBUG
   BTSerial.println("[INFO] Micro-ROS entities created successfully");
