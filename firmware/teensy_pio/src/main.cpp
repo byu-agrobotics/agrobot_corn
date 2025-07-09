@@ -72,7 +72,7 @@
 
 // micro-ROS config values
 #define BAUD_RATE 6000000
-#define CALLBACK_TOTAL 1
+#define CALLBACK_TOTAL 6
 #define SYNC_TIMEOUT 1000
 
 // hardware pin values
