@@ -44,6 +44,7 @@
 #define ENABLE_CONVEYOR
 #define ENABLE_FEEDER
 #define ENABLE_EGGDETECT
+#define ENABLE_DCMOTOR
 
 #define EN1       2                   // EN pin for left TMF8801
 #define EN2       3                   // EN pin for right TMF8801
@@ -64,6 +65,12 @@
   #define SERVO_PIN4 23
   // default servo positions
   #define DEFAULT_SERVO 90
+
+#ifdef ENABLE_DCMOTOR
+  #define DC_IN1 20
+  #define DC_IN3 21
+
+#endif // ENABLE_DCMOTOR
 
   // servo conversion values
   #define SERVO_OUT_HIGH 2500
@@ -278,9 +285,13 @@ void conveyor_sub_callback(const void *conveyor_msgin) {
       (const std_msgs__msg__Bool*)conveyor_msgin;
   if (conveyor_msg->data == true) {
     color = CRGB::Green;
+    analogWrite(IN1, 200);  // Speed for motor A (0–255)
+    analogWrite(IN3, 100);  // Speed for motor B
   } 
   else{
     color = CRGB::Black;
+    analogWrite(IN1, 0);  // turn off motor
+    analogWrite(IN3, 100);  // turn off motor
   }
   fill_solid(leds, NUM_LEDS, color);
   FastLED.show();
@@ -497,6 +508,11 @@ void setup() {
     BTSerial.println("[INFO] Stepper 1 enabled");
   #endif
 #endif
+
+#ifdef ENABLE_DCMOTOR
+  pinMode(IN1, OUTPUT);
+  pinMode(IN3, OUTPUT);
+#endif // ENABLE_DCMOTOR
 
 #ifdef ENABLE_TOF_SENSORS // TODO: Add ifdefs for BTSerial below
   
