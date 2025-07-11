@@ -29,21 +29,28 @@
 #include <geometry_msgs/msg/twist.h>
 #include <std_msgs/msg/float32.h>
 #include <std_msgs/msg/bool.h>
+#include <std_msgs/msg/int8.h>
+#include <FastLED.h>
+#include "agrobot_interfaces/msg/servo_command.h"
+#include "std_msgs/msg/bool.h"
+#include <stdbool.h>
 
-// #include <frost_interfaces/msg/u_command.h>
 
 #define ENABLE_ACTUATORS
 #define ENABLE_TOF_SENSORS
-#define ENABLE_LEDS
 // #define ENABLE_BATTERY
+#define ENABLE_LED
 #define ENABLE_BT_DEBUG
+#define ENABLE_STEPPER_1
+#define ENABLE_SERVOS
+#define ENABLE_CONVEYOR
+#define ENABLE_FEEDER
+#define ENABLE_EGGDETECT
+#define ENABLE_DCMOTOR
 
 #define ENABLE_HBRIDGE
 #define ENABLE_IR_SENSOR
-// #define ENABLE_SERVOS
-// #define ENABLE_LED_MATRIX
 
-#define ENABLE_STEPPER_1
 #define pinIRd 8 // IR sensor pin
 // TOF enable pins
 #define EN1       2                   // EN pin for left TMF8801
@@ -81,6 +88,31 @@
 
 
 // This is the corrected macro. The stray backslash on the empty line was removed.
+#ifdef ENABLE_SERVOS
+  #define SERVO_PIN1 0
+  #define SERVO_PIN2 1
+  #define SERVO_PIN3 2
+  #define SERVO_PIN4 23
+  // default servo positions
+  #define DEFAULT_SERVO 90
+  // servo conversion values
+  #define SERVO_OUT_HIGH 2500
+  #define SERVO_OUT_LOW 500
+#endif // ENABLE_SERVOS
+
+
+#ifdef ENABLE_DCMOTOR
+  // #define DC_IN1 20
+  bool motor_is_on = false;
+  #define DC_IN3 33
+#endif // ENABLE_DCMOTOR
+
+
+#ifdef ENABLE_CONVEYOR
+  // TODO: Add motor driver capabilites here
+  const int conveyor_speed = 200;
+#endif //ENABLE_CONVEYOR
+
 #define EXECUTE_EVERY_N_MS(MS, X)                                             \
   do {                                                                        \
     static volatile int64_t init = -1;                                        \
@@ -95,11 +127,20 @@
 
 // micro-ROS config values
 #define BAUD_RATE 6000000
-#define CALLBACK_TOTAL 7 // Increased for H-bridge
+#define CALLBACK_TOTAL 9
 #define SYNC_TIMEOUT 1000
 
-
-
+// hardware pin values
+#define BT_MC_RX 34
+#define BT_MC_TX 35
+// #define VOLT_PIN 18
+// #define CURRENT_PIN 17
+#define LED_PIN 13 // Built-in Teensy LED
+#define RGB_PIN 22
+#define NUM_LEDS 64
+#define BRIGHTNESS  32
+#define LED_TYPE    WS2812B
+#define COLOR_ORDER GRB
 
 // sensor baud rates
 #define BT_DEBUG_RATE 9600
@@ -121,6 +162,9 @@ rcl_allocator_t allocator;
 rcl_node_t node;
 rclc_executor_t executor; // Added executor declaration
 
+
+// Subscriber and publisher set up 
+
 // Egg detection publisher
 rcl_publisher_t egg_publisher;
 std_msgs__msg__Bool egg_msg;
@@ -139,6 +183,47 @@ std_msgs__msg__Bool egg_msg;
   rcl_subscription_t hbridge_subscriber;
   std_msgs__msg__Bool hbridge_msg;
 #endif
+// LED subscriber
+#ifdef ENABLE_LED
+  rcl_subscription_t LED_sub;
+  std_msgs__msg__Int8 LED_msg;
+  // initialize LEDs
+  CRGB leds[NUM_LEDS];
+#endif  // ENABLE_LED
+
+
+// Servo subscriber
+#ifdef ENABLE_SERVOS
+  agrobot_interfaces__msg__ServoCommand servo_msg;
+  rcl_subscription_t servo_sub;
+
+  // servo objects
+  Servo myServo1; // Large egg
+  Servo myServo2; // Small egg
+  Servo myServo3; // Bad egg
+  Servo myServo4; // sorting servo
+
+#endif // ENABLE_SERVOS
+
+// Conveyor subscriber
+#ifdef ENABLE_CONVEYOR
+  std_msgs__msg__Bool conveyor_msg;
+  rcl_subscription_t conveyor_sub;
+
+#endif // ENABLE_CONVEYOR
+
+// Feeder subscriber
+#ifdef ENABLE_FEEDER
+  std_msgs__msg__Bool feeder_msg;
+  rcl_subscription_t feeder_sub;
+#endif // ENABLE_FEEDER
+
+// Egg_detect publisher
+#ifdef ENABLE_EGGDETECT
+  rcl_publisher_t eggdetect_pub;
+  std_msgs__msg__Bool egg_msg;
+#endif // ENABLE_EGGDETECT
+
 
 // publisher objects
 // BatteryPub battery_pub;
@@ -189,6 +274,141 @@ void blink_led(int count, int duration_ms) {
   }
 }
 
+#ifdef ENABLE_SERVOS
+void servo_sub_callback(const void *servo_msgin) {
+  CRGB color;
+  last_received = millis();
+
+  const agrobot_interfaces__msg__ServoCommand *servo_msg =
+      (const agrobot_interfaces__msg__ServoCommand *)servo_msgin;
+
+  myServo1.write(servo_msg->servo1);
+  myServo2.write(servo_msg->servo2);
+  myServo3.write(servo_msg->servo3);
+  myServo4.write(servo_msg->servo4);
+
+  if (servo_msg->servo4 == 90){
+    color = CRGB::Green;
+  }
+  if (servo_msg->servo4 == 180){
+    color = CRGB::Blue;
+  }
+  if (servo_msg->servo4 == 0){
+    color = CRGB::Black;
+  }
+
+  fill_solid(leds, NUM_LEDS, color);
+    FastLED.show();
+    delay(100);  // update rate
+}
+#endif //ENABLES_SERVOS
+
+
+
+#ifdef ENABLE_LED
+void LED_sub_callback(const void *LED_msgin) {
+  static int current_mode = -1;
+  static bool led_on = false;
+  static unsigned long last_toggle_time = 0;
+
+  const std_msgs__msg__Int8 *LED_msg =
+      (const std_msgs__msg__Int8*)LED_msgin;
+  int new_mode = LED_msg->data;
+  unsigned long now = millis();
+
+  // Only update mode if it changed
+  if (new_mode != current_mode) {
+    current_mode = new_mode;
+    last_toggle_time = now;
+    led_on = false;  // Reset blink state
+  }
+
+  CRGB color = CRGB::Black;
+
+  if (current_mode == 1) {
+    color = CRGB::Green;
+  } else if (current_mode == 2) {
+    color = CRGB::Blue;
+  } else if (current_mode == 3) {
+    color = CRGB::Red;
+  } else if (current_mode == 4) {
+    // Blink green every 500ms
+    if (now - last_toggle_time >= 500) {
+      last_toggle_time = now;
+      led_on = !led_on;
+    }
+    color = led_on ? CRGB::Green : CRGB::Black;
+  } else {
+    color = CRGB::Black;
+  }
+
+  fill_solid(leds, NUM_LEDS, color);
+  FastLED.show();
+}
+#endif  // ENABLE_LED
+
+
+
+#ifdef ENABLE_CONVEYOR
+void conveyor_sub_callback(const void *conveyor_msgin) {
+  CRGB color;
+  last_received = millis();
+
+  const std_msgs__msg__Bool *conveyor_msg =
+      (const std_msgs__msg__Bool*)conveyor_msgin;
+
+  if (conveyor_msg->data && !motor_is_on) {
+    analogWrite(DC_IN3, conveyor_speed);  // Full speed forward
+    motor_is_on = true;
+    color = CRGB::Green;
+  }
+
+  if (!conveyor_msg->data && motor_is_on) {
+    analogWrite(DC_IN3, 0);  // Stop motor
+    motor_is_on = false;
+    color = CRGB::Black;
+  }
+
+
+  // if (conveyor_msg->data == true) {
+  //   color = CRGB::Green;
+  //   // analogWrite(DC_IN1, 200);  // Speed for motor A (0–255)
+  //   // analogWrite(DC_IN3, 200);  // Speed for motor B
+  //   digitalWrite(DC_IN3, HIGH);
+  // } 
+  // else{
+  //   color = CRGB::Black;
+  //   // analogWrite(DC_IN1, 0);  // turn off motor
+  //   // analogWrite(DC_IN3, 0);  // turn off motor
+  //   digitalWrite(DC_IN3, LOW);
+  // }
+  fill_solid(leds, NUM_LEDS, color);
+  FastLED.show();
+  delay(100);  // update rate
+}
+#endif // ENBLE_CONVEYOR
+
+#ifdef ENABLE_FEEDER
+void feeder_sub_callback(const void *feeder_msgin) {
+  CRGB color;
+  last_received = millis();
+
+  const std_msgs__msg__Bool *feeder_msg =
+      (const std_msgs__msg__Bool*)feeder_msgin;
+  if (feeder_msg->data == true) {
+    color = CRGB::Green;
+  } 
+  else{
+    color = CRGB::Black;
+  }
+  fill_solid(leds, NUM_LEDS, color);
+  FastLED.show();
+  delay(100);  // update rate
+}
+#endif // ENBLE_CONVEYOR
+
+
+
 void error_loop() {
   while (1) {
     delay(100);
@@ -227,6 +447,8 @@ bool create_entities() {
     BTSerial.println("[INFO] Timestamps synchronized with agent");
   }
 #endif // ENABLE_BT_DEBUG
+
+
 
   // Initialize the executor
   RCCHECK(rclc_executor_init(&executor, &support.context, CALLBACK_TOTAL, &allocator));
@@ -276,6 +498,56 @@ bool create_entities() {
   // Add subscriber to the executor
   RCCHECK(rclc_executor_add_subscription(&executor, &hbridge_subscriber, &hbridge_msg, &hbridge_callback, ON_NEW_DATA));
 #endif
+#ifdef ENABLE_LED
+  RCCHECK(rclc_subscription_init_default(
+    &LED_sub,
+    &node,
+    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8),
+    "/LED"));
+
+  // Add subscriber to the executor
+  RCCHECK(rclc_executor_add_subscription(&executor, &LED_sub, &LED_msg, &LED_sub_callback, ON_NEW_DATA));
+#endif // ENABLE_LED
+
+#ifdef ENABLE_SERVOS
+  RCCHECK(rclc_subscription_init_default(
+      &servo_sub,
+      &node,
+      ROSIDL_GET_MSG_TYPE_SUPPORT(agrobot_interfaces, msg, ServoCommand),
+      "/servo"));
+
+  RCCHECK(rclc_executor_add_subscription(&executor, &servo_sub, &servo_msg, &servo_sub_callback, ON_NEW_DATA));
+
+#endif // ENABLE_SERVOS
+
+#ifdef ENABLE_CONVEYOR
+  RCCHECK(rclc_subscription_init_default(
+      &conveyor_sub,
+      &node,
+      ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Bool),
+      "/conveyor"));
+
+  RCCHECK(rclc_executor_add_subscription(&executor, &conveyor_sub, &conveyor_msg, &conveyor_sub_callback, ON_NEW_DATA));
+#endif //ENBLE_CONVEYOR
+
+#ifdef ENABLE_FEEDER
+  RCCHECK(rclc_subscription_init_default(
+      &feeder_sub,
+      &node,
+      ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Bool),
+      "/feeder"));
+
+  RCCHECK(rclc_executor_add_subscription(&executor, &feeder_sub, &feeder_msg, &feeder_sub_callback, ON_NEW_DATA));
+#endif //ENBLE_CONVEYOR
+
+#ifdef ENABLE_EGGDETECT
+  RCCHECK(rclc_publisher_init_default(
+    &eggdetect_pub,
+    &node,
+    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Bool),
+    "/egg_detect"));
+
+#endif //ENABLE_EGGDETECT
 
 #ifdef ENABLE_BT_DEBUG
   BTSerial.println("[INFO] Micro-ROS entities created successfully");
@@ -364,6 +636,10 @@ void setup() {
   BTSerial.println("[INFO] H-Bridge enabled");
 #endif // ENABLE_BT_DEBUG
 #endif // ENABLE_HBRIDGE
+#ifdef ENABLE_DCMOTOR
+  // pinMode(DC_IN1, OUTPUT);
+  pinMode(DC_IN3, OUTPUT);
+#endif // ENABLE_DCMOTOR
 
 #ifdef ENABLE_TOF_SENSORS // TODO: Add ifdefs for BTSerial below
   
@@ -494,6 +770,29 @@ void setup() {
   BTSerial.println("[INFO] TOF sensors enabled");
 #endif // ENABLE_BT_DEBUG
 #endif // ENABLE_TOF_SENSORS
+
+#ifdef ENABLE_LED
+  FastLED.addLeds<LED_TYPE, RGB_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+  FastLED.setBrightness(BRIGHTNESS);  
+#endif //ENABLE_LED
+
+
+#ifdef ENABLE_SERVOS
+  pinMode(SERVO_PIN1, OUTPUT);
+  pinMode(SERVO_PIN2, OUTPUT);
+  pinMode(SERVO_PIN3, OUTPUT);
+
+  myServo1.attach(SERVO_PIN1, SERVO_OUT_LOW, SERVO_OUT_HIGH);
+  myServo2.attach(SERVO_PIN2, SERVO_OUT_LOW, SERVO_OUT_HIGH);
+  myServo3.attach(SERVO_PIN3, SERVO_OUT_LOW, SERVO_OUT_HIGH);
+  myServo4.attach(SERVO_PIN4, SERVO_OUT_LOW, SERVO_OUT_HIGH);
+
+  myServo1.write(DEFAULT_SERVO);
+  myServo2.write(DEFAULT_SERVO);
+  myServo3.write(DEFAULT_SERVO);
+  myServo4.write(DEFAULT_SERVO);
+
+#endif // ENABLE_SERVOS
 
   state = WAITING_AGENT;
 }
@@ -679,6 +978,12 @@ void loop() {
       digitalWrite(HBRIDGE_IN3, HIGH);
       digitalWrite(HBRIDGE_IN4, LOW);
 #endif // ENABLE_HBRIDGE
+// #ifdef ENABLE_EGGDETECT
+//     EXECUTE_EVERY_N_MS(100, {
+//           egg_msg.data = true;
+//           RCSOFTCHECK(rcl_publish(&eggdetect_pub, &egg_msg, NULL));
+//       });
+// #endif //ENABLE_EGGDETECT
 
 #ifdef ENABLE_TOF_SENSORS
       EXECUTE_EVERY_N_MS(TOF_MS, read_tof_sensor());

@@ -70,11 +70,11 @@ class EggID(Node):
 
         self.get_logger().info("Received request to identify an egg!")
 
-        # TODO: GET RID OF THE BELOW LATER (JUST FOR TESTING RN BC NO CAMERA CONNECTED)
-        response.egg_type = 1  # 1: small, 2: large, 3: bad
-        return response
-
         image = self.read()
+
+        # # # TODO: GET RID OF THE BELOW LATER (JUST FOR TESTING RN BC NO CAMERA CONNECTED)
+        # response.egg_type = 1  # 1: small, 2: large, 3: bad
+        # return response
 
         # Helpful debugging code
         # self.get_logger().info("CV_CAP_PROP_FRAME_WIDTH: '{}'".format(self.egg_camera.get(cv2.CAP_PROP_FRAME_WIDTH)))
@@ -183,9 +183,10 @@ class EggID(Node):
                 #     2,
                 # )
 
-                egg_type = 1
+                egg_type = 2 # usually 1
 
         cv2.imwrite(f"/tmp/test{self.imageCount}.jpeg", image)
+
         # Return the egg type for the FSM
         response.egg_type = egg_type  # 1: small, 2: large, 3: bad
         return response
