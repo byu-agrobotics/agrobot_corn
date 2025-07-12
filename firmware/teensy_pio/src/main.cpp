@@ -35,63 +35,82 @@
 #include "std_msgs/msg/bool.h"
 #include <stdbool.h>
 
-
+// enable definitions
 #define ENABLE_ACTUATORS
-#define ENABLE_TOF_SENSORS
+// #define ENABLE_TOF_SENSORS
 // #define ENABLE_BATTERY
 #define ENABLE_LED
 #define ENABLE_BT_DEBUG
 #define ENABLE_STEPPER_1
+#define ENABLE_STEPPER_2
 #define ENABLE_SERVOS
 #define ENABLE_CONVEYOR
 #define ENABLE_FEEDER
-#define ENABLE_EGGDETECT
-#define ENABLE_DCMOTOR
-
-#define ENABLE_HBRIDGE
+#define ENABLE_FEEDER_POS
+// #define ENABLE_HBRIDGE
 #define ENABLE_IR_SENSOR
+// #define ENABLE_DCMOTOR
 
-#define pinIRd 8 // IR sensor pin
-// TOF enable pins
-#define EN1       2                   // EN pin for left TMF8801
-#define EN2       3                   // EN pin for right TMF8801
-#define EN3       4                   // EN pin for front TMF8801
-#define EN4       5                   // EN pin for back TMF8801
-#define INT       -1                  // INT pin is floating, not used in this demo
-// Stepper motor
-#define STEPPER_STEP_PIN 18
-#define STEPPER_DIR_PIN 19
-#define STEPS_PER_REV 200
+
+// function set up, pins, and variables
+
+#define LED_PIN 13 // Built-in Teensy LED
+
+#ifdef ENABLE_FEEDER_POS
+  #define pinFeederIR 7 // IR sensor pin
+  #define IR_MS 500    // Read the IR sensor every 500ms
+
+#endif //ENABLE_FEEDER_POS
+
+#ifdef ENABLE_IR_SENSOR
+  #define pinIRd 6 // IR sensor pin
+  #define IR_MS 500    // Read the IR sensor every 500ms
+#endif // ENABLE_IR_SENSOR
+
+#ifdef ENABLE_TOF_SENSORS
+  // TOF enable pins
+  #define EN1       2                   // LEFT
+  #define EN2       3                   // RIGHT
+  #define EN3       4                   // FRONT
+  #define EN4       5                   // BACK
+  #define INT       -1                  // INT pin is floating, not used in this demo
+#endif // ENABLE_TOF_SENSORS
+
+#ifdef ENABLE_STEPPER_1
+  // Stepper motors
+  #define STEPPER1_STEP_PIN 26
+  #define STEPPER1_DIR_PIN 27
+  #define STEPS_PER_REV 200
+  #define STEPPER2_STEP_PIN 28
+  #define STEPPER2_DIR_PIN 29
+#endif // ENABLE_STEPPER_1
+
 // L298N1 H-Bridge pins
-#define HBRIDGE_IN1 22
-#define HBRIDGE_IN2 23
-#define HBRIDGE_IN3 24
-#define HBRIDGE_IN4 25
-#define HBRIDGE_ENA 16
-#define HBRIDGE_ENB 17
+// #define HBRIDGE_IN1 22
+// #define HBRIDGE_IN2 23
+// #define HBRIDGE_IN3 24
+// #define HBRIDGE_IN4 25
+// #define HBRIDGE_ENA 16
+// #define HBRIDGE_ENB 17
 // Servo pins
-#define SERVO_1_PIN 11 // Pin for servo 1
-#define SERVO_2_PIN 12 // Pin for servo 2
-#define SERVO_3_PIN 14 // Pin for servo 3
-// Big Servo
-#define BIG_SERVO_PIN 29 // Pin for the big servo
+// #define SERVO_1_PIN 11 // Pin for servo 1
+// #define SERVO_2_PIN 12 // Pin for servo 2
+// #define SERVO_3_PIN 14 // Pin for servo 3
+// // Big Servo
+// #define BIG_SERVO_PIN 29 // Pin for the big servo
 // hardware pin values
-#define BT_MC_RX 34
-#define BT_MC_TX 35
 // #define VOLT_PIN 18
 // #define CURRENT_PIN 17
-#define LED_PIN 13 // Built-in Teensy LED
 //LED matrix
-#define LED_MOSI_PIN 13 // Pin for the LED matrix (if used)
-#define LED_CLOCK_PIN 38 // Pin for the LED matrix clock (if used)
-#define LED_CS_PIN 28 // Pin for the LED matrix chip select (if used)
+// #define LED_MOSI_PIN 13 // Pin for the LED matrix (if used)
+// #define LED_CLOCK_PIN 38 // Pin for the LED matrix clock (if used)
+// #define LED_CS_PIN 28 // Pin for the LED matrix chip select (if used)
 
 
-// This is the corrected macro. The stray backslash on the empty line was removed.
 #ifdef ENABLE_SERVOS
-  #define SERVO_PIN1 0
-  #define SERVO_PIN2 1
-  #define SERVO_PIN3 2
+  #define SERVO_PIN1 9
+  #define SERVO_PIN2 10
+  #define SERVO_PIN3 12
   #define SERVO_PIN4 23
   // default servo positions
   #define DEFAULT_SERVO 90
@@ -101,17 +120,34 @@
 #endif // ENABLE_SERVOS
 
 
-#ifdef ENABLE_DCMOTOR
-  // #define DC_IN1 20
+#ifdef ENABLE_FEEDER
   bool motor_is_on = false;
-  #define DC_IN3 33
-#endif // ENABLE_DCMOTOR
+  #define DC_IN1 30
+#endif // ENABLE_FEEDER
 
 
 #ifdef ENABLE_CONVEYOR
   // TODO: Add motor driver capabilites here
   const int conveyor_speed = 200;
+  bool motor_is_on = false;
+  #define DC_IN3 31
 #endif //ENABLE_CONVEYOR
+
+#ifdef ENABLE_LED
+  #define RGB_PIN 11
+  #define NUM_LEDS 64
+  #define BRIGHTNESS  32
+  #define LED_TYPE    WS2812B
+  #define COLOR_ORDER GRB
+#endif //ENABLE_LED
+
+#ifdef ENABLE_BT_DEBUG
+  #define BT_DEBUG_RATE 9600
+  #define BT_MC_RX 34
+  #define BT_MC_TX 35
+#endif // ENABLE_BT_DEBUG
+
+
 
 #define EXECUTE_EVERY_N_MS(MS, X)                                             \
   do {                                                                        \
@@ -130,25 +166,14 @@
 #define CALLBACK_TOTAL 9
 #define SYNC_TIMEOUT 1000
 
-// hardware pin values
-#define BT_MC_RX 34
-#define BT_MC_TX 35
 // #define VOLT_PIN 18
 // #define CURRENT_PIN 17
 #define LED_PIN 13 // Built-in Teensy LED
-#define RGB_PIN 22
-#define NUM_LEDS 64
-#define BRIGHTNESS  32
-#define LED_TYPE    WS2812B
-#define COLOR_ORDER GRB
-
-// sensor baud rates
-#define BT_DEBUG_RATE 9600
 
 // sensor update rates
 #define BATTERY_MS 1000 // arbitrary
 #define TOF_MS 5     // arbitrary
-#define IR_MS 500    // Read the IR sensor every 500ms
+
 
 // time of last received command (used as a fail safe)
 unsigned long last_received = 0;
@@ -179,10 +204,20 @@ std_msgs__msg__Bool egg_msg;
   volatile float motor_position = 0.0; // In revolutions
 #endif
 
+// #ifdef ENABLE_STEPPER_2
+//   rcl_subscription_t stepper_subscriber;
+//   rcl_publisher_t stepper_publisher;
+//   geometry_msgs__msg__Twist twist_msg;
+//   std_msgs__msg__Float32 position_msg;
+
+//   volatile float motor_position = 0.0; // In revolutions
+// #endif
+
 #ifdef ENABLE_HBRIDGE
   rcl_subscription_t hbridge_subscriber;
   std_msgs__msg__Bool hbridge_msg;
 #endif
+
 // LED subscriber
 #ifdef ENABLE_LED
   rcl_subscription_t LED_sub;
@@ -218,11 +253,11 @@ std_msgs__msg__Bool egg_msg;
   rcl_subscription_t feeder_sub;
 #endif // ENABLE_FEEDER
 
-// Egg_detect publisher
-#ifdef ENABLE_EGGDETECT
-  rcl_publisher_t eggdetect_pub;
-  std_msgs__msg__Bool egg_msg;
-#endif // ENABLE_EGGDETECT
+// // Egg_detect publisher
+// #ifdef ENABLE_FEEDER_POS
+//   // rcl_publisher_t eggdetect_pub;
+//   // std_msgs__msg__Bool egg_msg;
+// #endif // ENABLE_FEEDER_POS
 
 
 // publisher objects
@@ -258,6 +293,10 @@ enum states {
 // Added forward declaration for the callback function
 #ifdef ENABLE_STEPPER_1
   void stepper_callback(const void *msgin);
+#endif
+
+#ifdef ENABLE_STEPPER_2
+  void stepper2_callback(const void *msgin);
 #endif
 
 #ifdef ENABLE_HBRIDGE
@@ -389,25 +428,40 @@ void conveyor_sub_callback(const void *conveyor_msgin) {
 #endif // ENBLE_CONVEYOR
 
 #ifdef ENABLE_FEEDER
+bool last_feeder_state = false;  // tracks previous state
+
+void move_30_degrees() {
+  int feeder_ir = digitalRead(pinFeederIR);
+  while (feeder_ir == LOW) {
+    analogWrite(DC_IN1, conveyor_speed);  // Full speed forward
+    feeder_ir = digitalRead(pinFeederIR); // re-check sensor
+  }
+  analogWrite(DC_IN1, 0);  // stop motor
+}
+
 void feeder_sub_callback(const void *feeder_msgin) {
-  CRGB color;
+  static bool last_state = false;  // stores last received state
   last_received = millis();
 
-  const std_msgs__msg__Bool *feeder_msg =
-      (const std_msgs__msg__Bool*)feeder_msgin;
-  if (feeder_msg->data == true) {
-    color = CRGB::Green;
-  } 
-  else{
-    color = CRGB::Black;
+  const std_msgs__msg__Bool *feeder_msg = (const std_msgs__msg__Bool*)feeder_msgin;
+  bool current_state = feeder_msg->data;
+
+  if (current_state != last_state) {
+    // only trigger action if state changed
+    CRGB color = current_state ? CRGB::Green : CRGB::Black;
+
+    if (current_state) {
+      move_30_degrees();
+    }
+
+    fill_solid(leds, NUM_LEDS, color);
+    FastLED.show();
   }
-  fill_solid(leds, NUM_LEDS, color);
-  FastLED.show();
-  delay(100);  // update rate
+
+  last_state = current_state;  // update state
 }
-#endif // ENBLE_CONVEYOR
 
-
+#endif  // ENABLE_FEEDER
 
 void error_loop() {
   while (1) {
@@ -465,7 +519,7 @@ bool create_entities() {
       &egg_publisher,
       &node,
       ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Bool),
-      "egg_detected")); // This is the topic name
+      "egg_detect")); // This is the topic name
 #endif // ENABLE_IR_SENSOR
 
 #ifdef ENABLE_STEPPER_1
@@ -485,6 +539,25 @@ bool create_entities() {
 
   // Add subscriber to the executor
   RCCHECK(rclc_executor_add_subscription(&executor, &stepper_subscriber, &twist_msg, &stepper_callback, ON_NEW_DATA));
+#endif
+
+#ifdef ENABLE_STEPPER_2
+  // Initialize stepper publisher
+  RCCHECK(rclc_publisher_init_default(
+    &stepper_publisher,
+    &node,
+    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32),
+    "/stepper_position"));
+
+  // Initialize stepper subscriber
+  RCCHECK(rclc_subscription_init_default(
+    &stepper_subscriber,
+    &node,
+    ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Twist),
+    "/stepper_cmd_vel"));
+
+  // Add subscriber to the executor
+  RCCHECK(rclc_executor_add_subscription(&executor, &stepper_subscriber, &twist_msg, &stepper2_callback, ON_NEW_DATA));
 #endif
 
 #ifdef ENABLE_HBRIDGE
@@ -540,14 +613,14 @@ bool create_entities() {
   RCCHECK(rclc_executor_add_subscription(&executor, &feeder_sub, &feeder_msg, &feeder_sub_callback, ON_NEW_DATA));
 #endif //ENBLE_CONVEYOR
 
-#ifdef ENABLE_EGGDETECT
-  RCCHECK(rclc_publisher_init_default(
-    &eggdetect_pub,
-    &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Bool),
-    "/egg_detect"));
+// #ifdef ENABLE_EGGDETECT
+//   RCCHECK(rclc_publisher_init_default(
+//     &eggdetect_pub,
+//     &node,
+//     ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Bool),
+//     "/egg_detect"));
 
-#endif //ENABLE_EGGDETECT
+// #endif //ENABLE_EGGDETECT
 
 #ifdef ENABLE_BT_DEBUG
   BTSerial.println("[INFO] Micro-ROS entities created successfully");
@@ -598,7 +671,11 @@ void setup() {
 
   // set up the indicator light
   pinMode(LED_PIN, OUTPUT);
+
+#ifdef ENABLE_IR_SENSOR
   pinMode(pinIRd, INPUT); // Set the IR sensor pin as an input
+  pinMode(pinFeederIR, INPU);
+#endif //ENABLE_IR_SENSOR
 
 #ifdef ENABLE_BT_DEBUG
   BTSerial.begin(BT_DEBUG_RATE);
@@ -615,31 +692,53 @@ void setup() {
 
 #ifdef ENABLE_STEPPER_1
   // Configure stepper pins as outputs
-  pinMode(STEPPER_STEP_PIN, OUTPUT);
-  pinMode(STEPPER_DIR_PIN, OUTPUT);
+  pinMode(STEPPER1_STEP_PIN, OUTPUT);
+  pinMode(STEPPER1_DIR_PIN, OUTPUT);
   #ifdef ENABLE_BT_DEBUG
     BTSerial.println("[INFO] Stepper 1 enabled");
   #endif
 #endif
 
-#ifdef ENABLE_HBRIDGE
-  pinMode(HBRIDGE_IN1, OUTPUT);
-  pinMode(HBRIDGE_IN2, OUTPUT);
-  pinMode(HBRIDGE_IN3, OUTPUT);
-  pinMode(HBRIDGE_IN4, OUTPUT);
-  pinMode(HBRIDGE_ENA, OUTPUT);
-  pinMode(HBRIDGE_ENB, OUTPUT);
+#ifdef ENABLE_STEPPER_2
+  // Configure stepper pins as outputs
+  pinMode(STEPPER2_STEP_PIN, OUTPUT);
+  pinMode(STEPPER2_DIR_PIN, OUTPUT);
+  #ifdef ENABLE_BT_DEBUG
+    BTSerial.println("[INFO] Stepper 2 enabled");
+  #endif
+#endif
 
-  digitalWrite(HBRIDGE_ENA, HIGH);
-  digitalWrite(HBRIDGE_ENB, HIGH);
-#ifdef ENABLE_BT_DEBUG
-  BTSerial.println("[INFO] H-Bridge enabled");
-#endif // ENABLE_BT_DEBUG
-#endif // ENABLE_HBRIDGE
-#ifdef ENABLE_DCMOTOR
-  // pinMode(DC_IN1, OUTPUT);
+#ifdef ENABLE_CONVEYOR
   pinMode(DC_IN3, OUTPUT);
-#endif // ENABLE_DCMOTOR
+#endif // ENABLE_CONVEYOR
+
+#ifdef ENABLE_FEEDER
+  pinMode(DC_IN1, OUTPUT);
+#endif // ENABLE_FEEDER
+
+
+#ifdef ENABLE_LED
+  FastLED.addLeds<LED_TYPE, RGB_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+  FastLED.setBrightness(BRIGHTNESS);  
+#endif //ENABLE_LED
+
+
+#ifdef ENABLE_SERVOS
+  pinMode(SERVO_PIN1, OUTPUT);
+  pinMode(SERVO_PIN2, OUTPUT);
+  pinMode(SERVO_PIN3, OUTPUT);
+
+  myServo1.attach(SERVO_PIN1, SERVO_OUT_LOW, SERVO_OUT_HIGH);
+  myServo2.attach(SERVO_PIN2, SERVO_OUT_LOW, SERVO_OUT_HIGH);
+  myServo3.attach(SERVO_PIN3, SERVO_OUT_LOW, SERVO_OUT_HIGH);
+  myServo4.attach(SERVO_PIN4, SERVO_OUT_LOW, SERVO_OUT_HIGH);
+
+  myServo1.write(DEFAULT_SERVO);
+  myServo2.write(DEFAULT_SERVO);
+  myServo3.write(DEFAULT_SERVO);
+  myServo4.write(DEFAULT_SERVO);
+
+#endif // ENABLE_SERVOS
 
 #ifdef ENABLE_TOF_SENSORS // TODO: Add ifdefs for BTSerial below
   
@@ -771,28 +870,6 @@ void setup() {
 #endif // ENABLE_BT_DEBUG
 #endif // ENABLE_TOF_SENSORS
 
-#ifdef ENABLE_LED
-  FastLED.addLeds<LED_TYPE, RGB_PIN, COLOR_ORDER>(leds, NUM_LEDS);
-  FastLED.setBrightness(BRIGHTNESS);  
-#endif //ENABLE_LED
-
-
-#ifdef ENABLE_SERVOS
-  pinMode(SERVO_PIN1, OUTPUT);
-  pinMode(SERVO_PIN2, OUTPUT);
-  pinMode(SERVO_PIN3, OUTPUT);
-
-  myServo1.attach(SERVO_PIN1, SERVO_OUT_LOW, SERVO_OUT_HIGH);
-  myServo2.attach(SERVO_PIN2, SERVO_OUT_LOW, SERVO_OUT_HIGH);
-  myServo3.attach(SERVO_PIN3, SERVO_OUT_LOW, SERVO_OUT_HIGH);
-  myServo4.attach(SERVO_PIN4, SERVO_OUT_LOW, SERVO_OUT_HIGH);
-
-  myServo1.write(DEFAULT_SERVO);
-  myServo2.write(DEFAULT_SERVO);
-  myServo3.write(DEFAULT_SERVO);
-  myServo4.write(DEFAULT_SERVO);
-
-#endif // ENABLE_SERVOS
 
   state = WAITING_AGENT;
 }
@@ -839,11 +916,11 @@ void read_ir_sensor() {
 void stepper_callback(const void *msgin) {
   const geometry_msgs__msg__Twist *twist_msg = (const geometry_msgs__msg__Twist *)msgin;
 
-  // Control direction with angular.z
+  // Control disrection with angular.z
   if (twist_msg->angular.z > 0) {
-    digitalWrite(STEPPER_DIR_PIN, HIGH); // Clockwise
+    digitalWrite(STEPPER1_DIR_PIN, HIGH); // Clockwise
   } else {
-    digitalWrite(STEPPER_DIR_PIN, LOW); // Counter-clockwise
+    digitalWrite(STEPPER1_DIR_PIN, LOW); // Counter-clockwise
   }
 
   // Control speed with linear.x (absolute value)
@@ -856,9 +933,45 @@ void stepper_callback(const void *msgin) {
     int us_delay = (int)(1000000.0 / (speed * STEPS_PER_REV * 2.0));
 
     // Step the motor
-    digitalWrite(STEPPER_STEP_PIN, HIGH);
+    digitalWrite(STEPPER1_STEP_PIN, HIGH);
     delayMicroseconds(us_delay);
-    digitalWrite(STEPPER_STEP_PIN, LOW);
+    digitalWrite(STEPPER1_STEP_PIN, LOW);
+    delayMicroseconds(us_delay);
+    
+    // Update position
+    float position_change = 1.0 / STEPS_PER_REV;
+    if (twist_msg->angular.z < 0) {
+        position_change *= -1;
+    }
+    motor_position += position_change;
+  }
+}
+#endif
+
+#ifdef ENABLE_STEPPER_2
+void stepper2_callback(const void *msgin) {
+  const geometry_msgs__msg__Twist *twist_msg = (const geometry_msgs__msg__Twist *)msgin;
+
+  // Control direction with angular.z
+  if (twist_msg->angular.z > 0) {
+    digitalWrite(STEPPER2_DIR_PIN, HIGH); // Clockwise
+  } else {
+    digitalWrite(STEPPER2_DIR_PIN, LOW); // Counter-clockwise
+  }
+
+  // Control speed with linear.x (absolute value)
+  float speed = fabs(twist_msg->linear.x);
+  if (speed > 0) {
+    // Convert speed (rev/s) to delay in microseconds
+    // 1 / (speed * STEPS_PER_REV) = seconds per step
+    // * 1,000,000 = microseconds per step
+    // / 2 because we have two delays per step (HIGH and LOW)
+    int us_delay = (int)(1000000.0 / (speed * STEPS_PER_REV * 2.0));
+
+    // Step the motor
+    digitalWrite(STEPPER2_STEP_PIN, HIGH);
+    delayMicroseconds(us_delay);
+    digitalWrite(STEPPER2_STEP_PIN, LOW);
     delayMicroseconds(us_delay);
     
     // Update position
@@ -973,14 +1086,24 @@ void loop() {
     });
 #endif
 
+#ifdef ENABLE_STEPPER_2
+    // Publish stepper position every 100 ms
+    EXECUTE_EVERY_N_MS(100, {
+        position_msg.data = motor_position;
+        RCSOFTCHECK(rcl_publish(&stepper_publisher, &position_msg, NULL));
+    });
+#endif
+
 #ifdef ENABLE_HBRIDGE
       // Continuously spin the second H-bridge motor slowly
       digitalWrite(HBRIDGE_IN3, HIGH);
       digitalWrite(HBRIDGE_IN4, LOW);
 #endif // ENABLE_HBRIDGE
+
+
 // #ifdef ENABLE_EGGDETECT
 //     EXECUTE_EVERY_N_MS(100, {
-//           egg_msg.data = true;
+//           // egg_msg.data = true;
 //           RCSOFTCHECK(rcl_publish(&eggdetect_pub, &egg_msg, NULL));
 //       });
 // #endif //ENABLE_EGGDETECT
@@ -1007,3 +1130,4 @@ void loop() {
     break;
   }
 }
+
