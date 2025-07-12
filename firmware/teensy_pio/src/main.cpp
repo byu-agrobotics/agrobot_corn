@@ -37,7 +37,7 @@
 
 // enable definitions
 #define ENABLE_ACTUATORS
-// #define ENABLE_TOF_SENSORS
+#define ENABLE_TOF_SENSORS
 // #define ENABLE_BATTERY
 #define ENABLE_LED
 #define ENABLE_BT_DEBUG
@@ -129,7 +129,6 @@
 #ifdef ENABLE_CONVEYOR
   // TODO: Add motor driver capabilites here
   const int conveyor_speed = 200;
-  bool motor_is_on = false;
   #define DC_IN3 31
 #endif //ENABLE_CONVEYOR
 
@@ -674,7 +673,7 @@ void setup() {
 
 #ifdef ENABLE_IR_SENSOR
   pinMode(pinIRd, INPUT); // Set the IR sensor pin as an input
-  pinMode(pinFeederIR, INPU);
+  pinMode(pinFeederIR, INPUT);
 #endif //ENABLE_IR_SENSOR
 
 #ifdef ENABLE_BT_DEBUG
