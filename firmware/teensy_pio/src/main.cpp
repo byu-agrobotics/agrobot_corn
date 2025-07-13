@@ -203,14 +203,15 @@ std_msgs__msg__Bool egg_msg;
   volatile float motor_position = 0.0; // In revolutions
 #endif
 
-// #ifdef ENABLE_STEPPER_2
-//   rcl_subscription_t stepper_subscriber;
-//   rcl_publisher_t stepper_publisher;
-//   geometry_msgs__msg__Twist twist_msg;
-//   std_msgs__msg__Float32 position_msg;
-
-//   volatile float motor_position = 0.0; // In revolutions
-// #endif
+#ifdef ENABLE_STEPPER_2
+  rcl_subscription_t stepper2_subscriber;
+  std_msgs__msg__Float32 stepper2_speed_msg; // Use a Float32 for speed control
+  
+  // Stepper 2 state variables
+  volatile bool stepper2_is_running = false;
+  volatile long stepper2_step_delay = 0; // Delay between steps in microseconds
+  unsigned long stepper2_last_step_time = 0;
+#endif
 
 #ifdef ENABLE_HBRIDGE
   rcl_subscription_t hbridge_subscriber;
@@ -295,7 +296,7 @@ enum states {
 #endif
 
 #ifdef ENABLE_STEPPER_2
-  void stepper2_callback(const void *msgin);
+  void stepper2_speed_callback(const void *msgin);
 #endif
 
 #ifdef ENABLE_HBRIDGE
@@ -541,22 +542,15 @@ bool create_entities() {
 #endif
 
 #ifdef ENABLE_STEPPER_2
-  // Initialize stepper publisher
-  RCCHECK(rclc_publisher_init_default(
-    &stepper_publisher,
+  // Initialize stepper 2 subscriber with a different message type for simple speed control
+  RCCHECK(rclc_subscription_init_default(
+    &stepper2_subscriber,
     &node,
     ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32),
-    "/stepper_position"));
-
-  // Initialize stepper subscriber
-  RCCHECK(rclc_subscription_init_default(
-    &stepper_subscriber,
-    &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Twist),
-    "/stepper_cmd_vel"));
+    "/stepper2_speed")); // Listen on a new topic for speed
 
   // Add subscriber to the executor
-  RCCHECK(rclc_executor_add_subscription(&executor, &stepper_subscriber, &twist_msg, &stepper2_callback, ON_NEW_DATA));
+  RCCHECK(rclc_executor_add_subscription(&executor, &stepper2_subscriber, &stepper2_speed_msg, &stepper2_speed_callback, ON_NEW_DATA));
 #endif
 
 #ifdef ENABLE_HBRIDGE
@@ -699,7 +693,7 @@ void setup() {
 #endif
 
 #ifdef ENABLE_STEPPER_2
-  // Configure stepper pins as outputs
+  // Configure stepper 2 pins as outputs
   pinMode(STEPPER2_STEP_PIN, OUTPUT);
   pinMode(STEPPER2_DIR_PIN, OUTPUT);
   #ifdef ENABLE_BT_DEBUG
@@ -948,37 +942,25 @@ void stepper_callback(const void *msgin) {
 #endif
 
 #ifdef ENABLE_STEPPER_2
-void stepper2_callback(const void *msgin) {
-  const geometry_msgs__msg__Twist *twist_msg = (const geometry_msgs__msg__Twist *)msgin;
+// Callback for Stepper 2: just sets the target speed and direction
+void stepper2_speed_callback(const void *msgin) {
+  const std_msgs__msg__Float32 *msg = (const std_msgs__msg__Float32 *)msgin;
+  float speed_rps = msg->data; // Speed in revolutions per second
 
-  // Control direction with angular.z
-  if (twist_msg->angular.z > 0) {
-    digitalWrite(STEPPER2_DIR_PIN, HIGH); // Clockwise
+  if (speed_rps == 0.0) {
+    stepper2_is_running = false;
+    digitalWrite(STEPPER2_STEP_PIN, LOW); // Ensure step pin is off when stopped
   } else {
-    digitalWrite(STEPPER2_DIR_PIN, LOW); // Counter-clockwise
-  }
-
-  // Control speed with linear.x (absolute value)
-  float speed = fabs(twist_msg->linear.x);
-  if (speed > 0) {
-    // Convert speed (rev/s) to delay in microseconds
-    // 1 / (speed * STEPS_PER_REV) = seconds per step
-    // * 1,000,000 = microseconds per step
-    // / 2 because we have two delays per step (HIGH and LOW)
-    int us_delay = (int)(1000000.0 / (speed * STEPS_PER_REV * 2.0));
-
-    // Step the motor
-    digitalWrite(STEPPER2_STEP_PIN, HIGH);
-    delayMicroseconds(us_delay);
-    digitalWrite(STEPPER2_STEP_PIN, LOW);
-    delayMicroseconds(us_delay);
+    // Set direction based on the sign of the speed
+    digitalWrite(STEPPER2_DIR_PIN, (speed_rps > 0) ? HIGH : LOW);
     
-    // Update position
-    float position_change = 1.0 / STEPS_PER_REV;
-    if (twist_msg->angular.z < 0) {
-        position_change *= -1;
-    }
-    motor_position += position_change;
+    // Calculate delay based on absolute speed
+    // Total steps per second = abs(speed_rps) * STEPS_PER_REV
+    // Time per step (in seconds) = 1 / total_steps_per_second
+    // Delay between HIGH/LOW toggle (in microseconds) = (time_per_step / 2) * 1,000,000
+    stepper2_step_delay = (long)(500000.0 / (fabs(speed_rps) * STEPS_PER_REV));
+    
+    stepper2_is_running = true;
   }
 }
 #endif
@@ -1086,11 +1068,14 @@ void loop() {
 #endif
 
 #ifdef ENABLE_STEPPER_2
-    // Publish stepper position every 100 ms
-    EXECUTE_EVERY_N_MS(100, {
-        position_msg.data = motor_position;
-        RCSOFTCHECK(rcl_publish(&stepper_publisher, &position_msg, NULL));
-    });
+  // Non-blocking control for Stepper 2
+  if (stepper2_is_running) {
+    unsigned long current_micros = micros();
+    if (current_micros - stepper2_last_step_time >= stepper2_step_delay) {
+      stepper2_last_step_time = current_micros;
+      digitalWrite(STEPPER2_STEP_PIN, !digitalRead(STEPPER2_STEP_PIN)); // Toggle step pin
+    }
+  }
 #endif
 
 #ifdef ENABLE_HBRIDGE
