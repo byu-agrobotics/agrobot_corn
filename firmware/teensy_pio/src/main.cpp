@@ -34,6 +34,7 @@
 #include "agrobot_interfaces/msg/servo_command.h"
 #include "std_msgs/msg/bool.h"
 #include <stdbool.h>
+#include <std_srvs/srv/trigger.h>
 
 // enable definitions
 #define ENABLE_ACTUATORS
@@ -200,7 +201,15 @@ std_msgs__msg__Bool egg_msg;
   geometry_msgs__msg__Twist twist_msg;
   std_msgs__msg__Float32 position_msg;
 
+  // Add these lines for the new position control
+  rcl_subscription_t stepper_position_subscriber;
+  std_msgs__msg__Int8 stepper_position_msg;
+
   volatile float motor_position = 0.0; // In revolutions
+
+  rcl_service_t home_stepper_service;
+  std_srvs__srv__Trigger_Request home_stepper_request;
+  std_srvs__srv__Trigger_Response home_stepper_response;
 #endif
 
 #ifdef ENABLE_STEPPER_2
@@ -293,6 +302,8 @@ enum states {
 // Added forward declaration for the callback function
 #ifdef ENABLE_STEPPER_1
   void stepper_callback(const void *msgin);
+  void stepper_position_callback(const void *msgin);
+  void home_stepper_callback(const void *request, void *response);
 #endif
 
 #ifdef ENABLE_STEPPER_2
@@ -536,6 +547,25 @@ bool create_entities() {
     &node,
     ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Twist),
     "/stepper_cmd_vel"));
+
+  RCCHECK(rclc_subscription_init_default(
+    &stepper_position_subscriber,
+    &node,
+    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8),
+    "/stepper_position_cmd"));
+
+  // Add the new subscriber to the executor
+  RCCHECK(rclc_executor_add_subscription(&executor, &stepper_position_subscriber, &stepper_position_msg, &stepper_position_callback, ON_NEW_DATA));
+
+  // Initialize the homing service
+  RCCHECK(rclc_service_init_default(
+    &home_stepper_service,
+    &node,
+    ROSIDL_GET_SRV_TYPE_SUPPORT(std_srvs, srv, Trigger),
+    "/home_stepper"));
+
+  // Add the service to the executor
+  RCCHECK(rclc_executor_add_service(&executor, &home_stepper_service, &home_stepper_request, &home_stepper_response, &home_stepper_callback));
 
   // Add subscriber to the executor
   RCCHECK(rclc_executor_add_subscription(&executor, &stepper_subscriber, &twist_msg, &stepper_callback, ON_NEW_DATA));
@@ -940,6 +970,41 @@ void stepper_callback(const void *msgin) {
   }
 }
 #endif
+
+#ifdef ENABLE_STEPPER_1
+void home_stepper_callback(const void *request, void *response) {
+  motor_position = 0.0;
+  // You can optionally add a response message
+  // home_stepper_response.message.data = "Stepper position homed to 0";
+}
+
+void stepper_position_callback(const void *msgin) {
+  const std_msgs__msg__Int8 *msg = (const std_msgs__msg__Int8 *)msgin;
+  // 0: home, 1: pos1, 2: pos2, 3: pos3
+  int8_t command = msg->data;
+
+  // Set direction
+  if (command > motor_position) {
+    digitalWrite(STEPPER1_DIR_PIN, HIGH); // Clockwise
+  } else {
+    digitalWrite(STEPPER1_DIR_PIN, LOW); // Counter-clockwise
+  }
+
+  // Calculate steps to move
+  int steps_to_move = abs(command - motor_position) * STEPS_PER_REV;
+  int us_delay = 1000; // Adjust for desired speed
+
+  // Step the motor
+  for (int i = 0; i < steps_to_move; i++) {
+    digitalWrite(STEPPER1_STEP_PIN, HIGH);
+    delayMicroseconds(us_delay);
+    digitalWrite(STEPPER1_STEP_PIN, LOW);
+    delayMicroseconds(us_delay);
+  }
+
+  // Update position
+  motor_position = command;
+}
 
 #ifdef ENABLE_STEPPER_2
 // Callback for Stepper 2: just sets the target speed and direction
