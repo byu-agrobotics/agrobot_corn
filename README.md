@@ -1,4 +1,4 @@
-> **TO THE 2026 BYU AGROBOTICS TEAM:** This repository is based on the structure of the BYU Mars Rover Capstone Team's repository available [here](https://github.com/snelsondurrant/marsrover_2.0). Refer to that repository for ROS2 development examples and best practices.
+> **TO THE 2026 BYU AGROBOTICS TEAM:** This repository is based on the structure of the BYU Mars Rover Capstone Team's software repository available [here](https://github.com/snelsondurrant/marsrover_2.0). Refer to that repository for ROS2 development examples and best practices.
 
 [Get Started](https://github.com/byu-agrobotics/agrobot_2.0?tab=readme-ov-file#get-started)
 
