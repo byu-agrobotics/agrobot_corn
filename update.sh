@@ -5,3 +5,4 @@
 
 docker pull byuagrobotics1/agrobot_2.0:latest
 git pull
+echo "hello world"
