@@ -24,11 +24,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'roboclaw_wrapper = agrobot_navigation.roboclaw_wrapper:main',
-            'drive_controller = agrobot_navigation.drive_controller:main',
-            'test_drive_straight = agrobot_navigation.test_drive_straight:main',
-            'test_center = agrobot_navigation.test_center:main',
-            'test_turn = agrobot_navigation.test_turn:main',
+            # 'roboclaw_wrapper = agrobot_navigation.roboclaw_wrapper:main',
         ],
     },
 )
