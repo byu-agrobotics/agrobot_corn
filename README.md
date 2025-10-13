@@ -56,7 +56,7 @@
 
 [Docker Concepts and Tutorials](https://docs.docker.com/get-started/introduction/whats-next/)
 
-**All of the dependencies for these tutorials are preinstalled in the Docker container, and we've mounted 'tutorial_ws' as a dedicated ROS2 tutorial workspace.*
+**All of the dependencies for tutorials with a * at the end are preinstalled in the Docker container, and we've mounted 'tutorial_ws' as a dedicated ROS2 tutorial workspace.*
 
 --
 
