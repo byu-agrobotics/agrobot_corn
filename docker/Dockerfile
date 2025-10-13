@@ -31,7 +31,6 @@ USER $NAME
 # APT Dependencies
 USER root
 WORKDIR /home/$NAME/agrobot_ws
-RUN rosdep install --from-paths src -r -y
 RUN apt update && apt install -y \
     curl \
     rsync \
@@ -59,7 +58,8 @@ RUN apt update && apt install -y \
     libxcursor1 \
     libxdamage1 \
     libxi6 \
-    libxtst6 \
+    libxtst6
+
 USER $NAME
 
 WORKDIR /home/$NAME

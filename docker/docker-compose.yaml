@@ -6,8 +6,9 @@ services:
     build:
       context: . # Assumes Dockerfile for agrobot is in the same directory
       dockerfile: Dockerfile # Specify if you have different Dockerfiles
-    user: agrobot-docker
+    user: agrobot
     privileged: true
+    network_mode: host
     environment:
       - DISPLAY=$DISPLAY # Required for GUI applications
       - QT_X11_NO_MITSHM=1 # Required for GUI applications
@@ -25,7 +26,7 @@ services:
       - $HOME/.Xauthority:/home/agrobot-docker/.Xauthority
     stdin_open: true  # Equivalent to -it in docker run
     tty: true  # Equivalent to -it in docker run
-    restart: always  # Keeps the container running after exit unless you want it to be removed like with --rm
+    # restart: always  # Keeps the container running after exit unless you want it to be removed like with --rm
     entrypoint: ["/startup/entrypoint.sh"]
     ports:
       - "8080:8080"  # host:container
