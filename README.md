@@ -18,17 +18,17 @@
 
 - Install Docker Desktop on your Windows machine by following the instructions [here](https://docs.docker.com/desktop/), and enable the WSL2 backend by following the instructions [here](https://docs.docker.com/desktop/windows/wsl/).
 
-- Open a WSL2 terminal and clone the agrobot_2.0 repo into your WSL2 environment using `git clone https://github.com/byu-agrobotics/agrobot_2.0.git`.
+- Open a WSL2 terminal and clone the agrobot_corn repo into your WSL2 environment using `git clone https://github.com/byu-agrobotics/agrobot_corn.git`.
 
-- Run `cd agrobot_2.0 && bash compose.sh` to pull and launch the latest Docker image from DockerHub.
+- Run `cd agrobot_corn && bash compose.sh` to pull and launch the latest Docker image from DockerHub.
 
 **Linux:**
 
 - Install Docker Engine on your Linux machine by following the instructions [here](https://docs.docker.com/engine/install/ubuntu/).
 
-- Open a terminal and clone the agrobot_2.0 repo into your Linux environment using `git clone https://github.com/byu-agrobotics/agrobot_2.0.git`.
+- Open a terminal and clone the agrobot_corn repo into your Linux environment using `git clone https://github.com/byu-agrobotics/agrobot_corn.git`.
 
-- Run `cd agrobot_2.0 && bash compose.sh` to pull and launch the latest Docker image from DockerHub.
+- Run `cd agrobot_corn && bash compose.sh` to pull and launch the latest Docker image from DockerHub.
 
 --
 
@@ -36,11 +36,7 @@
 
 > **NOTE:** <mark>We would **strongly encourage** each year's team to take a couple of months at the beginning of the first semester and simply work together through these tutorials before diving into software development.</mark> It may not seem romantic, but I promise it'll be worth it.
 
-[Linux CLI Tutorial](https://linuxjourney.com/lesson/the-shell)
-
-[GitHub Basics Tutorial](https://docs.github.com/en/get-started/start-your-journey/hello-world)
-
-[Docker Concepts and Tutorials](https://docs.docker.com/get-started/introduction/whats-next/)
+**DO THESE FIRST**
 
 [ROS2 Concepts](https://docs.ros.org/en/humble/Concepts/Basic.html)
 
@@ -51,6 +47,14 @@
 [ROS2 Discovery Server Tutorial](https://docs.ros.org/en/humble/Tutorials/Advanced/Discovery-Server/Discovery-Server.html)*
 
 [Robotics in ROS2 Tutorial](https://github.com/henki-robotics/robotics_essentials_ros2/tree/main)
+
+[GitHub Basics Tutorial](https://docs.github.com/en/get-started/start-your-journey/hello-world)
+
+**These are great as well**
+
+[Linux CLI Tutorial](https://linuxjourney.com/lesson/the-shell)
+
+[Docker Concepts and Tutorials](https://docs.docker.com/get-started/introduction/whats-next/)
 
 **All of the dependencies for these tutorials are preinstalled in the Docker container, and we've mounted 'tutorial_ws' as a dedicated ROS2 tutorial workspace.*
 
@@ -70,4 +74,4 @@
 
 --
 
-Created by Nelson Durrant, July 2025.
+Created by Nelson Durrant, July 2025. Forked by Brighton Anderson, October 2025.
