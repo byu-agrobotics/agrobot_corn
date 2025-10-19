@@ -18,12 +18,12 @@ setup(
     zip_safe=True,
     maintainer='Nelson Durrant',
     maintainer_email='snelsondurrant@gmail.com',
-    description='Egg computer vision for the BYU Agrobotics Team',
+    description='Corn computer vision for the BYU Agrobotics Team',
     license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'egg_id = agrobot_perception.egg_id:main',
+            #'egg_id = agrobot_perception.egg_id:main',
         ],
     },
 )

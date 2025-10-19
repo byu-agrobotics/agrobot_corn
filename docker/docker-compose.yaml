@@ -1,66 +1,32 @@
 # docker-compose.yml
-
-version: '3.8' # It's good practice to specify a version
-
 services:
   agrobot:
-    image: byuagrobotics1/agrobot_2.0:latest
-    container_name: agrobot-ct
+    image: byuagrobotics1/agrobot_corn:latest
+    container_name: agrobot
     build:
       context: . # Assumes Dockerfile for agrobot is in the same directory
       dockerfile: Dockerfile # Specify if you have different Dockerfiles
-    user: agrobot-docker
-    networks:
-      - agrobot_network
+    user: agrobot
     privileged: true
+    network_mode: host
     environment:
       - DISPLAY=$DISPLAY # Required for GUI applications
       - QT_X11_NO_MITSHM=1 # Required for GUI applications
     volumes:
-      - ../agrobot_ws:/home/agrobot-docker/agrobot_ws # Robot ROS 2 workspace
-      - ../firmware:/home/agrobot-docker/firmware # PIO microcontroller projects
-      - ../scripts:/home/agrobot-docker/scripts # Helpful scripts
-      - ../tutorial_ws:/home/agrobot-docker/tutorial_ws # Tutorial ROS 2 workspace
-      - ../base_scripts/tmuxp/tmp:/home/agrobot-docker/.tmuxp # Temporary tmuxp config files
+      - ../agrobot_ws:/home/agrobot/agrobot_ws # Robot ROS 2 workspace
+      - ../scripts:/home/agrobot/scripts # Helpful scripts
+      - ../base_scripts/tmuxp/tmp:/home/agrobot/.tmuxp # Temporary tmuxp config files
       - ./startup:/startup # Startup scripts
       - /dev:/dev:rw
-      # - /etc/udev:/etc/udev:rw
+      - ../agrobot_ws/roboclaw:/roboclaw
+      - /etc/udev:/etc/udev:rw
       - /dev/shm:/dev/shm # Required for inter-container communication
       - /etc/localtime:/etc/localtime:ro # Syncs the container's time with the host
       - /tmp/.X11-unix:/tmp/.X11-unix # Required for GUI applications
       - $HOME/.Xauthority:/home/agrobot-docker/.Xauthority
     stdin_open: true  # Equivalent to -it in docker run
     tty: true  # Equivalent to -it in docker run
-    restart: always  # Keeps the container running after exit unless you want it to be removed like with --rm
-    entrypoint: ["/startup/entrypoint.sh"]
+    # restart: always  # Keeps the container running after exit unless you want it to be removed like with --rm
+    # entrypoint: ["/startup/entrypoint.sh"]
     ports:
       - "8080:8080"  # host:container
-
-  roboclaw:
-    image: roboclaw:latest
-    container_name: roboclaw-ct
-    build:
-      context: . # Assumes Dockerfile for roboclaw is in the same directory
-      dockerfile: Dockerfile.roboclaw # Specify if you have different Dockerfiles
-    user: root
-    networks:
-      - agrobot_network
-    privileged: true
-    volumes:
-      - ../agrobot_ws/src/agrobot_navigation:/home/roboclaw/ros2_ws/src/agrobot_navigation
-      - ../agrobot_ws/src/agrobot_interfaces:/home/roboclaw/ros2_ws/src/agrobot_interfaces
-      - ./roboclaw:/roboclaw
-      - /dev:/dev:rw
-      - /etc/udev:/etc/udev:rw
-      - /dev/shm:/dev/shm
-      - /etc/localtime:/etc/localtime:ro
-    stdin_open: true
-    tty: true
-    restart: always
-    entrypoint: ["/roboclaw/roboclaw_entrypoint.sh"]
-
-# Define the network that the services will share
-networks:
-  agrobot_network:
-    driver: bridge
-

@@ -1,6 +1,0 @@
-# The goal is empty, as this action is just a trigger
----
-# The result is a boolean indicating success
-bool success
----
-# There is no feedback for this action
