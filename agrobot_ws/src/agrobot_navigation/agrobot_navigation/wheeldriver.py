@@ -29,10 +29,10 @@ class WheelDriver(Node):
         GPIO.setup(self.left_pwm_pin, GPIO.OUT)
         GPIO.setup(self.left_dir_pin, GPIO.OUT)
 
-        self.right_pwm = GPIO.PWM(self.right_pwm_pin, 1000)
-        self.left_pwm = GPIO.PWM(self.left_pwm_pin, 1000)
-        self.right_pwm.start(0)
-        self.left_pwm.start(0)
+        # self.right_pwm = GPIO.PWM(self.right_pwm_pin, 1000)
+        # self.left_pwm = GPIO.PWM(self.left_pwm_pin, 1000)
+        # self.right_pwm.start(0)
+        # self.left_pwm.start(0)
 
         self.drive_sub = self.create_subscription(
             DriveCommand,
@@ -40,6 +40,26 @@ class WheelDriver(Node):
             self.reset_drive_callback,
             10
         )
+
+        timer_period = 0.01  # seconds
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+        self.left_speed = 0
+        self.right_speed = 0
+        self.i=0
+        self.pwm_period = 10
+
+
+    def software_pwm(self, pin, speed):
+        if(self.i<speed):
+            GPIO.output(pin, GPIO.HIGH)
+        else:
+            GPIO.output(pin, GPIO.LOW)
+
+    def timer_callback(self):
+        self.software_pwm(self.left_pwm_pin, self.left_speed)
+        self.software_pwm(self.right_pwm_pin, self.right_speed)
+        self.i += 1
+        if(self.i>=10): self.i=0
 
     def set_motor(self, pwm, dir_pin, speed):
         speed = max(-100, min(100, speed))
