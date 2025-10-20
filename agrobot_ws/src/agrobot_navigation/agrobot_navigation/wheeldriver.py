@@ -61,19 +61,19 @@ class WheelDriver(Node):
         self.i += 1
         if(self.i>=10): self.i=0
 
-    def set_motor(self, pwm, dir_pin, speed):
+    def set_motor(self, dir_pin, speed):
         speed = max(-100, min(100, speed))
         if speed >= 0:
             GPIO.output(dir_pin, GPIO.HIGH)
-            pwm.ChangeDutyCycle(speed)
+            self.left_speed = speed
         else:
             GPIO.output(dir_pin, GPIO.LOW)
-            pwm.ChangeDutyCycle(-speed)
+            self.right_speed = speed
 
     def reset_drive_callback(self, msg:DriveCommand):
         self.get_logger().info(f'Received DriveCommand: R={msg.right_speed}, L={msg.left_speed}')
-        self.set_motor(self.right_pwm, self.right_dir_pin, msg.right_speed)
-        self.set_motor(self.left_pwm, self.left_dir_pin, msg.left_speed)
+        self.set_motor(self.right_dir_pin, msg.right_speed)
+        self.set_motor(self.left_dir_pin, msg.left_speed)
 
     def destroy_node(self):
         self.right_pwm.stop()
