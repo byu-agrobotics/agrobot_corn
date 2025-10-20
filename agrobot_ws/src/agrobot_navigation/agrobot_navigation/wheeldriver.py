@@ -17,10 +17,10 @@ class WheelDriver(Node):
         self.get_logger().info("Node has been started!")
 
         # GPIO pin setup (Hardcoded: expose as ros params?)
-        self.right_pwm_pin = 18
-        self.right_dir_pin = 23
-        self.left_pwm_pin = 24
-        self.left_dir_pin = 25
+        self.right_forward_pin = 7
+        self.right_backward_pin = 1
+        self.left_forward_pin = 25
+        self.left_backward_pin = 8
 
         # configures gpio pins connect to wheels
         GPIO.setmode(GPIO.BCM)
@@ -41,34 +41,39 @@ class WheelDriver(Node):
             10
         )
 
-        timer_period = 0.01  # seconds
-        self.timer = self.create_timer(timer_period, self.timer_callback)
-        self.left_speed = 0
-        self.right_speed = 0
-        self.i=0
-        self.pwm_period = 10
+        # timer_period = 0.01  # seconds
+        # self.timer = self.create_timer(timer_period, self.timer_callback)
+        # self.left_speed = 0
+        # self.right_speed = 0
+        # self.i=0
+        # self.pwm_period = 10
 
 
-    def software_pwm(self, pin, speed):
-        if(self.i<speed):
-            GPIO.output(pin, GPIO.HIGH)
-        else:
-            GPIO.output(pin, GPIO.LOW)
+    # def software_pwm(self, pin, speed):
+    #     if(self.i<speed):
+    #         GPIO.output(pin, GPIO.HIGH)
+    #     else:
+    #         GPIO.output(pin, GPIO.LOW)
 
-    def timer_callback(self):
-        self.software_pwm(self.left_pwm_pin, self.left_speed)
-        self.software_pwm(self.right_pwm_pin, self.right_speed)
-        self.i += 1
-        if(self.i>=10): self.i=0
+    # def timer_callback(self):
+    #     self.software_pwm(self.left_pwm_pin, self.left_speed)
+    #     self.software_pwm(self.right_pwm_pin, self.right_speed)
+    #     self.i += 1
+    #     if(self.i>=10): self.i=0
 
-    def set_motor(self, dir_pin, speed):
+    def set_motor(self, forward_pin, backward_pin, speed):
         speed = max(-100, min(100, speed))
-        if speed >= 0:
-            GPIO.output(dir_pin, GPIO.HIGH)
-            self.left_speed = speed
+        if speed > 0:
+            GPIO.output(forward_pin, GPIO.HIGH)
+            GPIO.output(backward_pin, GPIO.LOW)
+            # self.left_speed = speed
+        elif speed < 0:
+            GPIO.output(forward_pin, GPIO.LOW)
+            GPIO.output(backward_pin, GPIO.HIGH)
         else:
-            GPIO.output(dir_pin, GPIO.LOW)
-            self.right_speed = speed
+            GPIO.output(forward_pin, GPIO.LOW)
+            GPIO.output(backward_pin, GPIO.LOW)
+            # self.right_speed = speed
 
     def reset_drive_callback(self, msg:DriveCommand):
         self.get_logger().info(f'Received DriveCommand: R={msg.right_speed}, L={msg.left_speed}')
