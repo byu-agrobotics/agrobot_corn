@@ -7,7 +7,7 @@ from agrobot_interfaces.msg import DriveCommand
 '''
 Ros2 node that directly controls treads in two-wheel drive
 subscribes: drive_command (agrobot_interfaces/DriveCommand.msg)
- - for my implementation, ranges are from -100 to 100
+ - for my implementation, ranges are from -10 to 10
 
 Note: no pid controller implemented right now. we will want pid implemented here since it should run quickly.
 '''
