@@ -24,6 +24,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'wheeldriver = agrobot_navigation.wheeldriver:main'
             # 'roboclaw_wrapper = agrobot_navigation.roboclaw_wrapper:main',
         ],
     },
