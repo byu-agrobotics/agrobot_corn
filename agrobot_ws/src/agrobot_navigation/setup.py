@@ -13,7 +13,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
-        (os.path.join('lib', package_name), ['agrobot_navigation/roboclaw_3.py']),
+        # (os.path.join('lib', package_name), ['agrobot_navigation/roboclaw_3.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,

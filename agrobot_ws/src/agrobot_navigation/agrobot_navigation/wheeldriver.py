@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
+from gpiozero import OutputDevice
 from agrobot_interfaces.msg import DriveCommand
 
 '''
@@ -17,22 +18,16 @@ class WheelDriver(Node):
         self.get_logger().info("Node has been started!")
 
         # GPIO pin setup (Hardcoded: expose as ros params?)
-        self.right_forward_pin = 7
-        self.right_backward_pin = 1
-        self.left_forward_pin = 25
-        self.left_backward_pin = 8
+        self.right_forward_pin_num = 7
+        self.right_backward_pin_num = 1
+        self.left_forward_pin_num = 25
+        self.left_backward_pin_num = 8
 
         # configures gpio pins connect to wheels
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.right_pwm_pin, GPIO.OUT)
-        GPIO.setup(self.right_dir_pin, GPIO.OUT)
-        GPIO.setup(self.left_pwm_pin, GPIO.OUT)
-        GPIO.setup(self.left_dir_pin, GPIO.OUT)
-
-        # self.right_pwm = GPIO.PWM(self.right_pwm_pin, 1000)
-        # self.left_pwm = GPIO.PWM(self.left_pwm_pin, 1000)
-        # self.right_pwm.start(0)
-        # self.left_pwm.start(0)
+        self.right_forward_pin = OutputDevice(self.right_forward_pin_num)
+        self.right_backward_pin = OutputDevice(self.right_backward_pin_num)
+        self.left_forward_pin = OutputDevice(self.left_forward_pin_num)
+        self.left_backward_pin = OutputDevice(self.left_backward_pin_num)
 
         self.drive_sub = self.create_subscription(
             DriveCommand,
@@ -64,26 +59,28 @@ class WheelDriver(Node):
     def set_motor(self, forward_pin, backward_pin, speed):
         speed = max(-100, min(100, speed))
         if speed > 0:
-            GPIO.output(forward_pin, GPIO.HIGH)
-            GPIO.output(backward_pin, GPIO.LOW)
+            self.forward_pin.on()
+            self.backward_pin.off()
             # self.left_speed = speed
         elif speed < 0:
-            GPIO.output(forward_pin, GPIO.LOW)
-            GPIO.output(backward_pin, GPIO.HIGH)
+            self.forward_pin.off()
+            self.backward_pin.on()
+            # self.left_speed = -speed
         else:
-            GPIO.output(forward_pin, GPIO.LOW)
-            GPIO.output(backward_pin, GPIO.LOW)
-            # self.right_speed = speed
+            self.forward_pin.off()
+            self.backward_pin.off()
+            # self.left_speed = 0
 
     def reset_drive_callback(self, msg:DriveCommand):
         self.get_logger().info(f'Received DriveCommand: R={msg.right_speed}, L={msg.left_speed}')
-        self.set_motor(self.right_dir_pin, msg.right_speed)
-        self.set_motor(self.left_dir_pin, msg.left_speed)
+        self.set_motor(self.right_forward_pin, self.right_backward_pin, msg.right_speed)
+        self.set_motor(self.left_forward_pin, self.left_backward_pin, msg.left_speed)
 
     def destroy_node(self):
-        self.right_pwm.stop()
-        self.left_pwm.stop()
-        GPIO.cleanup()
+        self.right_forward_pin.close()
+        self.right_backward_pin.close()
+        self.left_forward_pin.close()
+        self.left_backward_pin.close()
         super().destroy_node()
 
 
