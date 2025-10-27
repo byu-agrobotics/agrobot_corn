@@ -14,7 +14,7 @@ Note: no pid controller implemented right now. we will want pid implemented here
 '''
 class WheelDriver(Node):
     def __init__(self):
-        super().__init__('my_node')  # Node name
+        super().__init__('wheeldriver')  # Node name
         self.get_logger().info("Node has been started!")
 
         # GPIO pin setup (Hardcoded: expose as ros params?)
@@ -59,17 +59,17 @@ class WheelDriver(Node):
     def set_motor(self, forward_pin, backward_pin, speed):
         speed = max(-100, min(100, speed))
         if speed > 0:
-            self.forward_pin.on()
-            self.backward_pin.off()
-            # self.left_speed = speed
+            forward_pin.on()
+            backward_pin.off()
+            # left_speed = speed
         elif speed < 0:
-            self.forward_pin.off()
-            self.backward_pin.on()
-            # self.left_speed = -speed
+            forward_pin.off()
+            backward_pin.on()
+            # left_speed = -speed
         else:
-            self.forward_pin.off()
-            self.backward_pin.off()
-            # self.left_speed = 0
+            forward_pin.off()
+            backward_pin.off()
+            # left_speed = 0
 
     def reset_drive_callback(self, msg:DriveCommand):
         self.get_logger().info(f'Received DriveCommand: R={msg.right_speed}, L={msg.left_speed}')
