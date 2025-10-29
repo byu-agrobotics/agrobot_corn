@@ -1,5 +1,6 @@
 from curses import update_lines_cols
 import math
+import os
 import time
 from turtle import update
 import cv2
@@ -145,7 +146,10 @@ class GuiApp(object):
 class DataBase(object):
     
     def __init__(self):
-        self.conn = sqlite3.connect("hsv.db")
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        db_path = os.path.join(script_dir, "hsv.db")
+
+        self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
 
         self.cursor.execute('''

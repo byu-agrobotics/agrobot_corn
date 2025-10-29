@@ -1,16 +1,19 @@
 import math
+import os
 import time
 import cv2
 import numpy as np
 import queue
 import sqlite3
 
-
+# this is a test to see if the edits work
 class DataBase(object):
     
     def __init__(self):
-        self.conn = sqlite3.connect("hsv.db")
-        self.cursor = self.conn.cursor()
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        db_path = os.path.join(script_dir, "hsv.db")
+
+        self.conn = sqlite3.connect(db_path)
 
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS hsv (
@@ -395,16 +398,6 @@ class VisionApplication(object):
                 self.camera.cap.release()
             cv2.destroyAllWindows()
             print("Application ended")
-
-
-
-           
-        
-        
-
-
-
-
 
 def main():
     visionApp = VisionApplication()
