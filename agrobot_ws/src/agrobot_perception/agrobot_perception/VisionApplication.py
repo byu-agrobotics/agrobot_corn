@@ -14,7 +14,7 @@ class DataBase(object):
         db_path = os.path.join(script_dir, "hsv.db")
 
         self.conn = sqlite3.connect(db_path)
-
+        self.cursor = self.conn.cursor()
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS hsv (
                 hsvColor TEXT PRIMARY KEY,
@@ -235,6 +235,7 @@ class VisionApplication(object):
             if contours is not None and len(contours) > 0:
                 largest = contours[0]
                 area = 0
+                
                 for contour in contours:
                     try:
                         # Validate contour before processing
@@ -352,6 +353,7 @@ class VisionApplication(object):
                     """
                     for target in self.tapeTargetList:
                         target.drawRectangle()
+                        print(f"{target.targetColor}: {target.x},{target.y}")
                     # Data published for Color    
                 # Scale by factor (0.5 = half size, 2.0 = double size)
                 scale_factor = 1
@@ -362,7 +364,7 @@ class VisionApplication(object):
                     new_height = int(mask.shape[0] * scale_factor)
 
                     resizedMask = cv2.resize(mask, (new_width, new_height))
-                    cv2.imshow(f'Mask Video + {maskName}', resizedMask)
+                    #cv2.imshow(f'Mask Video + {maskName}', resizedMask)
                 
                 # Resize result image
                 new_width = int(self.imgResult.shape[1] * scale_factor)
@@ -370,7 +372,7 @@ class VisionApplication(object):
                 resizedResult = cv2.resize(self.imgResult, (new_width, new_height))
 
                 
-                cv2.imshow('Result Video', resizedResult)
+                #cv2.imshow('Result Video', resizedResult)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     print("Quit key pressed")
                     self.running = False
@@ -379,7 +381,7 @@ class VisionApplication(object):
             
             
             # Small delay to prevent overwhelming the system
-            time.sleep(0.033)  # ~30 FPS
+            time.sleep(0.1)  # ~30 FPS
 
 
     def runApplication(self):
