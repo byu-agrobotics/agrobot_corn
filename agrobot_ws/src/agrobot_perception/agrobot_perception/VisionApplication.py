@@ -315,14 +315,12 @@ class VisionApplication(object):
                 posColorVals[color] = values
             else:
                 IDColorVals[color] = values
-
+        self.cameraList = {}
         self.camera = CameraView(cv2.VideoCapture(0), vertFOV[0], horizFOV[0], elevationOfTarget[0], elevationOfCamera[0], angleFromHoriz[0], posColorVals, colorDetectConstants)
+        self.cameraList["PositioningCamera"] = self.camera
         if self.numberOfCameras == 2:
             self.camera2 = CameraView(cv2.VideoCapture(1), vertFOV[1], horizFOV[1], elevationOfTarget[1], elevationOfCamera[1], angleFromHoriz[1], IDColorVals, colorDetectConstants)
-        self.cameraList = {
-            "PositioningCamera": self.camera,
-            "IDCamera": self.camera2
-            }
+            self.cameraList["IDCamera"] = self.camera2
             
          
     def cameraThread(self):
@@ -344,8 +342,9 @@ class VisionApplication(object):
                         
                         target.drawRectangle(cam.processedImage)
 
-                        print(f"{targetColor}: {target.x},{target.y}")
-                    # Data published for Color    
+                        print(f"{targetColor}: {target.x},{target.y}",end=' | ')
+                    # Data published for Color 
+                    print()
                 # Scale by factor (0.5 = half size, 2.0 = double size)
                 scale_factor = 1
                 
