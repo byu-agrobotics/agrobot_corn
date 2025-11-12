@@ -5,6 +5,47 @@ import cv2
 import numpy as np
 import queue
 import sqlite3
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+
+class StreamingHandler(BaseHTTPRequestHandler):
+    # Class variable to store the latest frame (shared across all handlers)
+    latest_frame = None
+    frame_lock = threading.Lock()
+    
+    def do_GET(self):
+        if self.path == '/stream':
+            self.send_response(200)
+            self.send_header('Content-Type', 'multipart/x-mixed-replace; boundary=frame')
+            self.end_headers()
+            
+            try:
+                while True:
+                    # Get the latest frame (thread-safe)
+                    with StreamingHandler.frame_lock:
+                        frame = StreamingHandler.latest_frame
+                    
+                    if frame is not None:
+                        # Encode frame as JPEG
+                        _, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 85])
+                        frame_bytes = buffer.tobytes()
+                        
+                        # Send frame
+                        self.wfile.write(b'--frame\r\n')
+                        self.send_header('Content-Type', 'image/jpeg')
+                        self.send_header('Content-Length', len(frame_bytes))
+                        self.end_headers()
+                        self.wfile.write(frame_bytes)
+                        self.wfile.write(b'\r\n')
+                    
+                    time.sleep(0.033)  # ~30 FPS
+            except (ConnectionResetError, BrokenPipeError):
+                # Client disconnected
+                pass
+        else:
+            self.send_response(404)
+            self.end_headers()
 
 # this is a test to see if the edits work
 class DataBase(object):
@@ -94,7 +135,6 @@ class CameraView(object):
         return True
 
     def drawBoundingBox(self):
-        print(len(self.targetContours))
         for targetColor, target in self.targetContours.items():
             try:
                 peri = cv2.arcLength(target, True)
@@ -289,7 +329,13 @@ class VisionApplication(object):
 
         self.running = True
 
-        
+        self.streamingVideo = True
+        if self.streamingVideo:
+            # Start server in a separate thread so it doesn't block
+            self.server = HTTPServer(('0.0.0.0', 8080), StreamingHandler)
+            server_thread = threading.Thread(target=self.server.serve_forever, daemon=True)
+            server_thread.start()
+            print("Streaming server started on http://0.0.0.0:8080/stream")
 
         #TODO: Fill out values below if distance calculation is desired. The first value is for camera #1, the second is for camera #2. If no second camera exists, set all the second values to 1.
         # Distance Calculation Constants
@@ -361,6 +407,11 @@ class VisionApplication(object):
                 new_height = int(cam.processedImage.shape[0] * scale_factor)
                 resizedResult = cv2.resize(cam.processedImage, (new_width, new_height))
                 #cv2.imshow(f'{camName} Video', resizedResult)
+
+                if self.streamingVideo:
+                    # Update the shared frame for streaming (thread-safe)
+                    with StreamingHandler.frame_lock:
+                        StreamingHandler.latest_frame = resizedResult.copy()
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 print("Quit key pressed")
