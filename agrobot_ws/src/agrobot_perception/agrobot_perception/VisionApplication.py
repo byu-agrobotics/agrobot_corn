@@ -108,7 +108,7 @@ class CameraView(object):
             self.targetList[targetColor] = TapeTarget(self.processedImage, approx, self.tapeTargetDetected, self,(contourArea/boundingArea),targetColor)
 
     def processImgForColor(self):
-        
+        self.targetList = {}
         self.masksArray = self.getImageMask(self.inImg,self.hsvValues)
         self.contours = self.getContours(self.masksArray)
         self.isolateTarget(self.contours)
