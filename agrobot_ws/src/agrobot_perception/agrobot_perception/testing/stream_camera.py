@@ -40,6 +40,6 @@ class StreamingHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
 if __name__ == '__main__':
-    server = HTTPServer(('10.42.0.1', 8080), StreamingHandler)
-    print('Streaming at http://10.42.0.1:8080/stream')
+    server = HTTPServer(('0.0.0.0', 8080), StreamingHandler)
+    print('Streaming at http://0.0.0.0:8080/stream')
     server.serve_forever()

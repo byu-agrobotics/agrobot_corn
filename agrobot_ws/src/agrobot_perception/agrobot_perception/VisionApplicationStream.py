@@ -393,7 +393,7 @@ class VisionApplication(object):
                     # Data published for Color 
                     print()
                 # Scale by factor (0.5 = half size, 2.0 = double size)
-                scale_factor = 1
+                scale_factor = 1.5
                 
                 for maskName, mask in cam.masksArray.items():
                     
@@ -422,7 +422,7 @@ class VisionApplication(object):
             
             
             # Small delay to prevent overwhelming the system
-            time.sleep(0.1)  # ~30 FPS
+            time.sleep(0.033)  # ~30 FPS
 
 
     def runApplication(self):
