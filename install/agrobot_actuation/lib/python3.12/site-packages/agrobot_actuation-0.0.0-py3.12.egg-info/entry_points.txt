@@ -1,0 +1,4 @@
+[console_scripts]
+button_client = agrobot_actuation.button_client:main
+remove = agrobot_actuation.remove:main
+seed = agrobot_actuation.seed:main

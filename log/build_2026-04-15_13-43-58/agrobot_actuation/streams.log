@@ -1,0 +1,48 @@
+[1.057s] Invoking command in '/home/agrobot/ros2_ws/src/agrobot_actuation': AMENT_PREFIX_PATH=/home/agrobot/ros2_ws/install/agrobot_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/agrobot/ros2_ws/install/agrobot_interfaces:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/agrobot/ros2_ws/install/agrobot_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_actuation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/agrobot_actuation build --build-base /home/agrobot/ros2_ws/build/agrobot_actuation/build install --record /home/agrobot/ros2_ws/build/agrobot_actuation/install.log --single-version-externally-managed install_data
+[1.363s] running egg_info
+[1.363s] creating ../../build/agrobot_actuation/agrobot_actuation.egg-info
+[1.382s] writing ../../build/agrobot_actuation/agrobot_actuation.egg-info/PKG-INFO
+[1.382s] writing dependency_links to ../../build/agrobot_actuation/agrobot_actuation.egg-info/dependency_links.txt
+[1.382s] writing entry points to ../../build/agrobot_actuation/agrobot_actuation.egg-info/entry_points.txt
+[1.382s] writing requirements to ../../build/agrobot_actuation/agrobot_actuation.egg-info/requires.txt
+[1.382s] writing top-level names to ../../build/agrobot_actuation/agrobot_actuation.egg-info/top_level.txt
+[1.383s] writing manifest file '../../build/agrobot_actuation/agrobot_actuation.egg-info/SOURCES.txt'
+[1.421s] reading manifest file '../../build/agrobot_actuation/agrobot_actuation.egg-info/SOURCES.txt'
+[1.422s] adding license file 'LICENSE'
+[1.422s] writing manifest file '../../build/agrobot_actuation/agrobot_actuation.egg-info/SOURCES.txt'
+[1.422s] running build
+[1.423s] running build_py
+[1.423s] creating /home/agrobot/ros2_ws/build/agrobot_actuation/build
+[1.423s] creating /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib
+[1.423s] creating /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation
+[1.423s] copying agrobot_actuation/button_client.py -> /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation
+[1.423s] copying agrobot_actuation/remove.py -> /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation
+[1.423s] copying agrobot_actuation/__init__.py -> /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation
+[1.424s] copying agrobot_actuation/seed.py -> /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation
+[1.424s] copying agrobot_actuation/py.typed -> /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation
+[1.424s] running install
+[1.434s] running install_lib
+[1.453s] creating /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation
+[1.453s] copying /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation/button_client.py -> /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation
+[1.453s] copying /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation/py.typed -> /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation
+[1.453s] copying /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation/remove.py -> /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation
+[1.454s] copying /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation/__init__.py -> /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation
+[1.454s] copying /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation/seed.py -> /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation
+[1.455s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation/button_client.py to button_client.cpython-312.pyc
+[1.456s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation/remove.py to remove.cpython-312.pyc
+[1.457s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation/__init__.py to __init__.cpython-312.pyc
+[1.457s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation/seed.py to seed.cpython-312.pyc
+[1.458s] running install_data
+[1.458s] creating /home/agrobot/ros2_ws/install/agrobot_actuation/share/ament_index
+[1.458s] creating /home/agrobot/ros2_ws/install/agrobot_actuation/share/ament_index/resource_index
+[1.458s] creating /home/agrobot/ros2_ws/install/agrobot_actuation/share/ament_index/resource_index/packages
+[1.458s] copying resource/agrobot_actuation -> /home/agrobot/ros2_ws/install/agrobot_actuation/share/ament_index/resource_index/packages
+[1.459s] copying package.xml -> /home/agrobot/ros2_ws/install/agrobot_actuation/share/agrobot_actuation
+[1.459s] running install_egg_info
+[1.480s] Copying ../../build/agrobot_actuation/agrobot_actuation.egg-info to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation-0.0.0-py3.12.egg-info
+[1.481s] running install_scripts
+[1.625s] Installing button_client script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation
+[1.626s] Installing remove script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation
+[1.626s] Installing seed script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation
+[1.626s] writing list of installed files to '/home/agrobot/ros2_ws/build/agrobot_actuation/install.log'
+[1.712s] Invoked command in '/home/agrobot/ros2_ws/src/agrobot_actuation' returned '0': AMENT_PREFIX_PATH=/home/agrobot/ros2_ws/install/agrobot_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/agrobot/ros2_ws/install/agrobot_interfaces:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/agrobot/ros2_ws/install/agrobot_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_actuation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/agrobot_actuation build --build-base /home/agrobot/ros2_ws/build/agrobot_actuation/build install --record /home/agrobot/ros2_ws/build/agrobot_actuation/install.log --single-version-externally-managed install_data

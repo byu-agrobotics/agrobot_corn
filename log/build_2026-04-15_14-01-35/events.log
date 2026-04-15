@@ -1,0 +1,239 @@
+[0.000000] (-) TimerEvent: {}
+[0.000357] (-) JobUnselected: {'identifier': 'examples_rclcpp_async_client'}
+[0.000540] (-) JobUnselected: {'identifier': 'examples_rclcpp_cbg_executor'}
+[0.000565] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_action_client'}
+[0.000584] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_action_server'}
+[0.000602] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_client'}
+[0.000619] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_composition'}
+[0.000636] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_publisher'}
+[0.000652] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_service'}
+[0.000668] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_subscriber'}
+[0.000684] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_timer'}
+[0.000701] (-) JobUnselected: {'identifier': 'examples_rclcpp_multithreaded_executor'}
+[0.000717] (-) JobUnselected: {'identifier': 'examples_rclcpp_wait_set'}
+[0.000734] (-) JobUnselected: {'identifier': 'examples_rclpy_executors'}
+[0.000749] (-) JobUnselected: {'identifier': 'examples_rclpy_guard_conditions'}
+[0.000766] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_action_client'}
+[0.000782] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_action_server'}
+[0.000798] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_client'}
+[0.000814] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_publisher'}
+[0.000830] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_service'}
+[0.000856] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_subscriber'}
+[0.000873] (-) JobUnselected: {'identifier': 'examples_rclpy_pointcloud_publisher'}
+[0.000889] (-) JobUnselected: {'identifier': 'launch_testing_examples'}
+[0.000905] (-) JobUnselected: {'identifier': 'py_pubsub'}
+[0.000922] (-) JobUnselected: {'identifier': 'tutorial_interfaces'}
+[0.000942] (agrobot_interfaces) JobQueued: {'identifier': 'agrobot_interfaces', 'dependencies': OrderedDict()}
+[0.000966] (agrobot_actuation) JobQueued: {'identifier': 'agrobot_actuation', 'dependencies': OrderedDict({'agrobot_interfaces': '/home/agrobot/ros2_ws/install/agrobot_interfaces'})}
+[0.001259] (agrobot_interfaces) JobStarted: {'identifier': 'agrobot_interfaces'}
+[0.013064] (agrobot_interfaces) JobProgress: {'identifier': 'agrobot_interfaces', 'progress': 'cmake'}
+[0.013859] (agrobot_interfaces) JobProgress: {'identifier': 'agrobot_interfaces', 'progress': 'build'}
+[0.014577] (agrobot_interfaces) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/agrobot/ros2_ws/build/agrobot_interfaces', '--', '-j4', '-l4'], 'cwd': '/home/agrobot/ros2_ws/build/agrobot_interfaces', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'agrobot', 'SSH_CLIENT': '10.42.0.225 54814 22', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/agrobot/ros2_ws/install/tutorial_interfaces/lib:/home/agrobot/ros2_ws/install/agrobot_interfaces/lib:/opt/ros/kilted/lib/aarch64-linux-gnu:/opt/ros/kilted/lib', 'HOME': '/home/agrobot', 'OLDPWD': '/home/agrobot/ros2_ws/src', 'SSH_TTY': '/dev/pts/0', 'ROS_PYTHON_VERSION': '3', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLCON_PREFIX_PATH': '/home/agrobot/ros2_ws/install', 'ROS_DISTRO': 'kilted', 'LOGNAME': 'agrobot', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '1', 'PATH': '/opt/ros/kilted/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'XDG_RUNTIME_DIR': '/run/user/1000', 'LANG': 'en_US.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'ROS_DOMAIN_ID': '21', 'AMENT_PREFIX_PATH': '/home/agrobot/ros2_ws/install/py_pubsub:/home/agrobot/ros2_ws/install/tutorial_interfaces:/home/agrobot/ros2_ws/install/agrobot_actuation:/home/agrobot/ros2_ws/install/agrobot_interfaces:/opt/ros/kilted', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/home/agrobot/ros2_ws/build/agrobot_interfaces', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '10.42.0.225 54814 10.42.0.1 22', 'XDG_DATA_DIRS': '/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/tutorial_interfaces/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages:/opt/ros/kilted/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/home/agrobot/ros2_ws/install/tutorial_interfaces:/home/agrobot/ros2_ws/install/agrobot_interfaces:/home/agrobot/ros2_ws/install/py_pubsub:/home/agrobot/ros2_ws/install/agrobot_actuation:/opt/ros/kilted'}), 'shell': False}
+[0.100267] (-) TimerEvent: {}
+[0.103185] (agrobot_interfaces) StdoutLine: {'line': b'[  2%] Built target agrobot_interfaces__rosidl_generator_type_description\n'}
+[0.125336] (agrobot_interfaces) StdoutLine: {'line': b'[  2%] Built target ament_cmake_python_copy_agrobot_interfaces\n'}
+[0.143370] (agrobot_interfaces) StdoutLine: {'line': b'[  5%] Built target agrobot_interfaces__cpp\n'}
+[0.146551] (agrobot_interfaces) StdoutLine: {'line': b'[ 20%] Built target agrobot_interfaces__rosidl_generator_c\n'}
+[0.200459] (agrobot_interfaces) StdoutLine: {'line': b'[ 38%] Built target agrobot_interfaces__rosidl_typesupport_fastrtps_c\n'}
+[0.200990] (-) TimerEvent: {}
+[0.204418] (agrobot_interfaces) StdoutLine: {'line': b'[ 38%] Built target agrobot_interfaces__rosidl_typesupport_cpp\n'}
+[0.210260] (agrobot_interfaces) StdoutLine: {'line': b'[ 47%] Built target agrobot_interfaces__rosidl_typesupport_introspection_c\n'}
+[0.255529] (agrobot_interfaces) StdoutLine: {'line': b'[ 55%] Built target agrobot_interfaces__rosidl_typesupport_c\n'}
+[0.263331] (agrobot_interfaces) StdoutLine: {'line': b'[ 64%] Built target agrobot_interfaces__rosidl_typesupport_fastrtps_cpp\n'}
+[0.269302] (agrobot_interfaces) StdoutLine: {'line': b'[ 73%] Built target agrobot_interfaces__rosidl_typesupport_introspection_cpp\n'}
+[0.301176] (-) TimerEvent: {}
+[0.306060] (agrobot_interfaces) StdoutLine: {'line': b'[ 73%] Built target agrobot_interfaces\n'}
+[0.343632] (agrobot_interfaces) StdoutLine: {'line': b'[ 76%] Built target agrobot_interfaces__py\n'}
+[0.383015] (agrobot_interfaces) StdoutLine: {'line': b'[ 82%] Built target agrobot_interfaces__rosidl_generator_py\n'}
+[0.401373] (-) TimerEvent: {}
+[0.430416] (agrobot_interfaces) StdoutLine: {'line': b'[ 88%] Built target agrobot_interfaces_s__rosidl_typesupport_introspection_c\n'}
+[0.438317] (agrobot_interfaces) StdoutLine: {'line': b'[ 94%] Built target agrobot_interfaces_s__rosidl_typesupport_fastrtps_c\n'}
+[0.440562] (agrobot_interfaces) StdoutLine: {'line': b'[100%] Built target agrobot_interfaces_s__rosidl_typesupport_c\n'}
+[0.499654] (agrobot_interfaces) StdoutLine: {'line': b'running egg_info\n'}
+[0.501430] (-) TimerEvent: {}
+[0.520697] (agrobot_interfaces) StdoutLine: {'line': b'writing agrobot_interfaces.egg-info/PKG-INFO\n'}
+[0.521080] (agrobot_interfaces) StdoutLine: {'line': b'writing dependency_links to agrobot_interfaces.egg-info/dependency_links.txt\n'}
+[0.522050] (agrobot_interfaces) StdoutLine: {'line': b'writing top-level names to agrobot_interfaces.egg-info/top_level.txt\n'}
+[0.580296] (agrobot_interfaces) StdoutLine: {'line': b"reading manifest file 'agrobot_interfaces.egg-info/SOURCES.txt'\n"}
+[0.581074] (agrobot_interfaces) StdoutLine: {'line': b"writing manifest file 'agrobot_interfaces.egg-info/SOURCES.txt'\n"}
+[0.601622] (-) TimerEvent: {}
+[0.655363] (agrobot_interfaces) StdoutLine: {'line': b'[100%] Built target ament_cmake_python_build_agrobot_interfaces_egg\n'}
+[0.676250] (agrobot_interfaces) CommandEnded: {'returncode': 0}
+[0.677010] (agrobot_interfaces) JobProgress: {'identifier': 'agrobot_interfaces', 'progress': 'install'}
+[0.693135] (agrobot_interfaces) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/agrobot/ros2_ws/build/agrobot_interfaces'], 'cwd': '/home/agrobot/ros2_ws/build/agrobot_interfaces', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'agrobot', 'SSH_CLIENT': '10.42.0.225 54814 22', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/agrobot/ros2_ws/install/tutorial_interfaces/lib:/home/agrobot/ros2_ws/install/agrobot_interfaces/lib:/opt/ros/kilted/lib/aarch64-linux-gnu:/opt/ros/kilted/lib', 'HOME': '/home/agrobot', 'OLDPWD': '/home/agrobot/ros2_ws/src', 'SSH_TTY': '/dev/pts/0', 'ROS_PYTHON_VERSION': '3', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLCON_PREFIX_PATH': '/home/agrobot/ros2_ws/install', 'ROS_DISTRO': 'kilted', 'LOGNAME': 'agrobot', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '1', 'PATH': '/opt/ros/kilted/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'XDG_RUNTIME_DIR': '/run/user/1000', 'LANG': 'en_US.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'ROS_DOMAIN_ID': '21', 'AMENT_PREFIX_PATH': '/home/agrobot/ros2_ws/install/py_pubsub:/home/agrobot/ros2_ws/install/tutorial_interfaces:/home/agrobot/ros2_ws/install/agrobot_actuation:/home/agrobot/ros2_ws/install/agrobot_interfaces:/opt/ros/kilted', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/home/agrobot/ros2_ws/build/agrobot_interfaces', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '10.42.0.225 54814 10.42.0.1 22', 'XDG_DATA_DIRS': '/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/tutorial_interfaces/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages:/opt/ros/kilted/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/home/agrobot/ros2_ws/install/tutorial_interfaces:/home/agrobot/ros2_ws/install/agrobot_interfaces:/home/agrobot/ros2_ws/install/py_pubsub:/home/agrobot/ros2_ws/install/agrobot_actuation:/opt/ros/kilted'}), 'shell': False}
+[0.701694] (-) TimerEvent: {}
+[0.708191] (agrobot_interfaces) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[0.708456] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/ament_index/resource_index/rosidl_interfaces/agrobot_interfaces\n'}
+[0.708762] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/srv/MoveServo.json\n'}
+[0.708892] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces\n'}
+[0.708982] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/msg\n'}
+[0.709095] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/msg/rosidl_generator_c__visibility_control.h\n'}
+[0.709245] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv\n'}
+[0.709372] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail\n'}
+[0.709455] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__struct.h\n'}
+[0.709531] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__functions.h\n'}
+[0.709604] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__type_support.h\n'}
+[0.709686] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__description.c\n'}
+[0.709787] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__functions.c\n'}
+[0.709867] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__type_support.c\n'}
+[0.709980] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/move_servo.h\n'}
+[0.710062] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/environment/library_path.sh\n'}
+[0.710143] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/environment/library_path.dsv\n'}
+[0.710264] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/libagrobot_interfaces__rosidl_generator_c.so\n'}
+[0.710370] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces\n'}
+[0.710445] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/msg\n'}
+[0.710517] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[0.710596] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv\n'}
+[0.710720] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail\n'}
+[0.710804] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__rosidl_typesupport_fastrtps_c.h\n'}
+[0.710886] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/libagrobot_interfaces__rosidl_typesupport_fastrtps_c.so\n'}
+[0.710966] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces\n'}
+[0.711044] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/msg\n'}
+[0.711122] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[0.711210] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv\n'}
+[0.711327] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail\n'}
+[0.711410] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__rosidl_typesupport_introspection_c.h\n'}
+[0.711490] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__type_support.c\n'}
+[0.711570] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/libagrobot_interfaces__rosidl_typesupport_introspection_c.so\n'}
+[0.711702] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/libagrobot_interfaces__rosidl_typesupport_c.so\n'}
+[0.711785] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces\n'}
+[0.711864] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/msg\n'}
+[0.711992] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp\n'}
+[0.712073] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv\n'}
+[0.712152] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail\n'}
+[0.712280] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__builder.hpp\n'}
+[0.712361] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__struct.hpp\n'}
+[0.712443] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__traits.hpp\n'}
+[0.712542] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__type_support.hpp\n'}
+[0.712622] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/move_servo.hpp\n'}
+[0.712702] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces\n'}
+[0.712781] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/msg\n'}
+[0.712860] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[0.712940] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv\n'}
+[0.713018] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail\n'}
+[0.713096] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/dds_fastrtps\n'}
+[0.713178] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[0.713298] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/libagrobot_interfaces__rosidl_typesupport_fastrtps_cpp.so\n'}
+[0.713452] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces\n'}
+[0.713571] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv\n'}
+[0.713646] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail\n'}
+[0.713723] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__type_support.cpp\n'}
+[0.713804] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/include/agrobot_interfaces/agrobot_interfaces/srv/detail/move_servo__rosidl_typesupport_introspection_cpp.hpp\n'}
+[0.713926] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/libagrobot_interfaces__rosidl_typesupport_introspection_cpp.so\n'}
+[0.714002] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/libagrobot_interfaces__rosidl_typesupport_cpp.so\n'}
+[0.714073] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/environment/pythonpath.sh\n'}
+[0.714153] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/environment/pythonpath.dsv\n'}
+[0.714265] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces-0.0.0-py3.12.egg-info\n'}
+[0.714354] (agrobot_interfaces) StdoutLine: {'line': b'-- Installing: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces-0.0.0-py3.12.egg-info/dependency_links.txt\n'}
+[0.714434] (agrobot_interfaces) StdoutLine: {'line': b'-- Installing: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces-0.0.0-py3.12.egg-info/SOURCES.txt\n'}
+[0.714557] (agrobot_interfaces) StdoutLine: {'line': b'-- Installing: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces-0.0.0-py3.12.egg-info/top_level.txt\n'}
+[0.714654] (agrobot_interfaces) StdoutLine: {'line': b'-- Installing: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces-0.0.0-py3.12.egg-info/PKG-INFO\n'}
+[0.714736] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces\n'}
+[0.714838] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/agrobot_interfaces_s__rosidl_typesupport_c.so\n'}
+[0.714974] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/srv\n'}
+[0.715052] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/srv/_move_servo.py\n'}
+[0.715126] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/srv/__init__.py\n'}
+[0.715214] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/srv/_move_servo_s.c\n'}
+[0.715300] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/_agrobot_interfaces_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[0.715374] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/__init__.py\n'}
+[0.715446] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/agrobot_interfaces_s__rosidl_typesupport_fastrtps_c.so\n'}
+[0.715517] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/_agrobot_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[0.715587] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/agrobot_interfaces_s__rosidl_typesupport_introspection_c.so\n'}
+[0.715658] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/_agrobot_interfaces_s.ep.rosidl_typesupport_c.c\n'}
+[0.765412] (agrobot_interfaces) StdoutLine: {'line': b"Listing '/home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces'...\n"}
+[0.765753] (agrobot_interfaces) StdoutLine: {'line': b"Listing '/home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/srv'...\n"}
+[0.778604] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/agrobot_interfaces_s__rosidl_typesupport_fastrtps_c.so\n'}
+[0.778949] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/agrobot_interfaces_s__rosidl_typesupport_introspection_c.so\n'}
+[0.779335] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages/agrobot_interfaces/agrobot_interfaces_s__rosidl_typesupport_c.so\n'}
+[0.779723] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/lib/libagrobot_interfaces__rosidl_generator_py.so\n'}
+[0.779954] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/srv/MoveServo.idl\n'}
+[0.780077] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/srv/MoveServo.srv\n'}
+[0.780187] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/ament_index/resource_index/package_run_dependencies/agrobot_interfaces\n'}
+[0.780335] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/ament_index/resource_index/parent_prefix_path/agrobot_interfaces\n'}
+[0.780439] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/environment/ament_prefix_path.sh\n'}
+[0.780521] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/environment/ament_prefix_path.dsv\n'}
+[0.780602] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/environment/path.sh\n'}
+[0.780683] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/environment/path.dsv\n'}
+[0.780804] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/local_setup.bash\n'}
+[0.780889] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/local_setup.sh\n'}
+[0.780971] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/local_setup.zsh\n'}
+[0.781050] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/local_setup.dsv\n'}
+[0.781129] (agrobot_interfaces) StdoutLine: {'line': b'-- Installing: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/package.dsv\n'}
+[0.781266] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/ament_index/resource_index/packages/agrobot_interfaces\n'}
+[0.781376] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/export_agrobot_interfaces__rosidl_generator_cExport.cmake\n'}
+[0.781462] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/export_agrobot_interfaces__rosidl_generator_cExport-noconfig.cmake\n'}
+[0.781584] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/export_agrobot_interfaces__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[0.781679] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/export_agrobot_interfaces__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[0.781757] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/agrobot_interfaces__rosidl_typesupport_introspection_cExport.cmake\n'}
+[0.781850] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/agrobot_interfaces__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[0.781931] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/agrobot_interfaces__rosidl_typesupport_cExport.cmake\n'}
+[0.782011] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/agrobot_interfaces__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[0.782089] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/export_agrobot_interfaces__rosidl_generator_cppExport.cmake\n'}
+[0.782168] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/export_agrobot_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[0.782307] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/export_agrobot_interfaces__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[0.782393] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/agrobot_interfaces__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[0.782473] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/agrobot_interfaces__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[0.782552] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/agrobot_interfaces__rosidl_typesupport_cppExport.cmake\n'}
+[0.782682] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/agrobot_interfaces__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[0.782766] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/export_agrobot_interfaces__rosidl_generator_pyExport.cmake\n'}
+[0.782845] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/export_agrobot_interfaces__rosidl_generator_pyExport-noconfig.cmake\n'}
+[0.782924] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/rosidl_cmake-extras.cmake\n'}
+[0.783012] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[0.783111] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[0.783197] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[0.783331] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[0.783408] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[0.783480] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[0.783552] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/agrobot_interfacesConfig.cmake\n'}
+[0.783624] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/cmake/agrobot_interfacesConfig-version.cmake\n'}
+[0.783696] (agrobot_interfaces) StdoutLine: {'line': b'-- Up-to-date: /home/agrobot/ros2_ws/install/agrobot_interfaces/share/agrobot_interfaces/package.xml\n'}
+[0.785860] (agrobot_interfaces) CommandEnded: {'returncode': 0}
+[0.801763] (-) TimerEvent: {}
+[0.825442] (agrobot_interfaces) JobEnded: {'identifier': 'agrobot_interfaces', 'rc': 0}
+[0.826833] (agrobot_actuation) JobStarted: {'identifier': 'agrobot_actuation'}
+[0.901902] (-) TimerEvent: {}
+[1.002246] (-) TimerEvent: {}
+[1.102574] (-) TimerEvent: {}
+[1.202935] (-) TimerEvent: {}
+[1.303263] (-) TimerEvent: {}
+[1.403560] (-) TimerEvent: {}
+[1.503846] (-) TimerEvent: {}
+[1.604110] (-) TimerEvent: {}
+[1.704387] (-) TimerEvent: {}
+[1.804715] (-) TimerEvent: {}
+[1.890642] (agrobot_actuation) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/agrobot_actuation', 'build', '--build-base', '/home/agrobot/ros2_ws/build/agrobot_actuation/build', 'install', '--record', '/home/agrobot/ros2_ws/build/agrobot_actuation/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/agrobot/ros2_ws/src/agrobot_actuation', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'agrobot', 'SSH_CLIENT': '10.42.0.225 54814 22', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/agrobot/ros2_ws/install/agrobot_interfaces/lib:/home/agrobot/ros2_ws/install/tutorial_interfaces/lib:/opt/ros/kilted/lib/aarch64-linux-gnu:/opt/ros/kilted/lib', 'HOME': '/home/agrobot', 'OLDPWD': '/home/agrobot/ros2_ws/src', 'SSH_TTY': '/dev/pts/0', 'ROS_PYTHON_VERSION': '3', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLCON_PREFIX_PATH': '/home/agrobot/ros2_ws/install', 'ROS_DISTRO': 'kilted', 'LOGNAME': 'agrobot', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '1', 'PATH': '/opt/ros/kilted/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'XDG_RUNTIME_DIR': '/run/user/1000', 'LANG': 'en_US.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'ROS_DOMAIN_ID': '21', 'AMENT_PREFIX_PATH': '/home/agrobot/ros2_ws/install/py_pubsub:/home/agrobot/ros2_ws/install/tutorial_interfaces:/home/agrobot/ros2_ws/install/agrobot_actuation:/home/agrobot/ros2_ws/install/agrobot_interfaces:/opt/ros/kilted', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/home/agrobot/ros2_ws/build/agrobot_actuation', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '10.42.0.225 54814 10.42.0.1 22', 'XDG_DATA_DIRS': '/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/agrobot/ros2_ws/build/agrobot_actuation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/tutorial_interfaces/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages:/opt/ros/kilted/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/home/agrobot/ros2_ws/install/agrobot_interfaces:/home/agrobot/ros2_ws/install/tutorial_interfaces'}, 'shell': False}
+[1.904830] (-) TimerEvent: {}
+[2.005426] (-) TimerEvent: {}
+[2.106107] (-) TimerEvent: {}
+[2.204000] (agrobot_actuation) StdoutLine: {'line': b'running egg_info\n'}
+[2.206165] (-) TimerEvent: {}
+[2.223347] (agrobot_actuation) StdoutLine: {'line': b'writing ../../build/agrobot_actuation/agrobot_actuation.egg-info/PKG-INFO\n'}
+[2.223735] (agrobot_actuation) StdoutLine: {'line': b'writing dependency_links to ../../build/agrobot_actuation/agrobot_actuation.egg-info/dependency_links.txt\n'}
+[2.224902] (agrobot_actuation) StdoutLine: {'line': b'writing entry points to ../../build/agrobot_actuation/agrobot_actuation.egg-info/entry_points.txt\n'}
+[2.225408] (agrobot_actuation) StdoutLine: {'line': b'writing requirements to ../../build/agrobot_actuation/agrobot_actuation.egg-info/requires.txt\n'}
+[2.226070] (agrobot_actuation) StdoutLine: {'line': b'writing top-level names to ../../build/agrobot_actuation/agrobot_actuation.egg-info/top_level.txt\n'}
+[2.267478] (agrobot_actuation) StdoutLine: {'line': b"reading manifest file '../../build/agrobot_actuation/agrobot_actuation.egg-info/SOURCES.txt'\n"}
+[2.267831] (agrobot_actuation) StdoutLine: {'line': b"adding license file 'LICENSE'\n"}
+[2.268629] (agrobot_actuation) StdoutLine: {'line': b"writing manifest file '../../build/agrobot_actuation/agrobot_actuation.egg-info/SOURCES.txt'\n"}
+[2.268846] (agrobot_actuation) StdoutLine: {'line': b'running build\n'}
+[2.268955] (agrobot_actuation) StdoutLine: {'line': b'running build_py\n'}
+[2.269130] (agrobot_actuation) StdoutLine: {'line': b'copying agrobot_actuation/button_client.py -> /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation\n'}
+[2.269750] (agrobot_actuation) StdoutLine: {'line': b'running install\n'}
+[2.279192] (agrobot_actuation) StdoutLine: {'line': b'running install_lib\n'}
+[2.299090] (agrobot_actuation) StdoutLine: {'line': b'copying /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation/button_client.py -> /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation\n'}
+[2.300063] (agrobot_actuation) StdoutLine: {'line': b'byte-compiling /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation/button_client.py to button_client.cpython-312.pyc\n'}
+[2.301510] (agrobot_actuation) StdoutLine: {'line': b'running install_data\n'}
+[2.301671] (agrobot_actuation) StdoutLine: {'line': b'running install_egg_info\n'}
+[2.306231] (-) TimerEvent: {}
+[2.323480] (agrobot_actuation) StdoutLine: {'line': b"removing '/home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation-0.0.0-py3.12.egg-info' (and everything under it)\n"}
+[2.323906] (agrobot_actuation) StdoutLine: {'line': b'Copying ../../build/agrobot_actuation/agrobot_actuation.egg-info to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation-0.0.0-py3.12.egg-info\n'}
+[2.325093] (agrobot_actuation) StdoutLine: {'line': b'running install_scripts\n'}
+[2.406315] (-) TimerEvent: {}
+[2.468435] (agrobot_actuation) StdoutLine: {'line': b'Installing button_client script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation\n'}
+[2.468750] (agrobot_actuation) StdoutLine: {'line': b'Installing remove script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation\n'}
+[2.470073] (agrobot_actuation) StdoutLine: {'line': b'Installing seed script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation\n'}
+[2.471298] (agrobot_actuation) StdoutLine: {'line': b"writing list of installed files to '/home/agrobot/ros2_ws/build/agrobot_actuation/install.log'\n"}
+[2.506461] (-) TimerEvent: {}
+[2.560424] (agrobot_actuation) CommandEnded: {'returncode': 0}
+[2.569941] (agrobot_actuation) JobEnded: {'identifier': 'agrobot_actuation', 'rc': 0}
+[2.571056] (-) EventReactorShutdown: {}

@@ -1,0 +1,7 @@
+{
+  "package_name": "tutorial_interfaces",
+  "output_dir": "/home/agrobot/ros2_ws/build/tutorial_interfaces/rosidl_generator_type_description/tutorial_interfaces",
+  "idl_tuples": [
+    "/home/agrobot/ros2_ws/build/tutorial_interfaces/rosidl_adapter/tutorial_interfaces:msg/Num.idl"
+  ]
+}

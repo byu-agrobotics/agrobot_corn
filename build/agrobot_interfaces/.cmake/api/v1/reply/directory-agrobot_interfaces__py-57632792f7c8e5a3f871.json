@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "agrobot_interfaces__py",
+		"source" : "/home/agrobot/ros2_ws/build/agrobot_interfaces/agrobot_interfaces__py"
+	}
+}

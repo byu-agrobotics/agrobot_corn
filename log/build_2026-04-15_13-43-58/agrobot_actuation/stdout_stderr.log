@@ -1,0 +1,46 @@
+running egg_info
+creating ../../build/agrobot_actuation/agrobot_actuation.egg-info
+writing ../../build/agrobot_actuation/agrobot_actuation.egg-info/PKG-INFO
+writing dependency_links to ../../build/agrobot_actuation/agrobot_actuation.egg-info/dependency_links.txt
+writing entry points to ../../build/agrobot_actuation/agrobot_actuation.egg-info/entry_points.txt
+writing requirements to ../../build/agrobot_actuation/agrobot_actuation.egg-info/requires.txt
+writing top-level names to ../../build/agrobot_actuation/agrobot_actuation.egg-info/top_level.txt
+writing manifest file '../../build/agrobot_actuation/agrobot_actuation.egg-info/SOURCES.txt'
+reading manifest file '../../build/agrobot_actuation/agrobot_actuation.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file '../../build/agrobot_actuation/agrobot_actuation.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/agrobot/ros2_ws/build/agrobot_actuation/build
+creating /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib
+creating /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation
+copying agrobot_actuation/button_client.py -> /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation
+copying agrobot_actuation/remove.py -> /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation
+copying agrobot_actuation/__init__.py -> /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation
+copying agrobot_actuation/seed.py -> /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation
+copying agrobot_actuation/py.typed -> /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation
+running install
+running install_lib
+creating /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation
+copying /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation/button_client.py -> /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation
+copying /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation/py.typed -> /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation
+copying /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation/remove.py -> /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation
+copying /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation/__init__.py -> /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation
+copying /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation/seed.py -> /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation
+byte-compiling /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation/button_client.py to button_client.cpython-312.pyc
+byte-compiling /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation/remove.py to remove.cpython-312.pyc
+byte-compiling /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation/__init__.py to __init__.cpython-312.pyc
+byte-compiling /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation/seed.py to seed.cpython-312.pyc
+running install_data
+creating /home/agrobot/ros2_ws/install/agrobot_actuation/share/ament_index
+creating /home/agrobot/ros2_ws/install/agrobot_actuation/share/ament_index/resource_index
+creating /home/agrobot/ros2_ws/install/agrobot_actuation/share/ament_index/resource_index/packages
+copying resource/agrobot_actuation -> /home/agrobot/ros2_ws/install/agrobot_actuation/share/ament_index/resource_index/packages
+copying package.xml -> /home/agrobot/ros2_ws/install/agrobot_actuation/share/agrobot_actuation
+running install_egg_info
+Copying ../../build/agrobot_actuation/agrobot_actuation.egg-info to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation-0.0.0-py3.12.egg-info
+running install_scripts
+Installing button_client script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation
+Installing remove script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation
+Installing seed script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation
+writing list of installed files to '/home/agrobot/ros2_ws/build/agrobot_actuation/install.log'

@@ -1,0 +1,49 @@
+[1.313s] Invoking command in '/home/agrobot/ros2_ws/src/py_pubsub': PYTHONPATH=/home/agrobot/ros2_ws/build/py_pubsub/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/py_pubsub build --build-base /home/agrobot/ros2_ws/build/py_pubsub/build install --record /home/agrobot/ros2_ws/build/py_pubsub/install.log --single-version-externally-managed install_data
+[1.610s] running egg_info
+[1.611s] creating ../../build/py_pubsub/py_pubsub.egg-info
+[1.629s] writing ../../build/py_pubsub/py_pubsub.egg-info/PKG-INFO
+[1.629s] writing dependency_links to ../../build/py_pubsub/py_pubsub.egg-info/dependency_links.txt
+[1.630s] writing entry points to ../../build/py_pubsub/py_pubsub.egg-info/entry_points.txt
+[1.630s] writing requirements to ../../build/py_pubsub/py_pubsub.egg-info/requires.txt
+[1.630s] writing top-level names to ../../build/py_pubsub/py_pubsub.egg-info/top_level.txt
+[1.630s] writing manifest file '../../build/py_pubsub/py_pubsub.egg-info/SOURCES.txt'
+[1.668s] reading manifest file '../../build/py_pubsub/py_pubsub.egg-info/SOURCES.txt'
+[1.669s] adding license file 'LICENSE'
+[1.669s] writing manifest file '../../build/py_pubsub/py_pubsub.egg-info/SOURCES.txt'
+[1.669s] running build
+[1.670s] running build_py
+[1.670s] creating /home/agrobot/ros2_ws/build/py_pubsub/build
+[1.670s] creating /home/agrobot/ros2_ws/build/py_pubsub/build/lib
+[1.670s] creating /home/agrobot/ros2_ws/build/py_pubsub/build/lib/py_pubsub
+[1.670s] copying py_pubsub/__init__.py -> /home/agrobot/ros2_ws/build/py_pubsub/build/lib/py_pubsub
+[1.670s] copying py_pubsub/subscriber_member_function.py -> /home/agrobot/ros2_ws/build/py_pubsub/build/lib/py_pubsub
+[1.670s] copying py_pubsub/publisher_member_function.py -> /home/agrobot/ros2_ws/build/py_pubsub/build/lib/py_pubsub
+[1.671s] copying py_pubsub/py.typed -> /home/agrobot/ros2_ws/build/py_pubsub/build/lib/py_pubsub
+[1.671s] running install
+[1.680s] running install_lib
+[1.699s] creating /home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub
+[1.699s] copying /home/agrobot/ros2_ws/build/py_pubsub/build/lib/py_pubsub/py.typed -> /home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub
+[1.699s] copying /home/agrobot/ros2_ws/build/py_pubsub/build/lib/py_pubsub/__init__.py -> /home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub
+[1.700s] copying /home/agrobot/ros2_ws/build/py_pubsub/build/lib/py_pubsub/subscriber_member_function.py -> /home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub
+[1.700s] copying /home/agrobot/ros2_ws/build/py_pubsub/build/lib/py_pubsub/publisher_member_function.py -> /home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub
+[1.701s] byte-compiling /home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub/__init__.py to __init__.cpython-312.pyc
+[1.701s] byte-compiling /home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub/subscriber_member_function.py to subscriber_member_function.cpython-312.pyc
+[1.702s] byte-compiling /home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub/publisher_member_function.py to publisher_member_function.cpython-312.pyc
+[1.702s]   File "/home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub/publisher_member_function.py", line 5
+[1.702s]     from ../msg import Num                            
+[1.702s]            ^
+[1.702s] SyntaxError: invalid syntax
+[1.702s] 
+[1.703s] running install_data
+[1.703s] creating /home/agrobot/ros2_ws/install/py_pubsub/share/ament_index
+[1.703s] creating /home/agrobot/ros2_ws/install/py_pubsub/share/ament_index/resource_index
+[1.703s] creating /home/agrobot/ros2_ws/install/py_pubsub/share/ament_index/resource_index/packages
+[1.703s] copying resource/py_pubsub -> /home/agrobot/ros2_ws/install/py_pubsub/share/ament_index/resource_index/packages
+[1.703s] copying package.xml -> /home/agrobot/ros2_ws/install/py_pubsub/share/py_pubsub
+[1.703s] running install_egg_info
+[1.724s] Copying ../../build/py_pubsub/py_pubsub.egg-info to /home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub-0.0.0-py3.12.egg-info
+[1.725s] running install_scripts
+[1.864s] Installing drive_control script to /home/agrobot/ros2_ws/install/py_pubsub/lib/py_pubsub
+[1.864s] Installing input script to /home/agrobot/ros2_ws/install/py_pubsub/lib/py_pubsub
+[1.864s] writing list of installed files to '/home/agrobot/ros2_ws/build/py_pubsub/install.log'
+[1.941s] Invoked command in '/home/agrobot/ros2_ws/src/py_pubsub' returned '0': PYTHONPATH=/home/agrobot/ros2_ws/build/py_pubsub/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/py_pubsub build --build-base /home/agrobot/ros2_ws/build/py_pubsub/build install --record /home/agrobot/ros2_ws/build/py_pubsub/install.log --single-version-externally-managed install_data

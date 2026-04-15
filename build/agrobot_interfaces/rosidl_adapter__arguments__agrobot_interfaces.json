@@ -1,0 +1,6 @@
+{
+  "package_name": "agrobot_interfaces",
+  "non_idl_tuples": [
+    "/home/agrobot/ros2_ws/src/agrobot_interfaces:srv/MoveServo.srv"
+  ]
+}

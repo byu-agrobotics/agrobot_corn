@@ -1,0 +1,26 @@
+[1.059s] Invoking command in '/home/agrobot/ros2_ws/src/py_pubsub': PYTHONPATH=/home/agrobot/ros2_ws/build/py_pubsub/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/tutorial_interfaces/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages:/opt/ros/kilted/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/py_pubsub build --build-base /home/agrobot/ros2_ws/build/py_pubsub/build install --record /home/agrobot/ros2_ws/build/py_pubsub/install.log --single-version-externally-managed install_data
+[1.370s] running egg_info
+[1.390s] writing ../../build/py_pubsub/py_pubsub.egg-info/PKG-INFO
+[1.390s] writing dependency_links to ../../build/py_pubsub/py_pubsub.egg-info/dependency_links.txt
+[1.391s] writing entry points to ../../build/py_pubsub/py_pubsub.egg-info/entry_points.txt
+[1.391s] writing requirements to ../../build/py_pubsub/py_pubsub.egg-info/requires.txt
+[1.392s] writing top-level names to ../../build/py_pubsub/py_pubsub.egg-info/top_level.txt
+[1.434s] reading manifest file '../../build/py_pubsub/py_pubsub.egg-info/SOURCES.txt'
+[1.434s] adding license file 'LICENSE'
+[1.435s] writing manifest file '../../build/py_pubsub/py_pubsub.egg-info/SOURCES.txt'
+[1.435s] running build
+[1.436s] running build_py
+[1.436s] copying py_pubsub/subscriber_member_function.py -> /home/agrobot/ros2_ws/build/py_pubsub/build/lib/py_pubsub
+[1.436s] running install
+[1.446s] running install_lib
+[1.466s] copying /home/agrobot/ros2_ws/build/py_pubsub/build/lib/py_pubsub/subscriber_member_function.py -> /home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub
+[1.467s] byte-compiling /home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub/subscriber_member_function.py to subscriber_member_function.cpython-312.pyc
+[1.468s] running install_data
+[1.468s] running install_egg_info
+[1.490s] removing '/home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub-0.0.0-py3.12.egg-info' (and everything under it)
+[1.490s] Copying ../../build/py_pubsub/py_pubsub.egg-info to /home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages/py_pubsub-0.0.0-py3.12.egg-info
+[1.492s] running install_scripts
+[1.636s] Installing drive_control script to /home/agrobot/ros2_ws/install/py_pubsub/lib/py_pubsub
+[1.636s] Installing input script to /home/agrobot/ros2_ws/install/py_pubsub/lib/py_pubsub
+[1.638s] writing list of installed files to '/home/agrobot/ros2_ws/build/py_pubsub/install.log'
+[1.717s] Invoked command in '/home/agrobot/ros2_ws/src/py_pubsub' returned '0': PYTHONPATH=/home/agrobot/ros2_ws/build/py_pubsub/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/tutorial_interfaces/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/py_pubsub/lib/python3.12/site-packages:/opt/ros/kilted/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/py_pubsub build --build-base /home/agrobot/ros2_ws/build/py_pubsub/build install --record /home/agrobot/ros2_ws/build/py_pubsub/install.log --single-version-externally-managed install_data

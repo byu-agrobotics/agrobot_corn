@@ -1,0 +1,26 @@
+{
+  "type_description_msg": {
+    "type_description": {
+      "type_name": "agrobot_interfaces/srv/MoveServo_Request",
+      "fields": [
+        {
+          "name": "request",
+          "type": {
+            "type_id": 17,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        }
+      ]
+    },
+    "referenced_type_descriptions": []
+  },
+  "type_hashes": [
+    {
+      "type_name": "agrobot_interfaces/srv/MoveServo_Request",
+      "hash_string": "RIHS01_0c3a4aeffb117b91057d7f740514ce640e4c814f6a11f1bfde83184fb2ebe6f1"
+    }
+  ]
+}

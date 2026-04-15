@@ -1,0 +1,6 @@
+source;share/agrobot_actuation/hook/pythonpath.ps1
+source;share/agrobot_actuation/hook/pythonpath.dsv
+source;share/agrobot_actuation/hook/pythonpath.sh
+source;share/agrobot_actuation/hook/ament_prefix_path.ps1
+source;share/agrobot_actuation/hook/ament_prefix_path.dsv
+source;share/agrobot_actuation/hook/ament_prefix_path.sh

@@ -1,0 +1,11 @@
+{
+  "package_name": "agrobot_interfaces",
+  "output_dir": "/home/agrobot/ros2_ws/build/agrobot_interfaces/rosidl_generator_type_description/agrobot_interfaces",
+  "idl_tuples": [
+    "/home/agrobot/ros2_ws/build/agrobot_interfaces/rosidl_adapter/agrobot_interfaces:srv/MoveServo.idl"
+  ],
+  "include_paths": [
+    "service_msgs:/opt/ros/kilted/share/service_msgs",
+    "builtin_interfaces:/opt/ros/kilted/share/builtin_interfaces"
+  ]
+}
