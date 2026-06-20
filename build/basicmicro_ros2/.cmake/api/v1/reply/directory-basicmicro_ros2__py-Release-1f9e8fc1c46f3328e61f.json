@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "basicmicro_ros2__py",
+		"source" : "/home/agrobot/ros2_ws/build/basicmicro_ros2/basicmicro_ros2__py"
+	}
+}

@@ -1,0 +1,33 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/SetMotionParameters.srv
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "Service to set motion parameters at runtime")
+    struct SetMotionParameters_Request {
+      @verbatim (language="comment", text=
+        "Default acceleration (encoder counts/s²)")
+      int32 default_acceleration;
+
+      @verbatim (language="comment", text=
+        "Maximum speed limit (encoder counts/s)")
+      int32 max_speed;
+
+      @verbatim (language="comment", text=
+        "Command buffer depth (1-32)")
+      int32 buffer_depth;
+    };
+    struct SetMotionParameters_Response {
+      @verbatim (language="comment", text=
+        "Whether the parameters were set successfully")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "Status message or error description")
+      string message;
+    };
+  };
+};

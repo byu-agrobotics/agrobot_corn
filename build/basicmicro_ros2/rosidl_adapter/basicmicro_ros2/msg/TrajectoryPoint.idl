@@ -1,0 +1,53 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from basicmicro_ros2/msg/TrajectoryPoint.msg
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module msg {
+    @verbatim (language="comment", text=
+      "Trajectory point for mixed distance/position trajectory execution" "\n"
+      "Supports both relative distance movements and absolute position movements")
+    struct TrajectoryPoint {
+      @verbatim (language="comment", text=
+        "Command type - determines which fields are used" "\n"
+        "'distance' or 'position'")
+      string command_type;
+
+      @verbatim (language="comment", text=
+        "For distance commands (relative movement)" "\n"
+        "meters (relative distance to move)")
+      double left_distance;
+
+      @verbatim (language="comment", text=
+        "meters (relative distance to move)")
+      double right_distance;
+
+      @verbatim (language="comment", text=
+        "For position commands (absolute positioning - servo mode)" "\n"
+        "radians (absolute wheel position)")
+      double left_position;
+
+      @verbatim (language="comment", text=
+        "radians (absolute wheel position)")
+      double right_position;
+
+      @verbatim (language="comment", text=
+        "m/s² (deceleration rate for position commands)")
+      double deceleration;
+
+      @verbatim (language="comment", text=
+        "Common parameters for both command types" "\n"
+        "m/s (max speed during movement)")
+      double speed;
+
+      @verbatim (language="comment", text=
+        "m/s² (acceleration rate)")
+      double acceleration;
+
+      @verbatim (language="comment", text=
+        "seconds (optional timing constraint, 0 = no constraint)")
+      double duration;
+    };
+  };
+};

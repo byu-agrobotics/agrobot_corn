@@ -1,0 +1,25 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/ReleasePositionHold.srv
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "ReleasePositionHold.srv" "\n"
+      "Service to release position hold mode")
+    struct ReleasePositionHold_Request {
+      uint8 structure_needs_at_least_one_member;
+    };
+    struct ReleasePositionHold_Response {
+      @verbatim (language="comment", text=
+        "Response" "\n"
+        "True if position hold was released successfully")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "Status message or error description")
+      string message;
+    };
+  };
+};

@@ -1,0 +1,4 @@
+source;share/basicmicro_ros2/local_setup.bash
+source;share/basicmicro_ros2/local_setup.dsv
+source;share/basicmicro_ros2/local_setup.sh
+source;share/basicmicro_ros2/local_setup.zsh

@@ -1,0 +1,44 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/PerformHoming.srv
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "PerformHoming.srv" "\n"
+      "Service to perform homing sequence using specified method")
+    struct PerformHoming_Request {
+      @verbatim (language="comment", text=
+        "Request" "\n"
+        "Method ID from available methods")
+      string method_id;
+
+      @verbatim (language="comment", text=
+        "\"forward\", \"backward\" (if method supports choice)")
+      string direction;
+
+      @verbatim (language="comment", text=
+        "Homing speed (m/s)")
+      double homing_speed;
+
+      @verbatim (language="comment", text=
+        "Timeout for homing operation (seconds)")
+      double timeout;
+    };
+    struct PerformHoming_Response {
+      @verbatim (language="comment", text=
+        "Response" "\n"
+        "True if homing was successful")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "Status message or error description")
+      string message;
+
+      @verbatim (language="comment", text=
+        "Whether encoder was automatically zeroed")
+      boolean encoder_zeroed;
+    };
+  };
+};

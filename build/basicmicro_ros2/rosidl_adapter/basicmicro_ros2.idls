@@ -1,0 +1,17 @@
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:msg/TrajectoryPoint.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:msg/PositionPoint.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/SetMotionStrategy.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/SetMotionParameters.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/MoveDistance.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/SetPositionLimits.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/GetPositionLimits.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/ExecuteTrajectory.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/ExecutePositionSequence.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/GetAvailableHomingMethods.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/GetServoStatus.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/MoveToAbsolutePosition.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/PerformHoming.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/ReleasePositionHold.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/SetDutyCycle.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/SetDutyCycleAccel.idl
+/home/agrobot/ros2_ws/build/basicmicro_ros2/rosidl_adapter/basicmicro_ros2:srv/SetHomingConfiguration.idl

@@ -1,0 +1,38 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/ExecuteTrajectory.srv
+// generated code does not contain a copyright notice
+
+#include "basicmicro_ros2/msg/TrajectoryPoint.idl"
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "Execute a trajectory sequence using buffered commands" "\n"
+      "Supports mixed distance and position trajectory types")
+    struct ExecuteTrajectory_Request {
+      @verbatim (language="comment", text=
+        "Trajectory points to execute in sequence")
+      sequence<basicmicro_ros2::msg::TrajectoryPoint> trajectory_points;
+
+      @verbatim (language="comment", text=
+        "Trajectory type - controls validation and execution strategy" "\n"
+        "'distance', 'position', or 'mixed'")
+      string trajectory_type;
+    };
+    @verbatim (language="comment", text=
+      "Response")
+    struct ExecuteTrajectory_Response {
+      @verbatim (language="comment", text=
+        "True if trajectory was successfully queued")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "Status message or error description")
+      string message;
+
+      @verbatim (language="comment", text=
+        "Number of commands successfully sent to buffer")
+      int32 total_commands_sent;
+    };
+  };
+};

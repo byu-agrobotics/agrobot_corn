@@ -1,3 +1,0 @@
-[console_scripts]
-drive_control = py_pubsub.subscriber_member_function:main
-input = py_pubsub.publisher_member_function:main

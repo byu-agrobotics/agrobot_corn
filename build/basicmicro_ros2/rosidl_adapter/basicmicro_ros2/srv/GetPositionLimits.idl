@@ -1,0 +1,45 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/GetPositionLimits.srv
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "Request: Get current position limit configuration" "\n"
+      "(no parameters needed)")
+    struct GetPositionLimits_Request {
+      uint8 structure_needs_at_least_one_member;
+    };
+    struct GetPositionLimits_Response {
+      @verbatim (language="comment", text=
+        "Response: Current position limit configuration" "\n"
+        "Whether position limits are currently enabled")
+      boolean limits_enabled;
+
+      @verbatim (language="comment", text=
+        "Current minimum position for left wheel (radians)")
+      double left_min_position;
+
+      @verbatim (language="comment", text=
+        "Current maximum position for left wheel (radians)")
+      double left_max_position;
+
+      @verbatim (language="comment", text=
+        "Current minimum position for right wheel (radians)")
+      double right_min_position;
+
+      @verbatim (language="comment", text=
+        "Current maximum position for right wheel (radians)")
+      double right_max_position;
+
+      @verbatim (language="comment", text=
+        "Current violation handling: 'hard_stop', 'soft_stop', 'warning'")
+      string violation_behavior;
+
+      @verbatim (language="comment", text=
+        "Current deceleration rate for soft stops (m/s²)")
+      double decel_rate;
+    };
+  };
+};

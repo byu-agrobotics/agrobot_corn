@@ -1,0 +1,26 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/SetMotionStrategy.srv
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "Service to set the motion strategy at runtime" "\n"
+      "Supported strategies: 'duty', 'duty_accel', 'speed', 'speed_accel'")
+    struct SetMotionStrategy_Request {
+      @verbatim (language="comment", text=
+        "Motion strategy name")
+      string strategy;
+    };
+    struct SetMotionStrategy_Response {
+      @verbatim (language="comment", text=
+        "Whether the strategy was set successfully")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "Status message or error description")
+      string message;
+    };
+  };
+};

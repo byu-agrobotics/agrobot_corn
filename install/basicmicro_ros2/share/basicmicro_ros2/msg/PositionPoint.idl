@@ -1,0 +1,33 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from basicmicro_ros2/msg/PositionPoint.msg
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module msg {
+    @verbatim (language="comment", text=
+      "Position point for servo position sequence execution" "\n"
+      "Simplified interface for absolute position control")
+    struct PositionPoint {
+      @verbatim (language="comment", text=
+        "radians (absolute wheel position)")
+      double left_position;
+
+      @verbatim (language="comment", text=
+        "radians (absolute wheel position)")
+      double right_position;
+
+      @verbatim (language="comment", text=
+        "m/s (maximum speed during movement)")
+      double max_speed;
+
+      @verbatim (language="comment", text=
+        "m/s² (acceleration rate)")
+      double acceleration;
+
+      @verbatim (language="comment", text=
+        "m/s² (deceleration rate)")
+      double deceleration;
+    };
+  };
+};

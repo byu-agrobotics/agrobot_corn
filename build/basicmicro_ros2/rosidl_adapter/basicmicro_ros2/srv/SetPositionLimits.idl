@@ -1,0 +1,50 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/SetPositionLimits.srv
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "Request: Configure position limits for non-position commands")
+    struct SetPositionLimits_Request {
+      @verbatim (language="comment", text=
+        "Enable or disable position limit checking")
+      boolean enable_limits;
+
+      @verbatim (language="comment", text=
+        "Minimum position for left wheel (radians)")
+      double left_min_position;
+
+      @verbatim (language="comment", text=
+        "Maximum position for left wheel (radians)")
+      double left_max_position;
+
+      @verbatim (language="comment", text=
+        "Minimum position for right wheel (radians)")
+      double right_min_position;
+
+      @verbatim (language="comment", text=
+        "Maximum position for right wheel (radians)")
+      double right_max_position;
+
+      @verbatim (language="comment", text=
+        "How to handle limit violations: 'hard_stop', 'soft_stop', 'warning'")
+      string violation_behavior;
+
+      @verbatim (language="comment", text=
+        "Deceleration rate for soft stops (m/s²)")
+      double decel_rate;
+    };
+    struct SetPositionLimits_Response {
+      @verbatim (language="comment", text=
+        "Response: Configuration result" "\n"
+        "True if limits were successfully configured")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "Detailed result message or error description")
+      string message;
+    };
+  };
+};

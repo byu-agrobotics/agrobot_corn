@@ -1,0 +1,45 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/GetServoStatus.srv
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "GetServoStatus.srv" "\n"
+      "Service to get current servo status and error information")
+    struct GetServoStatus_Request {
+      uint8 structure_needs_at_least_one_member;
+    };
+    struct GetServoStatus_Response {
+      @verbatim (language="comment", text=
+        "Response" "\n"
+        "True if status was read successfully")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "Current position error for left motor (encoder counts)")
+      int32 left_position_error;
+
+      @verbatim (language="comment", text=
+        "Current position error for right motor (encoder counts)")
+      int32 right_position_error;
+
+      @verbatim (language="comment", text=
+        "Current speed error for left motor (counts/sec)")
+      int32 left_speed_error;
+
+      @verbatim (language="comment", text=
+        "Current speed error for right motor (counts/sec)")
+      int32 right_speed_error;
+
+      @verbatim (language="comment", text=
+        "Whether controller is in error state (requires POR)")
+      boolean error_limits_exceeded;
+
+      @verbatim (language="comment", text=
+        "Status message or error description")
+      string message;
+    };
+  };
+};

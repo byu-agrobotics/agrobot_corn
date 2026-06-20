@@ -38,7 +38,23 @@ import numpy as np
 import RPi.GPIO as GPIO
 
 class RaspberryPi:
-    def __init__(self,spi=spidev.SpiDev(0,0),spi_freq=40000000,rst = 27,dc = 25,bl = 18,bl_freq=1000,i2c=None,i2c_freq=100000):
+    """
+    Waveshare 2\" SPI LCD — wiring (BCM = code below; physical = Pi 40-pin header).
+
+    | Signal | Physical | BCM   | In code                          |
+    |--------|----------|-------|----------------------------------|
+    | VCC    | 1 or 17  | 3.3 V | —                                |
+    | GND    | 9 or 25  | GND   | —                                |
+    | DIN    | 19       | 10    | MOSI via SpiDev(0, 0)            |
+    | CLK    | 23       | 11    | SCLK via SpiDev(0, 0)            |
+    | CS     | 24       | 8     | CE0 via SpiDev(0, 0)             |
+    | DC     | 22       | 25    | dc=                              |
+    | RST    | 31       | 6     | rst=                             |
+    | BL     | 37       | 26    | bl=                              |
+    """
+
+    # spi_freq: lower Hz helps Dupont/breadboard; raise after wiring is solid.
+    def __init__(self,spi=spidev.SpiDev(0,0),spi_freq=4000000,rst = 6,dc = 25,bl = 26,bl_freq=1000,i2c=None,i2c_freq=100000):
         self.np=np
         self.INPUT = False
         self.OUTPUT = True
@@ -59,9 +75,13 @@ class RaspberryPi:
         self._bl_pwm = GPIO.PWM(self.BL_PIN, bl_freq)
         self._bl_pwm.start(0)
         
-        #Initialize SPI
+        # Initialize SPI (CE0 = BCM 8 for SpiDev(0, 0); do not GPIO.setup 8/10/11)
         self.SPI = spi
-        if self.SPI!=None :
+        if self.SPI is not None:
+            try:
+                self.SPI.bits_per_word = 8
+            except (AttributeError, IOError):
+                pass
             self.SPI.max_speed_hz = spi_freq
             self.SPI.mode = 0b00
 
@@ -81,8 +101,16 @@ class RaspberryPi:
         return Pin  # Not used with RPi.GPIO; we use _bl_pwm directly
 
     def spi_writebyte(self, data):
-        if self.SPI!=None :
-            self.SPI.writebytes(data)
+        if self.SPI is None or not data:
+            return
+        # writebytes2 avoids extra copies on large pixel bursts (Bookworm / newer spidev)
+        if hasattr(self.SPI, "writebytes2") and len(data) > 1:
+            try:
+                self.SPI.writebytes2(bytes(data))
+                return
+            except (TypeError, IOError, AttributeError):
+                pass
+        self.SPI.writebytes(data)
 
     def bl_DutyCycle(self, duty):
         self._bl_pwm.ChangeDutyCycle(duty)
@@ -91,9 +119,13 @@ class RaspberryPi:
         self._bl_pwm.ChangeFrequency(freq)
            
     def module_init(self):
-        if self.SPI!=None :
-            self.SPI.max_speed_hz = self.SPEED        
-            self.SPI.mode = 0b00     
+        if self.SPI is not None:
+            try:
+                self.SPI.bits_per_word = 8
+            except (AttributeError, IOError):
+                pass
+            self.SPI.max_speed_hz = self.SPEED
+            self.SPI.mode = 0b00
         return 0
 
     def module_exit(self):

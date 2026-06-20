@@ -1,0 +1,33 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/ExecutePositionSequence.srv
+// generated code does not contain a copyright notice
+
+#include "basicmicro_ros2/msg/PositionPoint.idl"
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "Execute a sequence of absolute position movements" "\n"
+      "Optimized for servo applications with position control")
+    struct ExecutePositionSequence_Request {
+      @verbatim (language="comment", text=
+        "Position points to execute in sequence")
+      sequence<basicmicro_ros2::msg::PositionPoint> position_points;
+    };
+    @verbatim (language="comment", text=
+      "Response")
+    struct ExecutePositionSequence_Response {
+      @verbatim (language="comment", text=
+        "True if sequence was successfully queued")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "Status message or error description")
+      string message;
+
+      @verbatim (language="comment", text=
+        "Number of position commands successfully sent to buffer")
+      int32 total_commands_sent;
+    };
+  };
+};

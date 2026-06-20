@@ -26,6 +26,11 @@ class LCD_2inch(lcdconfig.RaspberryPi):
         """Initialize dispaly"""  
         self.module_init()
         self.reset()
+        # ST7789 / similar: allow controller to stabilize after hardware reset
+        time.sleep(0.12)
+        # Software reset — many panels need this before register block (datasheet ~120 ms)
+        self.command(0x01)
+        time.sleep(0.15)
 
         self.command(0x36)
         self.data(0x00) 
@@ -113,8 +118,11 @@ class LCD_2inch(lcdconfig.RaspberryPi):
         self.command(0x21)
 
         self.command(0x11)
+        # SLPOUT (0x11): datasheet requires ~120 ms before DISPON / heavy traffic
+        time.sleep(0.15)
 
         self.command(0x29)
+        time.sleep(0.05)
 
   
     def SetWindows(self, Xstart, Ystart, Xend, Yend):

@@ -1,0 +1,242 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-f675daefa555828876cf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					]
+				},
+				{
+					"build" : "basicmicro_ros2__py",
+					"jsonFile" : "directory-basicmicro_ros2__py-Release-1f9e8fc1c46f3328e61f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/agrobot/ros2_ws/build/basicmicro_ros2/basicmicro_ros2__py",
+					"targetIndexes" : 
+					[
+						4
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "basicmicro_ros2",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_build_basicmicro_ros2_egg::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_build_basicmicro_ros2_egg-Release-dca945d4edbb3b56c7c4.json",
+					"name" : "ament_cmake_python_build_basicmicro_ros2_egg",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_copy_basicmicro_ros2::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_copy_basicmicro_ros2-Release-fff44a0910f00c984a81.json",
+					"name" : "ament_cmake_python_copy_basicmicro_ros2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2-Release-7aff12cca8b181c34187.json",
+					"name" : "basicmicro_ros2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2__cpp-Release-1157f5b19ad2c41c229b.json",
+					"name" : "basicmicro_ros2__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "basicmicro_ros2__py::@c77c22836c41595a3360",
+					"jsonFile" : "target-basicmicro_ros2__py-Release-7c5153576eea1fd7d4f7.json",
+					"name" : "basicmicro_ros2__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2__rosidl_generator_c-Release-17680a78bf1e2447b052.json",
+					"name" : "basicmicro_ros2__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2__rosidl_generator_py::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2__rosidl_generator_py-Release-e0bdea93f3cc86f25da6.json",
+					"name" : "basicmicro_ros2__rosidl_generator_py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2__rosidl_generator_type_description::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2__rosidl_generator_type_description-Release-9bdf4a2e83217098f8e0.json",
+					"name" : "basicmicro_ros2__rosidl_generator_type_description",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2__rosidl_typesupport_c-Release-b27d713754959cfd441c.json",
+					"name" : "basicmicro_ros2__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2__rosidl_typesupport_cpp-Release-85159da1c20344675d19.json",
+					"name" : "basicmicro_ros2__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2__rosidl_typesupport_fastrtps_c-Release-59c93ccc9e6948f4d409.json",
+					"name" : "basicmicro_ros2__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2__rosidl_typesupport_fastrtps_cpp-Release-e48d43ac2d462545f55d.json",
+					"name" : "basicmicro_ros2__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2__rosidl_typesupport_introspection_c-Release-3195d22f53ea87d0e7ef.json",
+					"name" : "basicmicro_ros2__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2__rosidl_typesupport_introspection_cpp-Release-17d15e9630564c2d22e2.json",
+					"name" : "basicmicro_ros2__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2_s__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2_s__rosidl_typesupport_c-Release-bdd6987455fa61f5d022.json",
+					"name" : "basicmicro_ros2_s__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2_s__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2_s__rosidl_typesupport_fastrtps_c-Release-f782358b1e42260062be.json",
+					"name" : "basicmicro_ros2_s__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2_s__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2_s__rosidl_typesupport_introspection_c-Release-62371c85f599905f3760.json",
+					"name" : "basicmicro_ros2_s__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "basicmicro_ros2_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-basicmicro_ros2_uninstall-Release-51c351de41be1adc2059.json",
+					"name" : "basicmicro_ros2_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-Release-4f912f7caef01cc81a72.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/agrobot/ros2_ws/build/basicmicro_ros2",
+		"source" : "/home/agrobot/ros2_ws/src/basicmicro_ros2"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

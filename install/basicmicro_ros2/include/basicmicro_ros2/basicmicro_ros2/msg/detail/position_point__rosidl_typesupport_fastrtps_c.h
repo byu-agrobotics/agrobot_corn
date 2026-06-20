@@ -1,0 +1,65 @@
+// generated from rosidl_typesupport_fastrtps_c/resource/idl__rosidl_typesupport_fastrtps_c.h.em
+// with input from basicmicro_ros2:msg/PositionPoint.idl
+// generated code does not contain a copyright notice
+#ifndef BASICMICRO_ROS2__MSG__DETAIL__POSITION_POINT__ROSIDL_TYPESUPPORT_FASTRTPS_C_H_
+#define BASICMICRO_ROS2__MSG__DETAIL__POSITION_POINT__ROSIDL_TYPESUPPORT_FASTRTPS_C_H_
+
+
+#include <stddef.h>
+#include "rosidl_runtime_c/message_type_support_struct.h"
+#include "rosidl_typesupport_interface/macros.h"
+#include "basicmicro_ros2/msg/rosidl_typesupport_fastrtps_c__visibility_control.h"
+#include "basicmicro_ros2/msg/detail/position_point__struct.h"
+#include "fastcdr/Cdr.h"
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_basicmicro_ros2
+bool cdr_serialize_basicmicro_ros2__msg__PositionPoint(
+  const basicmicro_ros2__msg__PositionPoint * ros_message,
+  eprosima::fastcdr::Cdr & cdr);
+
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_basicmicro_ros2
+bool cdr_deserialize_basicmicro_ros2__msg__PositionPoint(
+  eprosima::fastcdr::Cdr &,
+  basicmicro_ros2__msg__PositionPoint * ros_message);
+
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_basicmicro_ros2
+size_t get_serialized_size_basicmicro_ros2__msg__PositionPoint(
+  const void * untyped_ros_message,
+  size_t current_alignment);
+
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_basicmicro_ros2
+size_t max_serialized_size_basicmicro_ros2__msg__PositionPoint(
+  bool & full_bounded,
+  bool & is_plain,
+  size_t current_alignment);
+
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_basicmicro_ros2
+bool cdr_serialize_key_basicmicro_ros2__msg__PositionPoint(
+  const basicmicro_ros2__msg__PositionPoint * ros_message,
+  eprosima::fastcdr::Cdr & cdr);
+
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_basicmicro_ros2
+size_t get_serialized_size_key_basicmicro_ros2__msg__PositionPoint(
+  const void * untyped_ros_message,
+  size_t current_alignment);
+
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_basicmicro_ros2
+size_t max_serialized_size_key_basicmicro_ros2__msg__PositionPoint(
+  bool & full_bounded,
+  bool & is_plain,
+  size_t current_alignment);
+
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_basicmicro_ros2
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_fastrtps_c, basicmicro_ros2, msg, PositionPoint)();
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif  // BASICMICRO_ROS2__MSG__DETAIL__POSITION_POINT__ROSIDL_TYPESUPPORT_FASTRTPS_C_H_

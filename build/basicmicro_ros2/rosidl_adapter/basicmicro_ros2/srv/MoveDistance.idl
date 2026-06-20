@@ -1,0 +1,46 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/MoveDistance.srv
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "Request: Distance-based movement command")
+    struct MoveDistance_Request {
+      @verbatim (language="comment", text=
+        "Distance to travel for left wheel (meters)")
+      double left_distance;
+
+      @verbatim (language="comment", text=
+        "Distance to travel for right wheel (meters)")
+      double right_distance;
+
+      @verbatim (language="comment", text=
+        "Target speed during movement (m/s)")
+      double speed;
+
+      @verbatim (language="comment", text=
+        "Acceleration rate (m/s²)")
+      double acceleration;
+
+      @verbatim (language="comment", text=
+        "Whether to buffer the command for chaining")
+      boolean use_buffer;
+    };
+    struct MoveDistance_Response {
+      @verbatim (language="comment", text=
+        "Response: Command execution result" "\n"
+        "True if command was accepted and executed")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "Detailed result message or error description")
+      string message;
+
+      @verbatim (language="comment", text=
+        "Number of buffer slots used after this command")
+      int32 buffer_slots_used;
+    };
+  };
+};

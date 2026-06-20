@@ -1,0 +1,26 @@
+{
+  "type_description_msg": {
+    "type_description": {
+      "type_name": "basicmicro_ros2/srv/SetMotionStrategy_Request",
+      "fields": [
+        {
+          "name": "strategy",
+          "type": {
+            "type_id": 17,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        }
+      ]
+    },
+    "referenced_type_descriptions": []
+  },
+  "type_hashes": [
+    {
+      "type_name": "basicmicro_ros2/srv/SetMotionStrategy_Request",
+      "hash_string": "RIHS01_74037e58fc9688d01c8eaf60ee4a13f359a6e9bea31be615400128928e549331"
+    }
+  ]
+}

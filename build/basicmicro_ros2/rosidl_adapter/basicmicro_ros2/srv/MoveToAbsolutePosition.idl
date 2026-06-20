@@ -1,0 +1,48 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/MoveToAbsolutePosition.srv
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "MoveToAbsolutePosition.srv" "\n"
+      "Service for absolute position control (servo mode)")
+    struct MoveToAbsolutePosition_Request {
+      @verbatim (language="comment", text=
+        "Request" "\n"
+        "Absolute position for left motor (radians)")
+      double left_position_radians;
+
+      @verbatim (language="comment", text=
+        "Absolute position for right motor (radians)")
+      double right_position_radians;
+
+      @verbatim (language="comment", text=
+        "Maximum speed during move (m/s)")
+      double max_speed;
+
+      @verbatim (language="comment", text=
+        "Acceleration rate (m/s²)")
+      double acceleration;
+
+      @verbatim (language="comment", text=
+        "Deceleration rate (m/s²)")
+      double deceleration;
+
+      @verbatim (language="comment", text=
+        "Whether to buffer the command for chaining")
+      boolean buffer_command;
+    };
+    struct MoveToAbsolutePosition_Response {
+      @verbatim (language="comment", text=
+        "Response" "\n"
+        "True if command was executed successfully")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "Status message or error description")
+      string message;
+    };
+  };
+};

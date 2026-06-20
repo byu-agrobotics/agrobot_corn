@@ -1,0 +1,40 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/SetDutyCycleAccel.srv
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "SetDutyCycleAccel.srv" "\n"
+      "Service for controlling motor duty cycles with independent acceleration control per motor")
+    struct SetDutyCycleAccel_Request {
+      @verbatim (language="comment", text=
+        "Request" "\n"
+        "Left motor duty cycle (-32767 to +32767)")
+      int16 left_duty;
+
+      @verbatim (language="comment", text=
+        "Right motor duty cycle (-32767 to +32767)")
+      int16 right_duty;
+
+      @verbatim (language="comment", text=
+        "Left motor acceleration value")
+      int32 left_acceleration;
+
+      @verbatim (language="comment", text=
+        "Right motor acceleration value")
+      int32 right_acceleration;
+    };
+    struct SetDutyCycleAccel_Response {
+      @verbatim (language="comment", text=
+        "Response" "\n"
+        "True if command was executed successfully")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "Status message or error description")
+      string message;
+    };
+  };
+};

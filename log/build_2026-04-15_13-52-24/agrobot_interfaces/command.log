@@ -1,4 +1,0 @@
-Invoking command in '/home/agrobot/ros2_ws/build/agrobot_interfaces': CMAKE_PREFIX_PATH=/opt/ros/kilted /usr/bin/cmake --build /home/agrobot/ros2_ws/build/agrobot_interfaces -- -j4 -l4
-Invoked command in '/home/agrobot/ros2_ws/build/agrobot_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/kilted /usr/bin/cmake --build /home/agrobot/ros2_ws/build/agrobot_interfaces -- -j4 -l4
-Invoking command in '/home/agrobot/ros2_ws/build/agrobot_interfaces': CMAKE_PREFIX_PATH=/opt/ros/kilted /usr/bin/cmake --install /home/agrobot/ros2_ws/build/agrobot_interfaces
-Invoked command in '/home/agrobot/ros2_ws/build/agrobot_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/kilted /usr/bin/cmake --install /home/agrobot/ros2_ws/build/agrobot_interfaces

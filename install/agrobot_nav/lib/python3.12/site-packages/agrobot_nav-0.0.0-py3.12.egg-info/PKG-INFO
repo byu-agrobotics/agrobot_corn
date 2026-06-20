@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: agrobot-nav
+Version: 0.0.0
+Summary: Examples of minimal publisher/subscriber using rclpy
+Maintainer: w2boy
+Maintainer-email: wesleyt.wardle@gmail.com
+License: Apache-2.0
+Provides-Extra: test
+License-File: LICENSE

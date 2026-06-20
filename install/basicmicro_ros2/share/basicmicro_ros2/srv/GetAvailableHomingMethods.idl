@@ -1,0 +1,45 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/GetAvailableHomingMethods.srv
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "GetAvailableHomingMethods.srv" "\n"
+      "Service to query available homing methods based on controller type and configuration")
+    struct GetAvailableHomingMethods_Request {
+      uint8 structure_needs_at_least_one_member;
+    };
+    struct GetAvailableHomingMethods_Response {
+      @verbatim (language="comment", text=
+        "Response" "\n"
+        "True if query was successful")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "\"roboclaw\" or \"mcp\"")
+      string controller_type;
+
+      @verbatim (language="comment", text=
+        "List of available homing method IDs")
+      sequence<string> available_methods;
+
+      @verbatim (language="comment", text=
+        "Human-readable descriptions for each method")
+      sequence<string> method_descriptions;
+
+      @verbatim (language="comment", text=
+        "Allowed directions for each method (forward/backward/both)")
+      sequence<string> allowed_directions;
+
+      @verbatim (language="comment", text=
+        "Whether each method automatically zeros encoder")
+      sequence<boolean> auto_zeros_encoder;
+
+      @verbatim (language="comment", text=
+        "Whether each method also acts as limit switch")
+      sequence<boolean> acts_as_limit;
+    };
+  };
+};

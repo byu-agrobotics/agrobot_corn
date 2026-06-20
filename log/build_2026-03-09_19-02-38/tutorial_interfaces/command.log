@@ -1,2 +1,0 @@
-Invoking command in '/home/agrobot/ros2_ws/build/tutorial_interfaces': CMAKE_PREFIX_PATH=/home/agrobot/ros2_ws/install/py_pubsub:/opt/ros/kilted /usr/bin/cmake /home/agrobot/ros2_ws/src/tutorial_interfaces -DCMAKE_INSTALL_PREFIX=/home/agrobot/ros2_ws/install/tutorial_interfaces
-Invoked command in '/home/agrobot/ros2_ws/build/tutorial_interfaces' returned '1': CMAKE_PREFIX_PATH=/home/agrobot/ros2_ws/install/py_pubsub:/opt/ros/kilted /usr/bin/cmake /home/agrobot/ros2_ws/src/tutorial_interfaces -DCMAKE_INSTALL_PREFIX=/home/agrobot/ros2_ws/install/tutorial_interfaces

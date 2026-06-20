@@ -1,0 +1,36 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from basicmicro_ros2/srv/SetHomingConfiguration.srv
+// generated code does not contain a copyright notice
+
+
+module basicmicro_ros2 {
+  module srv {
+    @verbatim (language="comment", text=
+      "SetHomingConfiguration.srv" "\n"
+      "Service to configure homing parameters")
+    struct SetHomingConfiguration_Request {
+      @verbatim (language="comment", text=
+        "Request" "\n"
+        "Whether to auto-home on startup (RoboClaw only)")
+      boolean auto_home_on_startup;
+
+      @verbatim (language="comment", text=
+        "Default homing method ID")
+      string default_homing_method;
+
+      @verbatim (language="comment", text=
+        "Default homing speed (m/s)")
+      double default_homing_speed;
+    };
+    struct SetHomingConfiguration_Response {
+      @verbatim (language="comment", text=
+        "Response" "\n"
+        "True if configuration was set successfully")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        "Status message or error description")
+      string message;
+    };
+  };
+};
