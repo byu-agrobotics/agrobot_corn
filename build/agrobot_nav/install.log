@@ -1,11 +1,13 @@
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/tof_sensor_node.py
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/camera_node.py
+/home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/nav_state_machine.py
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__init__.py
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/subscriber_member_function.py
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/publisher_member_function.py
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/py.typed
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__pycache__/tof_sensor_node.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__pycache__/camera_node.cpython-312.pyc
+/home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__pycache__/nav_state_machine.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__pycache__/__init__.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__pycache__/subscriber_member_function.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__pycache__/publisher_member_function.cpython-312.pyc
@@ -21,4 +23,5 @@
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav/camera
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav/drive_control
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav/input
+/home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav/nav
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav/tof_sensor

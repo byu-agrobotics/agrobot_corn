@@ -2,4 +2,5 @@
 camera = agrobot_nav.camera_node:main
 drive_control = agrobot_nav.subscriber_member_function:main
 input = agrobot_nav.publisher_member_function:main
+nav = agrobot_nav.nav_state_machine:main
 tof_sensor = agrobot_nav.tof_sensor_node:main

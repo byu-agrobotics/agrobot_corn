@@ -11,6 +11,7 @@ setup.py
 ../../build/agrobot_nav/agrobot_nav.egg-info/zip-safe
 agrobot_nav/__init__.py
 agrobot_nav/camera_node.py
+agrobot_nav/nav_state_machine.py
 agrobot_nav/publisher_member_function.py
 agrobot_nav/py.typed
 agrobot_nav/subscriber_member_function.py
