@@ -29,6 +29,7 @@ setup(
             'lcd_display_publisher = agrobot_detect.lcd_display_publisher:main',
             'lcd_display_subscriber = agrobot_detect.lcd_display_subscriber:main',
             'vision_application_publisher = agrobot_detect.vision_application_publisher:main',
+	    'beam_break_node = agrobot_detect.beam_break_node:main',
         ],
     },
 )

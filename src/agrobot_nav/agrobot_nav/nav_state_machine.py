@@ -1,34 +1,46 @@
 #!/usr/bin/env python3
 """
-PID Navigation State Machine
-=============================
+PID Navigation State Machine — Square Pattern (5-Point Turn)
+=============================================================
 
-Subscribes to 8 ToF sensor topics, implements a state machine for
-autonomous navigation with PID wall-following, and controls the
-RoboClaws directly.
+Drives straight using PID wall-following on the left side sensors,
+then performs a multi-step right turn maneuver designed for a
+small arena where there isn't room for a full in-place 90° turn.
+
+Turn sequence:
+  1. BACKING_UP          — reverse briefly to clear the wall
+  2. TURN_RIGHT_INITIAL  — short timed right turn (no sensor check)
+  3. DRIVE_FORWARD_BURST — drive forward a short burst
+  4. TURN_RIGHT_SECOND   — another short timed right turn (no sensor check)
+  5. DRIVE_FORWARD_BURST_2 — drive forward another short burst
+  6. TURN_RIGHT_FINAL    — final timed right turn (no sensor check)
+  7. DRIVE_STRAIGHT      — resume PID wall-following
 
 Sensor layout (looking down at the robot):
 
         FRONT
    ┌──────────────┐
-   │ CH0      CH1 │   ← front sensors (end-wall detection)
+   │ CH0      CH1 │   ← front sensors (not used for stopping)
    │              │
-   │CH2        CH3│   ← side sensors (wall-following)
+   │CH7        CH3│   ← side sensors (wall-following)
    │              │
    │CH4        CH5│   ← side sensors (wall-following)
    │              │
-   │ CH6      CH7 │   ← rear sensors
+   │ CH6      CH2 │   ← rear sensors
    └──────────────┘
         REAR
 
-Left wall following uses CH2 + CH4 (averaged).
-Front wall detection uses CH0 + CH1 (minimum of the two).
+Left wall following uses CH7 + CH4 (averaged).
 
 States:
-    IDLE           → motors stopped, waiting for start command
-    DRIVE_STRAIGHT → PID wall-following on left side
-    STOPPING       → front wall detected, decelerating to stop
-    TURNING_RIGHT  → slow 90° right turn using ToF feedback
+    IDLE                → motors stopped, waiting for start command
+    DRIVE_STRAIGHT      → PID wall-following for drive_duration_s
+    BACKING_UP          → reverse briefly after hitting wall
+    TURN_RIGHT_INITIAL  → short blind right turn
+    DRIVE_FORWARD_BURST → short forward burst to reposition
+    TURN_RIGHT_SECOND   → second short blind right turn
+    DRIVE_FORWARD_BURST_2 → second short forward burst
+    TURN_RIGHT_FINAL    → final short blind right turn
 """
 
 import sys
@@ -61,50 +73,55 @@ NUM_SENSORS = 8
 # Sensor channel assignments
 CH_FRONT_LEFT  = 0
 CH_FRONT_RIGHT = 1
-CH_LEFT_FRONT  = 2   # left side, toward the front of the robot
+CH_LEFT_FRONT  = 7   # left side, toward the front of the robot
 CH_RIGHT_FRONT = 3   # right side, toward the front of the robot
 CH_LEFT_REAR   = 4   # left side, toward the rear of the robot
 CH_RIGHT_REAR  = 5   # right side, toward the rear of the robot
 CH_REAR_LEFT   = 6
-CH_REAR_RIGHT  = 7
+CH_REAR_RIGHT  = 2
 
 
 class State(Enum):
     IDLE = auto()
     DRIVE_STRAIGHT = auto()
-    STOPPING = auto()
+    BACKING_UP = auto()
     TURNING_RIGHT = auto()
 
 
 class NavStateMachine(Node):
-    """PID navigation state machine with ToF wall-following."""
+    """PID navigation state machine with ToF wall-following — square pattern."""
 
     def __init__(self):
         super().__init__('nav_state_machine')
 
         # ── Parameters ───────────────────────────────────────────────────────
-        self.declare_parameter('wall_distance_mm', 65.0)
-        self.declare_parameter('front_stop_distance_mm', 110.0)
-        self.declare_parameter('collision_distance_mm', 35.0)
-        self.declare_parameter('drive_duty_fraction', 0.35)
-        self.declare_parameter('turn_duty_fraction', 0.30)
+        self.declare_parameter('wall_distance_mm', 100.0)
+        self.declare_parameter('drive_duty_fraction', 0.25)
+        self.declare_parameter('turn_duty_fraction', 0.50)     # Outer wheels need high power to overcome skid friction
+        self.declare_parameter('backup_duty_fraction', 0.30)
         self.declare_parameter('kp', 2.0)
         self.declare_parameter('ki', 0.005)
         self.declare_parameter('kd', 0.5)
-        self.declare_parameter('control_rate_hz', 20.0)
-        self.declare_parameter('turn_clear_distance_mm', 180.0)
+        self.declare_parameter('control_rate_hz', 10.0)
+        self.declare_parameter('drive_duration_s', 3.0)
+        self.declare_parameter('backup_duration_s', 0.6)
+        self.declare_parameter('turn_burst_1_s', 0.6)          # Duration of first turn burst
+        self.declare_parameter('turn_pause_s', 0.2)            # Duration of pause between bursts
+        self.declare_parameter('turn_burst_2_s', 0.4)          # Duration of second turn burst
 
         self.wall_setpoint = self.get_parameter('wall_distance_mm').value
-        self.front_stop_dist = self.get_parameter('front_stop_distance_mm').value
-        self.collision_dist = self.get_parameter('collision_distance_mm').value
         self.drive_duty_frac = self.get_parameter('drive_duty_fraction').value
         self.turn_duty_frac = self.get_parameter('turn_duty_fraction').value
+        self.backup_duty_frac = self.get_parameter('backup_duty_fraction').value
         self.kp = self.get_parameter('kp').value
         self.ki = self.get_parameter('ki').value
         self.kd = self.get_parameter('kd').value
         self.control_rate = self.get_parameter('control_rate_hz').value
-        self.turn_clear_dist = self.get_parameter('turn_clear_distance_mm').value
-
+        self.drive_duration = self.get_parameter('drive_duration_s').value
+        self.backup_duration = self.get_parameter('backup_duration_s').value
+        self.turn_burst_1 = self.get_parameter('turn_burst_1_s').value
+        self.turn_pause = self.get_parameter('turn_pause_s').value
+        self.turn_burst_2 = self.get_parameter('turn_burst_2_s').value
 
         # ── State ────────────────────────────────────────────────────────────
         self.state = State.IDLE
@@ -116,14 +133,13 @@ class NavStateMachine(Node):
         self.pid_prev_error = 0.0
         self.pid_last_time = None
 
-        # Turn state
-        self.turn_start_time = None
-        self.turn_max_duration = 8.0  # safety timeout (seconds)
-        self.turn_phase = 0  # 0 = clearing front, 1 = waiting for alignment
+        # Timing
+        self.phase_start_time = None
+        self.leg_count = 0  # how many legs of the square we've completed
+        self.turn_phase = 0
 
-        # Collision detection: require consecutive readings before triggering
-        self.collision_counts = [0] * NUM_SENSORS
-        self.collision_threshold_count = 5  # consecutive readings needed (~250ms at 20Hz)
+        # Logging counter
+        self._log_counter = 0
 
         # ── Subscribers: ToF sensors ─────────────────────────────────────────
         self.tof_subs = []
@@ -155,6 +171,22 @@ class NavStateMachine(Node):
                     self.controller = Basicmicro(port, 38400)
                     if self.controller.Open():
                         self.get_logger().info(f'RoboClaw connected on {port}')
+
+                        # Set serial timeout on both RoboClaws (0.5 seconds).
+                        # If the Pi crashes and stops sending commands, the
+                        # RoboClaws will automatically stop the motors after
+                        # this timeout expires. This prevents runaway motors.
+                        for addr in [self.addr_1, self.addr_2]:
+                            try:
+                                self.controller.SetTimeout(addr, 0.5)
+                                self.get_logger().info(
+                                    f'  RoboClaw 0x{addr:02X}: serial timeout set to 0.5s'
+                                )
+                            except Exception as e:
+                                self.get_logger().warn(
+                                    f'  RoboClaw 0x{addr:02X}: failed to set timeout: {e}'
+                                )
+
                         break
                     else:
                         self.controller = None
@@ -173,8 +205,11 @@ class NavStateMachine(Node):
         self.get_logger().info('Nav state machine ready (IDLE)')
         self.get_logger().info(
             f'  Wall setpoint: {self.wall_setpoint}mm, '
-            f'Front stop: {self.front_stop_dist}mm, '
-            f'PID: Kp={self.kp} Ki={self.ki} Kd={self.kd}'
+            f'Drive: {self.drive_duration}s, '
+            f'Backup: {self.backup_duration}s'
+        )
+        self.get_logger().info(
+            f'  PID: Kp={self.kp} Ki={self.ki} Kd={self.kd}'
         )
         self.get_logger().info("  Press 'w' to start, 'q' to stop")
 
@@ -192,6 +227,8 @@ class NavStateMachine(Node):
             if self.state == State.IDLE:
                 self.get_logger().info('>>> START: IDLE → DRIVE_STRAIGHT')
                 self._reset_pid()
+                self.phase_start_time = time.monotonic()
+                self.leg_count = 0
                 self.state = State.DRIVE_STRAIGHT
         elif msg.num == 0:  # 'q' key
             if self.state != State.IDLE:
@@ -200,17 +237,6 @@ class NavStateMachine(Node):
                 self.state = State.IDLE
 
     # ── Sensor helpers ───────────────────────────────────────────────────────
-
-    def _front_distance(self) -> float:
-        """Minimum of the two front sensors (conservative for safety)."""
-        vals = []
-        if self.sensor_valid[CH_FRONT_LEFT] and self.distances[CH_FRONT_LEFT] > 0:
-            vals.append(self.distances[CH_FRONT_LEFT])
-        if self.sensor_valid[CH_FRONT_RIGHT] and self.distances[CH_FRONT_RIGHT] > 0:
-            vals.append(self.distances[CH_FRONT_RIGHT])
-        if not vals:
-            return 9999.0  # no valid reading → assume clear
-        return min(vals)
 
     def _left_wall_distance(self) -> float:
         """Average of the two left-side sensors for wall-following."""
@@ -222,22 +248,6 @@ class NavStateMachine(Node):
         if not vals:
             return self.wall_setpoint  # no reading → assume at setpoint (no correction)
         return sum(vals) / len(vals)
-
-    def _any_collision_risk(self) -> bool:
-        """Check if ANY sensor has consecutive readings below collision threshold."""
-        collision_detected = False
-        for ch in range(NUM_SENSORS):
-            if self.sensor_valid[ch] and 0 < self.distances[ch] < self.collision_dist:
-                self.collision_counts[ch] += 1
-                if self.collision_counts[ch] >= self.collision_threshold_count:
-                    self.get_logger().warn(
-                        f'COLLISION RISK: CH{ch} = {self.distances[ch]:.0f}mm '
-                        f'for {self.collision_counts[ch]} consecutive readings'
-                    )
-                    collision_detected = True
-            else:
-                self.collision_counts[ch] = 0  # reset if reading is normal
-        return collision_detected
 
     # ── PID controller ───────────────────────────────────────────────────────
 
@@ -297,11 +307,11 @@ class NavStateMachine(Node):
 
         with self.controller_lock:
             try:
-                self.controller.DutyM1M2(self.addr_1, left_duty, right_duty)
+                self.controller.DutyM1M2(self.addr_1, right_duty, left_duty)
             except Exception as e:
                 self.get_logger().error(f'RoboClaw 1 error: {e}')
             try:
-                self.controller.DutyM1M2(self.addr_2, left_duty, right_duty)
+                self.controller.DutyM1M2(self.addr_2, right_duty, left_duty)
             except Exception as e:
                 self.get_logger().error(f'RoboClaw 2 error: {e}')
 
@@ -314,37 +324,32 @@ class NavStateMachine(Node):
     def _control_loop(self):
         """Main control loop — runs at control_rate_hz."""
 
-        # ── Safety first: collision avoidance in ALL states ──────────────────
-        if self.state != State.IDLE and self._any_collision_risk():
-            self.get_logger().error('EMERGENCY STOP — collision risk detected!')
-            self._stop_motors()
-            self.state = State.IDLE
-            return
-
-        # ── State dispatch ───────────────────────────────────────────────────
         if self.state == State.IDLE:
             pass  # do nothing, motors should already be stopped
 
         elif self.state == State.DRIVE_STRAIGHT:
             self._do_drive_straight()
 
-        elif self.state == State.STOPPING:
-            self._do_stopping()
+        elif self.state == State.BACKING_UP:
+            self._do_backing_up()
 
         elif self.state == State.TURNING_RIGHT:
             self._do_turning_right()
 
     def _do_drive_straight(self):
-        """PID wall-following: maintain fixed distance from left wall."""
+        """PID wall-following for a fixed duration (drive_duration_s)."""
 
-        # Check front wall
-        front_dist = self._front_distance()
-        if front_dist < self.front_stop_dist:
+        elapsed = time.monotonic() - self.phase_start_time
+
+        # Check if we've driven long enough
+        if elapsed >= self.drive_duration:
             self.get_logger().info(
-                f'Front wall detected at {front_dist:.0f}mm — STOPPING'
+                f'Drive leg {self.leg_count + 1} complete ({elapsed:.1f}s) — turning right'
             )
             self._stop_motors()
-            self.state = State.STOPPING
+            self.phase_start_time = time.monotonic()
+            self.turn_phase = 0
+            self.state = State.TURNING_RIGHT
             return
 
         # PID wall-following
@@ -361,96 +366,70 @@ class NavStateMachine(Node):
         self._send_motors(left_duty, right_duty)
 
         # Log periodically (every ~0.5s = every 10th cycle at 20Hz)
-        if not hasattr(self, '_log_counter'):
-            self._log_counter = 0
         self._log_counter += 1
         if self._log_counter % 10 == 0:
             self.get_logger().info(
                 f'DRIVE: left_wall={left_dist:.0f}mm '
-                f'front={front_dist:.0f}mm '
                 f'correction={correction:.0f} '
-                f'duty=({left_duty},{right_duty})'
+                f'duty=({left_duty},{right_duty}) '
+                f'time={elapsed:.1f}/{self.drive_duration:.0f}s'
             )
 
-    def _do_stopping(self):
-        """Stopped at wall — transition to turn."""
-        self._stop_motors()
+    def _do_backing_up(self):
+        """Reverse briefly to clear the wall."""
 
-        self.get_logger().info('Stopped at wall — starting RIGHT TURN')
-        self.turn_start_time = time.monotonic()
-        self.turn_phase = 0
-        self.state = State.TURNING_RIGHT
+        elapsed = time.monotonic() - self.phase_start_time
 
-    def _do_turning_right(self):
-        """Execute a slow 90° right turn using ToF feedback."""
-        elapsed = time.monotonic() - self.turn_start_time
-
-        # Safety timeout
-        if elapsed > self.turn_max_duration:
-            self.get_logger().warn(
-                f'Turn timeout after {self.turn_max_duration}s — stopping'
+        if elapsed >= self.backup_duration:
+            self.get_logger().info(
+                f'Backup complete ({elapsed:.1f}s) — turning right'
             )
             self._stop_motors()
-            self.state = State.IDLE
+            self.phase_start_time = time.monotonic()
+            self.turn_phase = 0
+            self.state = State.TURNING_RIGHT
             return
 
-        front_dist = self._front_distance()
-        left_dist = self._left_wall_distance()
+        # Drive backwards
+        backup_duty = -int(self.backup_duty_frac * DUTY_MAX)
+        self._send_motors(backup_duty, backup_duty)
+
+    def _do_turning_right(self):
+        """Execute a hardcoded two-burst right turn:
+        Phase 0: Turn Right (burst 1)
+        Phase 1: Pause (stop motors)
+        Phase 2: Turn Right (burst 2)
+        """
+        elapsed = time.monotonic() - self.phase_start_time
         turn_duty = int(self.turn_duty_frac * DUTY_MAX)
 
         if self.turn_phase == 0:
-            # Phase 0: Spin right until front sensors clear the wall
-            # (front distance exceeds the "clear" threshold)
             self._send_motors(turn_duty, -turn_duty)
-
-            if front_dist > self.turn_clear_dist:
-                self.get_logger().info(
-                    f'Turn phase 0 complete: front clear at {front_dist:.0f}mm '
-                    f'(elapsed {elapsed:.1f}s)'
-                )
-                self.turn_phase = 1
-
-        elif self.turn_phase == 1:
-            # Phase 1: Continue spinning right until the left sensors
-            # detect a wall at approximately the wall-following setpoint.
-            # This means the robot has rotated ~90° and is now aligned
-            # with a wall on its left side.
-            self._send_motors(turn_duty, -turn_duty)
-
-            # Check if left sensors see a wall near the setpoint
-            # (within a tolerance band)
-            tolerance = 40.0  # mm
-            if (self.sensor_valid[CH_LEFT_FRONT] or self.sensor_valid[CH_LEFT_REAR]):
-                if abs(left_dist - self.wall_setpoint) < tolerance and left_dist > 0:
-                    self.get_logger().info(
-                        f'Turn phase 1 complete: left wall at {left_dist:.0f}mm '
-                        f'(target {self.wall_setpoint:.0f}mm, elapsed {elapsed:.1f}s)'
-                    )
-                    self._stop_motors()
-                    self._reset_pid()
-                    self.state = State.DRIVE_STRAIGHT
-                    self.get_logger().info('Turn complete — resuming DRIVE_STRAIGHT')
-                    return
-
-            # Also check: if front sees a wall close again (turned too far),
-            # stop the turn immediately
-            if front_dist < self.front_stop_dist and elapsed > 1.0:
-                self.get_logger().warn(
-                    f'Front wall reappeared at {front_dist:.0f}mm during turn — stopping'
-                )
+            if elapsed >= self.turn_burst_1:
                 self._stop_motors()
-                self.state = State.IDLE
+                self.phase_start_time = time.monotonic()
+                self.turn_phase = 1
+                self.get_logger().info(f'Turn burst 1 complete ({self.turn_burst_1}s)')
+        
+        elif self.turn_phase == 1:
+            self._stop_motors()
+            if elapsed >= self.turn_pause:
+                self.phase_start_time = time.monotonic()
+                self.turn_phase = 2
+                self.get_logger().info(f'Turn pause complete ({self.turn_pause}s)')
 
-        # Log turn progress periodically
-        if not hasattr(self, '_turn_log_counter'):
-            self._turn_log_counter = 0
-        self._turn_log_counter += 1
-        if self._turn_log_counter % 10 == 0:
-            self.get_logger().info(
-                f'TURNING: phase={self.turn_phase} '
-                f'front={front_dist:.0f}mm left={left_dist:.0f}mm '
-                f'elapsed={elapsed:.1f}s'
-            )
+        elif self.turn_phase == 2:
+            self._send_motors(turn_duty, -turn_duty)
+            if elapsed >= self.turn_burst_2:
+                self._stop_motors()
+                self._reset_pid()
+                self.phase_start_time = time.monotonic()
+                self.state = State.DRIVE_STRAIGHT
+                self.leg_count += 1
+                self.get_logger().info(
+                    f'Turn burst 2 complete ({self.turn_burst_2}s) — resuming DRIVE_STRAIGHT (leg {self.leg_count})'
+                )
+                return
 
     # ── Cleanup ──────────────────────────────────────────────────────────────
 

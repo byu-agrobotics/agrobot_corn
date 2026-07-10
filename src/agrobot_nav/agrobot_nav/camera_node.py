@@ -75,10 +75,12 @@ class MJPEGHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
             try:
+                import time
                 while True:
                     with MJPEGHandler.frame_lock:
                         frame = MJPEGHandler.latest_frame
                     if frame is None:
+                        time.sleep(0.01)
                         continue
 
                     ret, jpeg = cv2.imencode(

@@ -1,0 +1,48 @@
+[1.412s] Invoking command in '/home/agrobot/ros2_ws/build/agrobot_nav': AMENT_PREFIX_PATH=/home/agrobot/ros2_ws/install/tutorial_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/agrobot/ros2_ws/install/tutorial_interfaces:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/agrobot/ros2_ws/install/tutorial_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_nav/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/tutorial_interfaces/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/agrobot/ros2_ws/build/agrobot_nav/build
+[1.783s] running develop
+[1.993s] Removing /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot-nav.egg-link (link to .)
+[2.091s] Invoked command in '/home/agrobot/ros2_ws/build/agrobot_nav' returned '0': AMENT_PREFIX_PATH=/home/agrobot/ros2_ws/install/tutorial_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/agrobot/ros2_ws/install/tutorial_interfaces:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/agrobot/ros2_ws/install/tutorial_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_nav/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/tutorial_interfaces/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/agrobot/ros2_ws/build/agrobot_nav/build
+[2.092s] Invoking command in '/home/agrobot/ros2_ws/src/agrobot_nav': AMENT_PREFIX_PATH=/home/agrobot/ros2_ws/install/tutorial_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/agrobot/ros2_ws/install/tutorial_interfaces:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/agrobot/ros2_ws/install/tutorial_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_nav/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/tutorial_interfaces/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/agrobot_nav build --build-base /home/agrobot/ros2_ws/build/agrobot_nav/build install --record /home/agrobot/ros2_ws/build/agrobot_nav/install.log --single-version-externally-managed install_data --force
+[2.410s] running egg_info
+[2.430s] writing ../../build/agrobot_nav/agrobot_nav.egg-info/PKG-INFO
+[2.431s] writing dependency_links to ../../build/agrobot_nav/agrobot_nav.egg-info/dependency_links.txt
+[2.432s] writing entry points to ../../build/agrobot_nav/agrobot_nav.egg-info/entry_points.txt
+[2.432s] writing requirements to ../../build/agrobot_nav/agrobot_nav.egg-info/requires.txt
+[2.433s] writing top-level names to ../../build/agrobot_nav/agrobot_nav.egg-info/top_level.txt
+[2.477s] reading manifest file '../../build/agrobot_nav/agrobot_nav.egg-info/SOURCES.txt'
+[2.477s] adding license file 'LICENSE'
+[2.478s] writing manifest file '../../build/agrobot_nav/agrobot_nav.egg-info/SOURCES.txt'
+[2.478s] running build
+[2.478s] running build_py
+[2.478s] copying agrobot_nav/tof_sensor_node.py -> /home/agrobot/ros2_ws/build/agrobot_nav/build/lib/agrobot_nav
+[2.479s] copying agrobot_nav/nav_state_machine.py -> /home/agrobot/ros2_ws/build/agrobot_nav/build/lib/agrobot_nav
+[2.479s] running install
+[2.488s] running install_lib
+[2.509s] creating /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav
+[2.509s] copying /home/agrobot/ros2_ws/build/agrobot_nav/build/lib/agrobot_nav/py.typed -> /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav
+[2.509s] copying /home/agrobot/ros2_ws/build/agrobot_nav/build/lib/agrobot_nav/tof_sensor_node.py -> /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav
+[2.509s] copying /home/agrobot/ros2_ws/build/agrobot_nav/build/lib/agrobot_nav/camera_node.py -> /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav
+[2.509s] copying /home/agrobot/ros2_ws/build/agrobot_nav/build/lib/agrobot_nav/nav_state_machine.py -> /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav
+[2.510s] copying /home/agrobot/ros2_ws/build/agrobot_nav/build/lib/agrobot_nav/__init__.py -> /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav
+[2.510s] copying /home/agrobot/ros2_ws/build/agrobot_nav/build/lib/agrobot_nav/subscriber_member_function.py -> /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav
+[2.511s] copying /home/agrobot/ros2_ws/build/agrobot_nav/build/lib/agrobot_nav/publisher_member_function.py -> /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav
+[2.512s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/tof_sensor_node.py to tof_sensor_node.cpython-312.pyc
+[2.515s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/camera_node.py to camera_node.cpython-312.pyc
+[2.517s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/nav_state_machine.py to nav_state_machine.cpython-312.pyc
+[2.521s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__init__.py to __init__.cpython-312.pyc
+[2.521s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/subscriber_member_function.py to subscriber_member_function.cpython-312.pyc
+[2.522s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/publisher_member_function.py to publisher_member_function.cpython-312.pyc
+[2.523s] running install_data
+[2.523s] copying resource/agrobot_nav -> /home/agrobot/ros2_ws/install/agrobot_nav/share/ament_index/resource_index/packages
+[2.524s] copying package.xml -> /home/agrobot/ros2_ws/install/agrobot_nav/share/agrobot_nav
+[2.524s] copying launch/agrobot_launch.py -> /home/agrobot/ros2_ws/install/agrobot_nav/share/agrobot_nav/launch
+[2.524s] running install_egg_info
+[2.547s] Copying ../../build/agrobot_nav/agrobot_nav.egg-info to /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav-0.0.0-py3.12.egg-info
+[2.549s] running install_scripts
+[2.699s] Installing camera script to /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav
+[2.700s] Installing drive_control script to /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav
+[2.701s] Installing input script to /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav
+[2.702s] Installing nav script to /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav
+[2.703s] Installing tof_sensor script to /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav
+[2.708s] writing list of installed files to '/home/agrobot/ros2_ws/build/agrobot_nav/install.log'
+[2.814s] Invoked command in '/home/agrobot/ros2_ws/src/agrobot_nav' returned '0': AMENT_PREFIX_PATH=/home/agrobot/ros2_ws/install/tutorial_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/agrobot/ros2_ws/install/tutorial_interfaces:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/agrobot/ros2_ws/install/tutorial_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_nav/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/tutorial_interfaces/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/agrobot_nav build --build-base /home/agrobot/ros2_ws/build/agrobot_nav/build install --record /home/agrobot/ros2_ws/build/agrobot_nav/install.log --single-version-externally-managed install_data --force

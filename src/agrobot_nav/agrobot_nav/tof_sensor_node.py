@@ -187,7 +187,10 @@ class TMF8801Node(Node):
                 self.get_logger().warn(f'[CH{ch}] Init error: {e}')
                 self.sensor_ready[ch] = False
 
-        self._deselect_all()
+        try:
+            self._deselect_all()
+        except Exception:
+            pass
         return any(self.sensor_ready)
 
     def _init_single_sensor(self, channel: int) -> bool:
@@ -319,6 +322,9 @@ class TMF8801Node(Node):
 
             # Check for valid result
             if register_contents != 0x55:
+                return
+
+            if confidence < 1:
                 return
 
             # Publish

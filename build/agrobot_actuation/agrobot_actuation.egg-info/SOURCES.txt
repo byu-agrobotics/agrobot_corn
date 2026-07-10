@@ -1,4 +1,3 @@
-LICENSE
 package.xml
 setup.cfg
 setup.py
@@ -14,9 +13,11 @@ agrobot_actuation/button_client.py
 agrobot_actuation/py.typed
 agrobot_actuation/remove.py
 agrobot_actuation/seed.py
+agrobot_actuation.egg-info/PKG-INFO
+agrobot_actuation.egg-info/SOURCES.txt
+agrobot_actuation.egg-info/dependency_links.txt
+agrobot_actuation.egg-info/entry_points.txt
+agrobot_actuation.egg-info/requires.txt
+agrobot_actuation.egg-info/top_level.txt
+agrobot_actuation.egg-info/zip-safe
 resource/agrobot_actuation
-test/test_copyright.py
-test/test_flake8.py
-test/test_mypy.py
-test/test_pep257.py
-test/test_xmllint.py

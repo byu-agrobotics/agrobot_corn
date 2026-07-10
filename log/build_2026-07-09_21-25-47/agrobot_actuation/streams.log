@@ -1,0 +1,19 @@
+[1.130s] Invoking command in '/home/agrobot/ros2_ws/build/agrobot_actuation': AMENT_PREFIX_PATH=/home/agrobot/ros2_ws/install/agrobot_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/agrobot/ros2_ws/install/agrobot_interfaces:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/agrobot/ros2_ws/install/agrobot_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_actuation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/agrobot/ros2_ws/build/agrobot_actuation/build --no-deps symlink_data
+[1.515s] running develop
+[1.727s] running egg_info
+[1.748s] writing agrobot_actuation.egg-info/PKG-INFO
+[1.748s] writing dependency_links to agrobot_actuation.egg-info/dependency_links.txt
+[1.749s] writing entry points to agrobot_actuation.egg-info/entry_points.txt
+[1.750s] writing requirements to agrobot_actuation.egg-info/requires.txt
+[1.751s] writing top-level names to agrobot_actuation.egg-info/top_level.txt
+[1.794s] reading manifest file 'agrobot_actuation.egg-info/SOURCES.txt'
+[1.796s] writing manifest file 'agrobot_actuation.egg-info/SOURCES.txt'
+[1.819s] running build_ext
+[1.819s] Creating /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot-actuation.egg-link (link to .)
+[1.820s] Installing button_client script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation
+[1.821s] Installing remove script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation
+[1.821s] Installing seed script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation
+[1.821s] 
+[1.821s] Installed /home/agrobot/ros2_ws/build/agrobot_actuation
+[1.821s] running symlink_data
+[1.918s] Invoked command in '/home/agrobot/ros2_ws/build/agrobot_actuation' returned '0': AMENT_PREFIX_PATH=/home/agrobot/ros2_ws/install/agrobot_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/agrobot/ros2_ws/install/agrobot_interfaces:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/agrobot/ros2_ws/install/agrobot_interfaces/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_actuation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/agrobot/ros2_ws/build/agrobot_actuation/build --no-deps symlink_data

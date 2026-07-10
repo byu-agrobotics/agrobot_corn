@@ -1,0 +1,22 @@
+running develop
+running egg_info
+writing agrobot_nav.egg-info/PKG-INFO
+writing dependency_links to agrobot_nav.egg-info/dependency_links.txt
+writing entry points to agrobot_nav.egg-info/entry_points.txt
+writing requirements to agrobot_nav.egg-info/requires.txt
+writing top-level names to agrobot_nav.egg-info/top_level.txt
+reading manifest file 'agrobot_nav.egg-info/SOURCES.txt'
+writing manifest file 'agrobot_nav.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot-nav.egg-link (link to .)
+Installing camera script to /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav
+Installing drive_control script to /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav
+Installing input script to /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav
+Installing nav script to /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav
+Installing tof_sensor script to /home/agrobot/ros2_ws/install/agrobot_nav/lib/agrobot_nav
+
+Installed /home/agrobot/ros2_ws/build/agrobot_nav
+running symlink_data
+symbolically linking /home/agrobot/ros2_ws/build/agrobot_nav/resource/agrobot_nav -> /home/agrobot/ros2_ws/install/agrobot_nav/share/ament_index/resource_index/packages
+symbolically linking /home/agrobot/ros2_ws/build/agrobot_nav/package.xml -> /home/agrobot/ros2_ws/install/agrobot_nav/share/agrobot_nav
+symbolically linking /home/agrobot/ros2_ws/build/agrobot_nav/launch/agrobot_launch.py -> /home/agrobot/ros2_ws/install/agrobot_nav/share/agrobot_nav/launch

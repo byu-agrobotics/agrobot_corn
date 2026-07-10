@@ -30,11 +30,20 @@ class MinimalPublisher(Node):
 
     def get_key_loop(self):
         """This runs in a background thread to capture keys from the terminal."""
+        import time
         while True:
-            tty.setcbreak(sys.stdin.fileno())
-            # This reads exactly 1 character from the terminal
-            key = sys.stdin.read(1)
-            self.command = key
+            try:
+                tty.setcbreak(sys.stdin.fileno())
+                # This reads exactly 1 character from the terminal
+                key = sys.stdin.read(1)
+                if not key:
+                    # EOF reached, prevent tight loop
+                    time.sleep(0.1)
+                    continue
+                self.command = key
+            except Exception:
+                # If stdin is not a tty or other error occurs, sleep to prevent tight loop
+                time.sleep(0.1)
 
     def timer_callback(self):
         msg = Num()

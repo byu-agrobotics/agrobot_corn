@@ -117,7 +117,7 @@ class MinimalSubscriber(Node):
             with self.controller_lock:
                 # Send to RoboClaw 1 (independent try so failure doesn't block RoboClaw 2)
                 if self.fail_count_1 < self.max_failures:
-                    if self._send_duty(self.controller_address_1, left, right, 'RoboClaw 1 (0x80)'):
+                    if self._send_duty(self.controller_address_1, right, left, 'RoboClaw 1 (0x80)'):
                         self.fail_count_1 = 0
                     else:
                         self.fail_count_1 += 1
@@ -126,7 +126,7 @@ class MinimalSubscriber(Node):
 
                 # Send to RoboClaw 2 (independent try so failure doesn't block RoboClaw 1)
                 if self.fail_count_2 < self.max_failures:
-                    if self._send_duty(self.controller_address_2, left, right, 'RoboClaw 2 (0x81)'):
+                    if self._send_duty(self.controller_address_2, right, left, 'RoboClaw 2 (0x81)'):
                         self.fail_count_2 = 0
                     else:
                         self.fail_count_2 += 1

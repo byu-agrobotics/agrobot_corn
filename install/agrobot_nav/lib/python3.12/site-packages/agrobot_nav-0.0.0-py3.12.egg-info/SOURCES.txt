@@ -16,6 +16,7 @@ agrobot_nav/publisher_member_function.py
 agrobot_nav/py.typed
 agrobot_nav/subscriber_member_function.py
 agrobot_nav/tof_sensor_node.py
+launch/agrobot_launch.py
 resource/agrobot_nav
 test/test_copyright.py
 test/test_flake8.py

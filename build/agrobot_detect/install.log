@@ -4,12 +4,14 @@
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/vision_application_publisher.py
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/lcd_display_subscriber.py
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/vision_lcd_publisher.py
+/home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/beam_break_node.py
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__pycache__/vision_module.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__pycache__/lcd_display_publisher.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__pycache__/__init__.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__pycache__/vision_application_publisher.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__pycache__/lcd_display_subscriber.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__pycache__/vision_lcd_publisher.cpython-312.pyc
+/home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__pycache__/beam_break_node.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_detect/share/ament_index/resource_index/packages/agrobot_detect
 /home/agrobot/ros2_ws/install/agrobot_detect/share/agrobot_detect/package.xml
 /home/agrobot/ros2_ws/install/agrobot_detect/share/agrobot_detect/data/hsv.db
@@ -20,6 +22,7 @@
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect-0.0.0-py3.12.egg-info/top_level.txt
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect-0.0.0-py3.12.egg-info/PKG-INFO
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect-0.0.0-py3.12.egg-info/requires.txt
+/home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect/beam_break_node
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect/lcd_display_publisher
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect/lcd_display_subscriber
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect/vision_application_publisher

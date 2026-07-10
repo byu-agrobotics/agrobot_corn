@@ -1,0 +1,2 @@
+TOF sensors are too low, the dirt makes the robot think it is the wall and it turns too early.
+Also it turns right for way too long now.

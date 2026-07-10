@@ -10,6 +10,7 @@ setup.py
 ../../build/agrobot_detect/agrobot_detect.egg-info/top_level.txt
 ../../build/agrobot_detect/agrobot_detect.egg-info/zip-safe
 agrobot_detect/__init__.py
+agrobot_detect/beam_break_node.py
 agrobot_detect/lcd_display_publisher.py
 agrobot_detect/lcd_display_subscriber.py
 agrobot_detect/vision_application_publisher.py
