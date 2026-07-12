@@ -30,6 +30,7 @@ setup(
 		'remove = agrobot_actuation.remove:main', # executable name ran = python import path + function
 		'seed = agrobot_actuation.seed:main',
 		'button_client = agrobot_actuation.button_client:main',
+		'beam_break_remove = agrobot_actuation.beam_break_remove:main',
         ],
     },
 )

@@ -1,0 +1,78 @@
+[0.000000] (-) TimerEvent: {}
+[0.000270] (-) JobUnselected: {'identifier': 'agrobot_detect'}
+[0.000455] (-) JobUnselected: {'identifier': 'agrobot_interfaces'}
+[0.000479] (-) JobUnselected: {'identifier': 'agrobot_nav'}
+[0.000499] (-) JobUnselected: {'identifier': 'basicmicro_ros2'}
+[0.000526] (-) JobUnselected: {'identifier': 'examples_rclcpp_async_client'}
+[0.000602] (-) JobUnselected: {'identifier': 'examples_rclcpp_cbg_executor'}
+[0.000620] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_action_client'}
+[0.000637] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_action_server'}
+[0.000653] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_client'}
+[0.000670] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_composition'}
+[0.000686] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_publisher'}
+[0.000703] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_service'}
+[0.000719] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_subscriber'}
+[0.000735] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_timer'}
+[0.000752] (-) JobUnselected: {'identifier': 'examples_rclcpp_multithreaded_executor'}
+[0.000768] (-) JobUnselected: {'identifier': 'examples_rclcpp_wait_set'}
+[0.000784] (-) JobUnselected: {'identifier': 'examples_rclpy_executors'}
+[0.000800] (-) JobUnselected: {'identifier': 'examples_rclpy_guard_conditions'}
+[0.000816] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_action_client'}
+[0.000840] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_action_server'}
+[0.000857] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_client'}
+[0.000873] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_publisher'}
+[0.000889] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_service'}
+[0.000906] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_subscriber'}
+[0.000922] (-) JobUnselected: {'identifier': 'examples_rclpy_pointcloud_publisher'}
+[0.000938] (-) JobUnselected: {'identifier': 'launch_testing_examples'}
+[0.000955] (-) JobUnselected: {'identifier': 'tutorial_interfaces'}
+[0.000976] (agrobot_actuation) JobQueued: {'identifier': 'agrobot_actuation', 'dependencies': OrderedDict({'agrobot_interfaces': '/home/agrobot/ros2_ws/install/agrobot_interfaces'})}
+[0.001227] (agrobot_actuation) JobStarted: {'identifier': 'agrobot_actuation'}
+[0.099595] (-) TimerEvent: {}
+[0.199935] (-) TimerEvent: {}
+[0.300266] (-) TimerEvent: {}
+[0.400729] (-) TimerEvent: {}
+[0.501046] (-) TimerEvent: {}
+[0.601317] (-) TimerEvent: {}
+[0.701600] (-) TimerEvent: {}
+[0.801869] (-) TimerEvent: {}
+[0.902128] (-) TimerEvent: {}
+[1.002424] (-) TimerEvent: {}
+[1.102792] (-) TimerEvent: {}
+[1.105622] (agrobot_actuation) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/agrobot_actuation', 'build', '--build-base', '/home/agrobot/ros2_ws/build/agrobot_actuation/build', 'install', '--record', '/home/agrobot/ros2_ws/build/agrobot_actuation/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/agrobot/ros2_ws/src/agrobot_actuation', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'agrobot', 'SSH_CLIENT': '10.42.0.225 58596 22', 'GZ_CONFIG_PATH': '/opt/ros/kilted/opt/sdformat_vendor/share/gz', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/agrobot/ros2_ws/install/agrobot_interfaces/lib:/home/agrobot/ros2_ws/install/tutorial_interfaces/lib:/home/agrobot/ros2_ws/install/basicmicro_ros2/lib:/opt/ros/kilted/opt/sdformat_vendor/lib:/opt/ros/kilted/opt/gz_math_vendor/lib:/opt/ros/kilted/opt/gz_utils_vendor/lib:/opt/ros/kilted/lib/aarch64-linux-gnu:/opt/ros/kilted/opt/gz_tools_vendor/lib:/opt/ros/kilted/opt/gz_cmake_vendor/lib:/opt/ros/kilted/lib', 'HOME': '/home/agrobot', 'OLDPWD': '/home/agrobot', 'SSH_TTY': '/dev/pts/1', 'ROS_PYTHON_VERSION': '3', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLCON_PREFIX_PATH': '/home/agrobot/ros2_ws/install', 'ROS_DISTRO': 'kilted', 'LOGNAME': 'agrobot', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '5', 'PATH': '/opt/ros/kilted/opt/gz_tools_vendor/bin:/opt/ros/kilted/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'XDG_RUNTIME_DIR': '/run/user/1000', 'LANG': 'en_US.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'ROS_DOMAIN_ID': '21', 'AMENT_PREFIX_PATH': '/home/agrobot/ros2_ws/install/agrobot_nav:/home/agrobot/ros2_ws/install/tutorial_interfaces:/home/agrobot/ros2_ws/install/basicmicro_ros2:/home/agrobot/ros2_ws/install/agrobot_actuation:/home/agrobot/ros2_ws/install/agrobot_interfaces:/home/agrobot/ros2_ws/install/agrobot_detect:/opt/ros/kilted', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/home/agrobot/ros2_ws/build/agrobot_actuation', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '10.42.0.225 58596 10.42.0.1 22', 'XDG_DATA_DIRS': '/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/agrobot/ros2_ws/build/agrobot_actuation/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_interfaces/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/tutorial_interfaces/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/basicmicro_ros2/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages:/home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages:/opt/ros/kilted/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/home/agrobot/ros2_ws/install/agrobot_interfaces:/home/agrobot/ros2_ws/install/tutorial_interfaces:/home/agrobot/ros2_ws/install/basicmicro_ros2:/opt/ros/kilted/opt/sdformat_vendor:/opt/ros/kilted/opt/gz_math_vendor:/opt/ros/kilted/opt/gz_utils_vendor:/opt/ros/kilted/opt/gz_tools_vendor:/opt/ros/kilted/opt/gz_cmake_vendor'}, 'shell': False}
+[1.202894] (-) TimerEvent: {}
+[1.303202] (-) TimerEvent: {}
+[1.403476] (-) TimerEvent: {}
+[1.428906] (agrobot_actuation) StdoutLine: {'line': b'running egg_info\n'}
+[1.449135] (agrobot_actuation) StdoutLine: {'line': b'writing ../../build/agrobot_actuation/agrobot_actuation.egg-info/PKG-INFO\n'}
+[1.449557] (agrobot_actuation) StdoutLine: {'line': b'writing dependency_links to ../../build/agrobot_actuation/agrobot_actuation.egg-info/dependency_links.txt\n'}
+[1.450666] (agrobot_actuation) StdoutLine: {'line': b'writing entry points to ../../build/agrobot_actuation/agrobot_actuation.egg-info/entry_points.txt\n'}
+[1.451076] (agrobot_actuation) StdoutLine: {'line': b'writing requirements to ../../build/agrobot_actuation/agrobot_actuation.egg-info/requires.txt\n'}
+[1.451537] (agrobot_actuation) StdoutLine: {'line': b'writing top-level names to ../../build/agrobot_actuation/agrobot_actuation.egg-info/top_level.txt\n'}
+[1.494570] (agrobot_actuation) StdoutLine: {'line': b"reading manifest file '../../build/agrobot_actuation/agrobot_actuation.egg-info/SOURCES.txt'\n"}
+[1.494937] (agrobot_actuation) StdoutLine: {'line': b"adding license file 'LICENSE'\n"}
+[1.495791] (agrobot_actuation) StdoutLine: {'line': b"writing manifest file '../../build/agrobot_actuation/agrobot_actuation.egg-info/SOURCES.txt'\n"}
+[1.496016] (agrobot_actuation) StdoutLine: {'line': b'running build\n'}
+[1.496113] (agrobot_actuation) StdoutLine: {'line': b'running build_py\n'}
+[1.496470] (agrobot_actuation) StdoutLine: {'line': b'copying agrobot_actuation/seed.py -> /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation\n'}
+[1.497010] (agrobot_actuation) StdoutLine: {'line': b'running install\n'}
+[1.503541] (-) TimerEvent: {}
+[1.506154] (agrobot_actuation) StdoutLine: {'line': b'running install_lib\n'}
+[1.527384] (agrobot_actuation) StdoutLine: {'line': b'copying /home/agrobot/ros2_ws/build/agrobot_actuation/build/lib/agrobot_actuation/seed.py -> /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation\n'}
+[1.528375] (agrobot_actuation) StdoutLine: {'line': b'byte-compiling /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation/seed.py to seed.cpython-312.pyc\n'}
+[1.529709] (agrobot_actuation) StdoutLine: {'line': b'running install_data\n'}
+[1.529889] (agrobot_actuation) StdoutLine: {'line': b'running install_egg_info\n'}
+[1.552888] (agrobot_actuation) StdoutLine: {'line': b"removing '/home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation-0.0.0-py3.12.egg-info' (and everything under it)\n"}
+[1.553327] (agrobot_actuation) StdoutLine: {'line': b'Copying ../../build/agrobot_actuation/agrobot_actuation.egg-info to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/python3.12/site-packages/agrobot_actuation-0.0.0-py3.12.egg-info\n'}
+[1.554553] (agrobot_actuation) StdoutLine: {'line': b'running install_scripts\n'}
+[1.603631] (-) TimerEvent: {}
+[1.703900] (-) TimerEvent: {}
+[1.704403] (agrobot_actuation) StdoutLine: {'line': b'Installing beam_break_remove script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation\n'}
+[1.704714] (agrobot_actuation) StdoutLine: {'line': b'Installing button_client script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation\n'}
+[1.706132] (agrobot_actuation) StdoutLine: {'line': b'Installing remove script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation\n'}
+[1.707118] (agrobot_actuation) StdoutLine: {'line': b'Installing seed script to /home/agrobot/ros2_ws/install/agrobot_actuation/lib/agrobot_actuation\n'}
+[1.708438] (agrobot_actuation) StdoutLine: {'line': b"writing list of installed files to '/home/agrobot/ros2_ws/build/agrobot_actuation/install.log'\n"}
+[1.796794] (agrobot_actuation) CommandEnded: {'returncode': 0}
+[1.804045] (-) TimerEvent: {}
+[1.811283] (agrobot_actuation) JobEnded: {'identifier': 'agrobot_actuation', 'rc': 0}
+[1.812395] (-) EventReactorShutdown: {}

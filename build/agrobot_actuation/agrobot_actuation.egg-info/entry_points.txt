@@ -1,4 +1,5 @@
 [console_scripts]
+beam_break_remove = agrobot_actuation.beam_break_remove:main
 button_client = agrobot_actuation.button_client:main
 remove = agrobot_actuation.remove:main
 seed = agrobot_actuation.seed:main

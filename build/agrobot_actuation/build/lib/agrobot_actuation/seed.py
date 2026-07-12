@@ -22,8 +22,8 @@ class SeedServoServer(Node):
         self.srv = self.create_service(MoveServo, 'seed_servo', self.handle_seed_servo) # name of service ros2 service list
         # --- Servo config ---
         self.gpio_pin = 12
-        self.angle_a = 67
-        self.angle_b = 113
+        self.angle_a = 20
+        self.angle_b = 180
         self.hold_s = 0.5  # how long to hold each position
 
         # --- Concurrency guard ---

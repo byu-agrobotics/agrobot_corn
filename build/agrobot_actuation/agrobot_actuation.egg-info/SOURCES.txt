@@ -9,6 +9,7 @@ setup.py
 ../../build/agrobot_actuation/agrobot_actuation.egg-info/top_level.txt
 ../../build/agrobot_actuation/agrobot_actuation.egg-info/zip-safe
 agrobot_actuation/__init__.py
+agrobot_actuation/beam_break_remove.py
 agrobot_actuation/button_client.py
 agrobot_actuation/py.typed
 agrobot_actuation/remove.py
