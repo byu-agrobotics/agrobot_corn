@@ -324,7 +324,7 @@ class TMF8801Node(Node):
             if register_contents != 0x55:
                 return
 
-            if confidence < 1:
+            if confidence < 30:
                 return
 
             # Publish

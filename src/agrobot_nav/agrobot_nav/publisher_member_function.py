@@ -26,7 +26,7 @@ class MinimalPublisher(Node):
 
         timer_period = 0.05
         self.timer = self.create_timer(timer_period, self.timer_callback)
-        self.get_logger().info("Terminal Listener Started. Use 'b' or '1' (Ctrl+C to quit)")
+        self.get_logger().info("Terminal Listener Started. Use 'w' to start, 'q' to stop, 'c' to calibrate (Ctrl+C to quit)")
 
     def get_key_loop(self):
         """This runs in a background thread to capture keys from the terminal."""
@@ -59,6 +59,8 @@ class MinimalPublisher(Node):
             msg.num = 4
         elif self.command == "q":
             msg.num = 0
+        elif self.command == "c":
+            msg.num = 5
             
         self.publisher_.publish(msg)
         self.get_logger().info(f'Publishing: "{msg.num}" (Current command: {self.command})')

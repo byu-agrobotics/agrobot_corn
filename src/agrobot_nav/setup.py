@@ -32,6 +32,7 @@ setup(
             'drive_control = agrobot_nav.subscriber_member_function:main',
             'tof_sensor = agrobot_nav.tof_sensor_node:main',
             'nav = agrobot_nav.nav_state_machine:main',
+            'mini_nav = agrobot_nav.mini_nav_state_machine:main',
             'camera = agrobot_nav.camera_node:main',
         ],
     },

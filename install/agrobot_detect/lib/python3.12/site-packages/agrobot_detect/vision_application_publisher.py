@@ -43,6 +43,41 @@ except ImportError:
     HAS_PICAMERA2 = False
 
 
+# ── Stalk-area diagnostic logging ────────────────────────────────────────────
+# Appends the pixel area of every accepted stalk detection to a CSV so a good
+# minimum-area threshold can be chosen to reject too-small detections.
+# Override the path with env AGROBOT_STALK_AREA_LOG; delete the file to reset.
+_STALK_AREA_LOG_PATH = os.environ.get(
+    'AGROBOT_STALK_AREA_LOG',
+    os.path.expanduser('~/ros2_ws/stalk_areas.csv'),
+)
+_stalk_area_log_file = None
+_stalk_area_log_lock = threading.Lock()
+
+
+def _log_stalk_area(color_name, config_name, contour_area, bounding_area,
+                    w, h, area_ratio, aspect_ratio, cx, cy, frame_number):
+    """Best-effort append of one accepted stalk detection to the area CSV."""
+    global _stalk_area_log_file
+    try:
+        with _stalk_area_log_lock:
+            if _stalk_area_log_file is None:
+                need_header = not os.path.exists(_STALK_AREA_LOG_PATH)
+                _stalk_area_log_file = open(_STALK_AREA_LOG_PATH, 'a', buffering=1)
+                if need_header:
+                    _stalk_area_log_file.write(
+                        'timestamp,frame,color,config,contourArea,boundingArea,'
+                        'w,h,areaRatio,aspectRatio,cx,cy\n'
+                    )
+            _stalk_area_log_file.write(
+                f'{time.time():.3f},{frame_number},{color_name},{config_name},'
+                f'{contour_area:.1f},{bounding_area:.1f},{w},{h},'
+                f'{area_ratio:.4f},{aspect_ratio:.4f},{cx},{cy}\n'
+            )
+    except Exception:
+        pass
+
+
 
 
 
@@ -56,9 +91,9 @@ class LCDDisplayPublisher(Node):
         self._cycle = 0
 
         self._colors = {
-            "base": (0.55, 0.0, 0.0, 1.0),           # Empty plant — red
-            "green_1_stalk": (0.0, 0.39, 0.0, 1.0),  # Single plant — green
-            "double_stalk": (0.1, 0.1, 0.44, 1.0),   # Double plant — blue
+            "base": (1.0, 0.0, 0.0, 1.0),            # Empty plant — pure red (max vibrancy)
+            "green_1_stalk": (0.0, 1.0, 0.0, 1.0),   # Single plant — pure green (max vibrancy)
+            "double_stalk": (0.0, 0.0, 1.0, 1.0),    # Double plant — pure blue (max vibrancy)
         }
 
     def set_color(self, color_name: str, stalkCount):
@@ -268,7 +303,7 @@ class CameraView(object):
         # Tracking parameters (tune these as needed)
         self.MAX_DISTANCE = 150  # Maximum pixel distance for matching (adjust based on your frame size)
         self.MAX_AGE = 5  # Frames to keep track after last detection
-        self.ENTRY_ZONE_WIDTH = 0.35  # 15% of frame width for entry detection
+        self.ENTRY_ZONE_WIDTH = 0.5  # counting line at horizontal middle of frame
         self.MIN_TRACK_AGE = 3  # Minimum frames before counting (prevents false positives)
         self.FONT = cv2.FONT_HERSHEY_SIMPLEX
         
@@ -453,7 +488,7 @@ class CameraView(object):
                         if contour is None or len(contour) < 3:
                             continue
                         contourArea = cv2.contourArea(contour) #area of the particle
-                        if contourArea <= 20:
+                        if contourArea < 200:   # min contour-area floor: reject too-small detections
                             continue
                         
                         # cv2.findContours returns contours in a specific format
@@ -504,6 +539,10 @@ class CameraView(object):
                             if config_name not in detectionsByConfig:
                                 detectionsByConfig[config_name] = []
                             detectionsByConfig[config_name].append((centroid,(x,y,w,h)))
+                            _log_stalk_area(colorName, config_name, contourArea,
+                                            boundingArea, w, h, self.areaRatio,
+                                            self.aspectRatio, centroid[0], centroid[1],
+                                            self.frameNumber)
                             
                             # Store the best contour for this config type (overwrite if multiple)
                             self.targetContours[config_name] = contour
@@ -519,6 +558,10 @@ class CameraView(object):
                                 
                                 centroid = self.getCentroidFromBBox((x,y,w,h))
                                 detectionsByConfig["green_1_stalk"].append((centroid,(x,y,w,h)))
+                                _log_stalk_area(colorName, "green_1_stalk", contourArea,
+                                                boundingArea, w, h, self.areaRatio,
+                                                self.aspectRatio, centroid[0], centroid[1],
+                                                self.frameNumber)
                                 # Draw the contours
                                 
                                 #cv2.drawContours(self.processedImage, largest, -1, (255,0,0), 3)

@@ -1,0 +1,30 @@
+[0.000000] (-) TimerEvent: {}
+[0.000654] (-) JobUnselected: {'identifier': 'agrobot_actuation'}
+[0.001070] (-) JobUnselected: {'identifier': 'agrobot_detect'}
+[0.001156] (-) JobUnselected: {'identifier': 'agrobot_interfaces'}
+[0.001294] (-) JobUnselected: {'identifier': 'agrobot_nav'}
+[0.001520] (-) JobUnselected: {'identifier': 'basicmicro_ros2'}
+[0.001709] (-) JobUnselected: {'identifier': 'examples_rclcpp_async_client'}
+[0.001864] (-) JobUnselected: {'identifier': 'examples_rclcpp_cbg_executor'}
+[0.001940] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_action_client'}
+[0.001978] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_action_server'}
+[0.002003] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_client'}
+[0.002026] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_composition'}
+[0.002048] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_publisher'}
+[0.002070] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_service'}
+[0.002092] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_subscriber'}
+[0.002113] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_timer'}
+[0.002134] (-) JobUnselected: {'identifier': 'examples_rclcpp_multithreaded_executor'}
+[0.002156] (-) JobUnselected: {'identifier': 'examples_rclcpp_wait_set'}
+[0.002178] (-) JobUnselected: {'identifier': 'examples_rclpy_executors'}
+[0.002200] (-) JobUnselected: {'identifier': 'examples_rclpy_guard_conditions'}
+[0.002234] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_action_client'}
+[0.002259] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_action_server'}
+[0.002281] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_client'}
+[0.002305] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_publisher'}
+[0.002329] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_service'}
+[0.002351] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_subscriber'}
+[0.002373] (-) JobUnselected: {'identifier': 'examples_rclpy_pointcloud_publisher'}
+[0.002396] (-) JobUnselected: {'identifier': 'launch_testing_examples'}
+[0.002420] (-) JobUnselected: {'identifier': 'tutorial_interfaces'}
+[0.002445] (-) EventReactorShutdown: {}

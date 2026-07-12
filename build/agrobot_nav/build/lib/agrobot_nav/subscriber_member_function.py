@@ -44,7 +44,7 @@ class MinimalSubscriber(Node):
         # Try to connect to the Basicmicro (RoboClaw) controller
         if Basicmicro is not None:
             # Try common serial ports for RoboClaw on Raspberry Pi
-            ports_to_try = ['/dev/ttyAMA0', '/dev/ttyACM0', '/dev/ttyUSB0']
+            ports_to_try = ['/dev/ttyAMA10', '/dev/ttyAMA0', '/dev/ttyACM0', '/dev/ttyUSB0']
             for port in ports_to_try:
                 if not os.path.exists(port):
                     continue

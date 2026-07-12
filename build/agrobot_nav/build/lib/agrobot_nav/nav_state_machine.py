@@ -250,7 +250,7 @@ class NavStateMachine(Node):
         self.addr_2 = 0x81
 
         if Basicmicro is not None:
-            for port in ['/dev/ttyAMA0', '/dev/ttyACM0', '/dev/ttyUSB0']:
+            for port in ['/dev/ttyAMA10', '/dev/ttyAMA0', '/dev/ttyACM0', '/dev/ttyUSB0']:
                 if not os.path.exists(port):
                     continue
                 try:
