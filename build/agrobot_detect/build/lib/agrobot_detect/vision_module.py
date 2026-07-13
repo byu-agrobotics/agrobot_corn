@@ -1008,6 +1008,7 @@ class VisionApplication(object):
         on_detect_callback=None,
         center_tolerance=0.15,
         streaming_video=False,
+        stream_port=8080,
         use_gui=False,
     ):
         self.cameraInUse = 1
@@ -1021,6 +1022,7 @@ class VisionApplication(object):
         self.on_detect_callback = on_detect_callback
         self.center_tolerance = center_tolerance
         self.streaming_video = streaming_video
+        self.stream_port = stream_port
         self.use_gui = use_gui
 
         # Set Number of Cameras
@@ -1043,10 +1045,10 @@ class VisionApplication(object):
 
         if self.streaming_video:
             # Start server in a separate thread so it doesn't block
-            self.server = HTTPServer(('0.0.0.0', 8080), StreamingHandler)
+            self.server = HTTPServer(('0.0.0.0', self.stream_port), StreamingHandler)
             server_thread = threading.Thread(target=self.server.serve_forever, daemon=True)
             server_thread.start()
-            print("Streaming server started on http://0.0.0.0:8080/stream")
+            print(f"Streaming server started on http://0.0.0.0:{self.stream_port}/stream")
 
         # Distance Calculation Constants
         vertFOV = [48.94175846, 1]

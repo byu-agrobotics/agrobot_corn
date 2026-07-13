@@ -1,0 +1,76 @@
+[0.000000] (-) TimerEvent: {}
+[0.000201] (-) JobUnselected: {'identifier': 'agrobot_actuation'}
+[0.000506] (-) JobUnselected: {'identifier': 'agrobot_interfaces'}
+[0.000703] (-) JobUnselected: {'identifier': 'agrobot_nav'}
+[0.000922] (-) JobUnselected: {'identifier': 'basicmicro_ros2'}
+[0.001060] (-) JobUnselected: {'identifier': 'examples_rclcpp_async_client'}
+[0.001097] (-) JobUnselected: {'identifier': 'examples_rclcpp_cbg_executor'}
+[0.001142] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_action_client'}
+[0.001173] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_action_server'}
+[0.001461] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_client'}
+[0.001588] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_composition'}
+[0.001646] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_publisher'}
+[0.001685] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_service'}
+[0.001983] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_subscriber'}
+[0.002039] (-) JobUnselected: {'identifier': 'examples_rclcpp_minimal_timer'}
+[0.002069] (-) JobUnselected: {'identifier': 'examples_rclcpp_multithreaded_executor'}
+[0.002570] (-) JobUnselected: {'identifier': 'examples_rclcpp_wait_set'}
+[0.002622] (-) JobUnselected: {'identifier': 'examples_rclpy_executors'}
+[0.002760] (-) JobUnselected: {'identifier': 'examples_rclpy_guard_conditions'}
+[0.002798] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_action_client'}
+[0.002832] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_action_server'}
+[0.002891] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_client'}
+[0.002981] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_publisher'}
+[0.003013] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_service'}
+[0.003036] (-) JobUnselected: {'identifier': 'examples_rclpy_minimal_subscriber'}
+[0.003059] (-) JobUnselected: {'identifier': 'examples_rclpy_pointcloud_publisher'}
+[0.003163] (-) JobUnselected: {'identifier': 'launch_testing_examples'}
+[0.003199] (-) JobUnselected: {'identifier': 'tutorial_interfaces'}
+[0.003228] (agrobot_detect) JobQueued: {'identifier': 'agrobot_detect', 'dependencies': OrderedDict()}
+[0.003326] (agrobot_detect) JobStarted: {'identifier': 'agrobot_detect'}
+[0.099562] (-) TimerEvent: {}
+[0.199794] (-) TimerEvent: {}
+[0.300038] (-) TimerEvent: {}
+[0.400298] (-) TimerEvent: {}
+[0.500511] (-) TimerEvent: {}
+[0.600738] (-) TimerEvent: {}
+[0.700972] (-) TimerEvent: {}
+[0.801236] (-) TimerEvent: {}
+[0.901464] (-) TimerEvent: {}
+[1.001664] (-) TimerEvent: {}
+[1.101892] (-) TimerEvent: {}
+[1.161718] (agrobot_detect) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/agrobot/ros2_ws/build/agrobot_detect/build', '--no-deps', 'symlink_data', '--force'], 'cwd': '/home/agrobot/ros2_ws/build/agrobot_detect', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'VSCODE_CWD': '/home/agrobot', 'VSCODE_ESM_ENTRYPOINT': 'vs/workbench/api/node/extensionHostProcess', 'AI_AGENT': 'claude-code_2-1-207_agent', 'USER': 'agrobot', 'SSH_CLIENT': 'fe80::41a:1b81:785f:2fa4%wlan0 54277 22', 'CLAUDE_CODE_ENTRYPOINT': 'claude-vscode', 'VSCODE_NLS_CONFIG': '{"userLocale":"en","osLocale":"en","resolvedLanguage":"en","defaultMessagesFile":"/home/agrobot/.cursor-server/bin/linux-arm64/23b9fb205fe595ea2be29da7214e19762d037fc0/out/nls.messages.json","locale":"en","availableLanguages":{}}', 'GZ_CONFIG_PATH': '/opt/ros/kilted/opt/sdformat_vendor/share/gz', 'GIT_EDITOR': 'true', 'VSCODE_HANDLES_UNCAUGHT_ERRORS': 'true', 'XDG_SESSION_TYPE': 'tty', 'CLAUDE_AGENT_SDK_VERSION': '0.3.207', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/kilted/opt/sdformat_vendor/lib:/opt/ros/kilted/opt/gz_math_vendor/lib:/opt/ros/kilted/opt/gz_utils_vendor/lib:/opt/ros/kilted/lib/aarch64-linux-gnu:/opt/ros/kilted/opt/gz_tools_vendor/lib:/opt/ros/kilted/opt/gz_cmake_vendor/lib:/opt/ros/kilted/lib', 'BROWSER': '/home/agrobot/.cursor-server/bin/linux-arm64/23b9fb205fe595ea2be29da7214e19762d037fc0/bin/helpers/browser.sh', 'HOME': '/home/agrobot', 'OLDPWD': '/home/agrobot/ros2_ws/src/agrobot_detect', 'VSCODE_IPC_HOOK_CLI': '/run/user/1000/vscode-ipc-4b48eb0e-7eee-49fe-b887-b5cf26ae39de.sock', 'ROS_PYTHON_VERSION': '3', 'CLAUDE_CODE_CHILD_SESSION': '1', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'ROS_DISTRO': 'kilted', 'OVSX_REGISTRY_URL': 'https://open-vsx.org', 'LOGNAME': 'agrobot', 'VSCODE_HANDLES_SIGPIPE': 'true', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'CURSOR_LAYOUT': 'unifiedAgent', 'XDG_SESSION_CLASS': 'user', 'XDG_SESSION_ID': '4', 'MCP_CONNECTION_NONBLOCKING': 'true', 'PATH': '/home/agrobot/.cursor-server/bin/linux-arm64/23b9fb205fe595ea2be29da7214e19762d037fc0/bin/remote-cli:/opt/ros/kilted/opt/gz_tools_vendor/bin:/opt/ros/kilted/bin:/home/agrobot/.cursor-server/bin/linux-arm64/23b9fb205fe595ea2be29da7214e19762d037fc0/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'VSCODE_AGENT_FOLDER': '/home/agrobot/.cursor-server', 'COREPACK_ENABLE_AUTO_PIN': '0', 'XDG_RUNTIME_DIR': '/run/user/1000', 'CLAUDE_EFFORT': 'xhigh', 'NoDefaultCurrentDirectoryInExePath': '1', 'LANG': 'en_US.UTF-8', 'LS_COLORS': '', 'ROS_DOMAIN_ID': '21', 'AMENT_PREFIX_PATH': '/opt/ros/kilted', 'SHELL': '/bin/bash', 'VSCODE_SERVER_SHUTDOWN_TIMEOUT': '300', 'ELECTRON_RUN_AS_NODE': '1', 'CLAUDE_CODE_ENABLE_SDK_FILE_CHECKPOINTING': 'true', 'CLAUDE_CODE_SESSION_ID': '405ed628-6e9e-49e2-ae0d-c316ae8445b6', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CLAUDECODE': '1', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/home/agrobot/ros2_ws/build/agrobot_detect', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': 'fe80::41a:1b81:785f:2fa4%wlan0 54277 fe80::2ecf:67ff:feb7:c4e%wlan0 22', 'XDG_DATA_DIRS': '/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'CLAUDE_CODE_EXECPATH': '/home/agrobot/.cursor-server/extensions/anthropic.claude-code-2.1.207-linux-arm64/resources/native-binary/claude', 'PYTHONPATH': '/home/agrobot/ros2_ws/build/agrobot_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages:/opt/ros/kilted/lib/python3.12/site-packages', 'CLAUDE_CODE_ENABLE_TASKS': '0', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/opt/ros/kilted/opt/sdformat_vendor:/opt/ros/kilted/opt/gz_math_vendor:/opt/ros/kilted/opt/gz_utils_vendor:/opt/ros/kilted/opt/gz_tools_vendor:/opt/ros/kilted/opt/gz_cmake_vendor'}, 'shell': False}
+[1.202003] (-) TimerEvent: {}
+[1.302226] (-) TimerEvent: {}
+[1.402434] (-) TimerEvent: {}
+[1.502651] (-) TimerEvent: {}
+[1.576464] (agrobot_detect) StdoutLine: {'line': b'running develop\n'}
+[1.602763] (-) TimerEvent: {}
+[1.702978] (-) TimerEvent: {}
+[1.791093] (agrobot_detect) StdoutLine: {'line': b'running egg_info\n'}
+[1.803079] (-) TimerEvent: {}
+[1.811929] (agrobot_detect) StdoutLine: {'line': b'writing agrobot_detect.egg-info/PKG-INFO\n'}
+[1.812346] (agrobot_detect) StdoutLine: {'line': b'writing dependency_links to agrobot_detect.egg-info/dependency_links.txt\n'}
+[1.813067] (agrobot_detect) StdoutLine: {'line': b'writing entry points to agrobot_detect.egg-info/entry_points.txt\n'}
+[1.813529] (agrobot_detect) StdoutLine: {'line': b'writing requirements to agrobot_detect.egg-info/requires.txt\n'}
+[1.814146] (agrobot_detect) StdoutLine: {'line': b'writing top-level names to agrobot_detect.egg-info/top_level.txt\n'}
+[1.859767] (agrobot_detect) StdoutLine: {'line': b"reading manifest file 'agrobot_detect.egg-info/SOURCES.txt'\n"}
+[1.860894] (agrobot_detect) StdoutLine: {'line': b"writing manifest file 'agrobot_detect.egg-info/SOURCES.txt'\n"}
+[1.883751] (agrobot_detect) StdoutLine: {'line': b'running build_ext\n'}
+[1.884138] (agrobot_detect) StdoutLine: {'line': b'Creating /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot-detect.egg-link (link to .)\n'}
+[1.884941] (agrobot_detect) StdoutLine: {'line': b'Installing beam_break_node script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect\n'}
+[1.885301] (agrobot_detect) StdoutLine: {'line': b'Installing lcd_display_publisher script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect\n'}
+[1.885576] (agrobot_detect) StdoutLine: {'line': b'Installing lcd_display_subscriber script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect\n'}
+[1.886738] (agrobot_detect) StdoutLine: {'line': b'Installing object_detect_publisher script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect\n'}
+[1.886892] (agrobot_detect) StdoutLine: {'line': b'Installing vision_application_publisher script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect\n'}
+[1.887234] (agrobot_detect) StdoutLine: {'line': b'Installing vision_application_publisher_toggle script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect\n'}
+[1.887501] (agrobot_detect) StdoutLine: {'line': b'\n'}
+[1.887758] (agrobot_detect) StdoutLine: {'line': b'Installed /home/agrobot/ros2_ws/build/agrobot_detect\n'}
+[1.888055] (agrobot_detect) StdoutLine: {'line': b'running symlink_data\n'}
+[1.888228] (agrobot_detect) StdoutLine: {'line': b'symbolically linking /home/agrobot/ros2_ws/build/agrobot_detect/resource/agrobot_detect -> /home/agrobot/ros2_ws/install/agrobot_detect/share/ament_index/resource_index/packages\n'}
+[1.888355] (agrobot_detect) StdoutLine: {'line': b'symbolically linking /home/agrobot/ros2_ws/build/agrobot_detect/package.xml -> /home/agrobot/ros2_ws/install/agrobot_detect/share/agrobot_detect\n'}
+[1.888470] (agrobot_detect) StdoutLine: {'line': b'symbolically linking /home/agrobot/ros2_ws/build/agrobot_detect/data/hsv.db -> /home/agrobot/ros2_ws/install/agrobot_detect/share/agrobot_detect/data\n'}
+[1.903199] (-) TimerEvent: {}
+[1.974514] (agrobot_detect) CommandEnded: {'returncode': 0}
+[1.992523] (agrobot_detect) JobEnded: {'identifier': 'agrobot_detect', 'rc': 0}
+[1.993332] (-) EventReactorShutdown: {}

@@ -1,4 +1,3 @@
-LICENSE
 package.xml
 setup.cfg
 setup.py
@@ -18,5 +17,12 @@ agrobot_detect/vision_application_publisher.py
 agrobot_detect/vision_application_publisher_toggle.py
 agrobot_detect/vision_lcd_publisher.py
 agrobot_detect/vision_module.py
+agrobot_detect.egg-info/PKG-INFO
+agrobot_detect.egg-info/SOURCES.txt
+agrobot_detect.egg-info/dependency_links.txt
+agrobot_detect.egg-info/entry_points.txt
+agrobot_detect.egg-info/requires.txt
+agrobot_detect.egg-info/top_level.txt
+agrobot_detect.egg-info/zip-safe
 data/hsv.db
 resource/agrobot_detect

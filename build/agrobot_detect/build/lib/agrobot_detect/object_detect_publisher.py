@@ -54,6 +54,11 @@ class ObjectDetectPublisher(Node):
         # A base is "centered" when its center is within this fraction of the frame
         # width from the horizontal center (0.15 -> middle 30% of the frame).
         self.declare_parameter('center_tolerance', 0.15)
+        # Serve an MJPEG debug view of the annotated frames at
+        # http://<pi-ip>:<stream_port>/stream. Disable when running alongside
+        # camera_node (which also binds 8080) or to save CPU.
+        self.declare_parameter('streaming_video', True)
+        self.declare_parameter('stream_port', 8080)
 
         self._leading_side = (
             self.get_parameter('leading_side').get_parameter_value().string_value
@@ -71,6 +76,12 @@ class ObjectDetectPublisher(Node):
         )
         self._center_tolerance = (
             self.get_parameter('center_tolerance').get_parameter_value().double_value
+        )
+        self._streaming_video = (
+            self.get_parameter('streaming_video').get_parameter_value().bool_value
+        )
+        self._stream_port = (
+            self.get_parameter('stream_port').get_parameter_value().integer_value
         )
         self._pub = self.create_publisher(String, topic, 10)
 
@@ -91,15 +102,20 @@ class ObjectDetectPublisher(Node):
             extra_tolerance_factor=0.20,
             on_detect_callback=self._on_detect,
             center_tolerance=self._center_tolerance,
-            streaming_video=False,
+            streaming_video=self._streaming_video,
+            stream_port=self._stream_port,
             use_gui=False,
         )
 
         self._vision_thread = threading.Thread(target=self._run_vision, daemon=True)
         self._vision_thread.start()
+        stream_note = (
+            f"stream=http://<pi-ip>:{self._stream_port}/stream"
+            if self._streaming_video else "stream=off"
+        )
         self.get_logger().info(
-            f"Object detect publisher started (headless); topic='{topic}', "
-            f"leading_side='{self._leading_side}'"
+            f"Object detect publisher started; topic='{topic}', "
+            f"leading_side='{self._leading_side}', {stream_note}"
         )
 
     def _first_stalk(self, meta: dict) -> str:

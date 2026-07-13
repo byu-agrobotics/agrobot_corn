@@ -108,20 +108,20 @@ class NavStateMachine(Node):
         self.declare_parameter('k_angle', 0)
         self.declare_parameter('control_rate_hz', 10.0)
         self.declare_parameter('drive_duration_s', 8.0)
-        self.declare_parameter('front_stop_distance_mm', 175)
+        self.declare_parameter('front_stop_distance_mm', 185)
         self.declare_parameter('backup_duration_s', 0.0)
         self.declare_parameter('turn_wall_detect_mm', 60.0) # Dirt: 60.0                  # stop turning when CH_LEFT_FRONT > this
         self.declare_parameter('turn_timeout_s', 2.0)                                     # safety timeout for turn
-        self.declare_parameter('turn_min_spin_s', 0.4) # Dirt: 0.6                        # spin at least this long before checking
+        self.declare_parameter('turn_min_spin_s', 0.3) # Dirt: 0.6                        # spin at least this long before checking
 
         self.declare_parameter('between_row_wall_distance_mm', 325.0)
         self.declare_parameter('right_wall_distance_mm', 450.0)
-        self.declare_parameter('rear_clearance_mm', 350.0)
+        self.declare_parameter('between_row_front_stop_distance_mm', 365.0)
 
         self.wall_setpoint = self.get_parameter('wall_distance_mm').value
         self.between_row_wall_distance = self.get_parameter('between_row_wall_distance_mm').value
         self.right_wall_distance = self.get_parameter('right_wall_distance_mm').value
-        self.rear_clearance = self.get_parameter('rear_clearance_mm').value
+        self.between_row_front_stop_distance = self.get_parameter('between_row_front_stop_distance_mm').value
         self.drive_duty_frac = self.get_parameter('drive_duty_fraction').value
         self.turn_duty_frac = self.get_parameter('turn_duty_fraction').value
         self.backup_duty_frac = self.get_parameter('backup_duty_fraction').value
@@ -566,23 +566,23 @@ class NavStateMachine(Node):
                 self.leg_count += 1
                 self.get_logger().info(
                     f'Turn complete! CH_LEFT_FRONT={side_dist:.0f}mm > {self.turn_wall_detect:.0f}mm '
-                    f'(leg {self.leg_count}, {elapsed:.1f}s) — resuming DRIVE_STRAIGHT'
+                    f'(leg {self.leg_count}, {elapsed:.1f}s) — resuming DRIVE_BETWEEN_ROWS'
                 )
                 self._stop_motors()
                 self._reset_pid()
                 self.phase_start_time = time.monotonic()
-                self.state = State.DRIVE_STRAIGHT
+                self.state = State.DRIVE_BETWEEN_ROWS
                 return
 
 
     def _do_drive_between_rows(self):
         elapsed = time.monotonic() - self.phase_start_time
 
-        # Check if we've cleared the row
-        rear_dist = self._rear_distance()
-        if rear_dist >= self.rear_clearance and elapsed > 1.0:  # wait 1s so it doesn't trigger instantly
+        # Check if we've reached the next row wall
+        front_dist = self._front_distance()
+        if front_dist <= self.between_row_front_stop_distance and elapsed > 1.0:  # wait 1s so it doesn't trigger instantly
             self.get_logger().info(
-                f'Row cleared (rear={rear_dist:.0f}mm) '
+                f'Next row wall reached (front={front_dist:.0f}mm) '
                 f'— turning right into next row'
             )
             self._stop_motors()
@@ -605,7 +605,7 @@ class NavStateMachine(Node):
         if self._log_counter % 10 == 0:
             self.get_logger().info(
                 f'CROSS-DRIVE: L_dist={left_dist:.0f}mm L_angle={angle_diff:.0f}mm '
-                f'rear={rear_dist:.0f}mm '
+                f'front={front_dist:.0f}mm '
                 f'CH4={self.distances[CH_REAR_LEFT]:.0f} CH5={self.distances[CH_REAR_RIGHT]:.0f} '
                 f'corr={correction:.0f}'
             )
@@ -659,9 +659,10 @@ class NavStateMachine(Node):
             self.state = State.IDLE
             return
 
-        right_dist = self._right_wall_distance()
-        angle_diff = self._right_wall_angle()
-        correction = self._compute_pid(right_dist, angle_diff, self.right_wall_distance, is_right_wall=True)
+        # User requested to use LEFT wall again for the return row
+        left_dist = self._left_wall_distance()
+        angle_diff = self._left_wall_angle()
+        correction = self._compute_pid(left_dist, angle_diff, self.wall_setpoint)
 
         base_duty = int(self.drive_duty_frac * DUTY_MAX)
         left_duty = int(base_duty - correction)
@@ -672,8 +673,8 @@ class NavStateMachine(Node):
         self._log_counter += 1
         if self._log_counter % 10 == 0:
             self.get_logger().info(
-                f'ROW-RIGHT: R_dist={right_dist:.0f}mm R_angle={angle_diff:.0f}mm '
-                f'CH6={self.distances[CH_RIGHT_FRONT]:.0f} CH7={self.distances[CH_RIGHT_REAR]:.0f} '
+                f'ROW-RETURN: L_dist={left_dist:.0f}mm L_angle={angle_diff:.0f}mm '
+                f'CH2={self.distances[CH_LEFT_FRONT]:.0f} CH3={self.distances[CH_LEFT_REAR]:.0f} '
                 f'corr={correction:.0f}'
             )
 

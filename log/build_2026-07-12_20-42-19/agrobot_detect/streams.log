@@ -1,0 +1,54 @@
+[1.150s] Invoking command in '/home/agrobot/ros2_ws/build/agrobot_detect': PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/agrobot/ros2_ws/build/agrobot_detect/build
+[1.541s] running develop
+[1.799s] Removing /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot-detect.egg-link (link to .)
+[1.886s] Invoked command in '/home/agrobot/ros2_ws/build/agrobot_detect' returned '0': PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/agrobot/ros2_ws/build/agrobot_detect/build
+[1.889s] Invoking command in '/home/agrobot/ros2_ws/src/agrobot_detect': PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/agrobot_detect build --build-base /home/agrobot/ros2_ws/build/agrobot_detect/build install --record /home/agrobot/ros2_ws/build/agrobot_detect/install.log --single-version-externally-managed install_data --force
+[2.244s] running egg_info
+[2.265s] writing ../../build/agrobot_detect/agrobot_detect.egg-info/PKG-INFO
+[2.266s] writing dependency_links to ../../build/agrobot_detect/agrobot_detect.egg-info/dependency_links.txt
+[2.267s] writing entry points to ../../build/agrobot_detect/agrobot_detect.egg-info/entry_points.txt
+[2.267s] writing requirements to ../../build/agrobot_detect/agrobot_detect.egg-info/requires.txt
+[2.268s] writing top-level names to ../../build/agrobot_detect/agrobot_detect.egg-info/top_level.txt
+[2.313s] reading manifest file '../../build/agrobot_detect/agrobot_detect.egg-info/SOURCES.txt'
+[2.314s] adding license file 'LICENSE'
+[2.315s] writing manifest file '../../build/agrobot_detect/agrobot_detect.egg-info/SOURCES.txt'
+[2.315s] running build
+[2.315s] running build_py
+[2.315s] copying agrobot_detect/object_detect_publisher.py -> /home/agrobot/ros2_ws/build/agrobot_detect/build/lib/agrobot_detect
+[2.316s] copying agrobot_detect/vision_module.py -> /home/agrobot/ros2_ws/build/agrobot_detect/build/lib/agrobot_detect
+[2.316s] running install
+[2.326s] running install_lib
+[2.348s] creating /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect
+[2.348s] copying /home/agrobot/ros2_ws/build/agrobot_detect/build/lib/agrobot_detect/object_detect_publisher.py -> /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect
+[2.348s] copying /home/agrobot/ros2_ws/build/agrobot_detect/build/lib/agrobot_detect/vision_module.py -> /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect
+[2.349s] copying /home/agrobot/ros2_ws/build/agrobot_detect/build/lib/agrobot_detect/lcd_display_publisher.py -> /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect
+[2.349s] copying /home/agrobot/ros2_ws/build/agrobot_detect/build/lib/agrobot_detect/__init__.py -> /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect
+[2.349s] copying /home/agrobot/ros2_ws/build/agrobot_detect/build/lib/agrobot_detect/vision_application_publisher.py -> /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect
+[2.349s] copying /home/agrobot/ros2_ws/build/agrobot_detect/build/lib/agrobot_detect/lcd_display_subscriber.py -> /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect
+[2.350s] copying /home/agrobot/ros2_ws/build/agrobot_detect/build/lib/agrobot_detect/vision_application_publisher_toggle.py -> /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect
+[2.350s] copying /home/agrobot/ros2_ws/build/agrobot_detect/build/lib/agrobot_detect/vision_lcd_publisher.py -> /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect
+[2.350s] copying /home/agrobot/ros2_ws/build/agrobot_detect/build/lib/agrobot_detect/beam_break_node.py -> /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect
+[2.351s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/object_detect_publisher.py to object_detect_publisher.cpython-312.pyc
+[2.353s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/vision_module.py to vision_module.cpython-312.pyc
+[2.366s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/lcd_display_publisher.py to lcd_display_publisher.cpython-312.pyc
+[2.367s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__init__.py to __init__.cpython-312.pyc
+[2.367s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/vision_application_publisher.py to vision_application_publisher.cpython-312.pyc
+[2.379s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/lcd_display_subscriber.py to lcd_display_subscriber.cpython-312.pyc
+[2.381s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/vision_application_publisher_toggle.py to vision_application_publisher_toggle.cpython-312.pyc
+[2.393s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/vision_lcd_publisher.py to vision_lcd_publisher.cpython-312.pyc
+[2.395s] byte-compiling /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/beam_break_node.py to beam_break_node.cpython-312.pyc
+[2.396s] running install_data
+[2.396s] copying resource/agrobot_detect -> /home/agrobot/ros2_ws/install/agrobot_detect/share/ament_index/resource_index/packages
+[2.397s] copying package.xml -> /home/agrobot/ros2_ws/install/agrobot_detect/share/agrobot_detect
+[2.397s] copying data/hsv.db -> /home/agrobot/ros2_ws/install/agrobot_detect/share/agrobot_detect/data
+[2.398s] running install_egg_info
+[2.422s] Copying ../../build/agrobot_detect/agrobot_detect.egg-info to /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect-0.0.0-py3.12.egg-info
+[2.424s] running install_scripts
+[2.584s] Installing beam_break_node script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect
+[2.584s] Installing lcd_display_publisher script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect
+[2.585s] Installing lcd_display_subscriber script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect
+[2.586s] Installing object_detect_publisher script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect
+[2.587s] Installing vision_application_publisher script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect
+[2.588s] Installing vision_application_publisher_toggle script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect
+[2.589s] writing list of installed files to '/home/agrobot/ros2_ws/build/agrobot_detect/install.log'
+[2.673s] Invoked command in '/home/agrobot/ros2_ws/src/agrobot_detect' returned '0': PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/agrobot_detect build --build-base /home/agrobot/ros2_ws/build/agrobot_detect/build install --record /home/agrobot/ros2_ws/build/agrobot_detect/install.log --single-version-externally-managed install_data --force
