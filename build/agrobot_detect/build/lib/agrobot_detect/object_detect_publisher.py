@@ -7,25 +7,23 @@ camera is currently seeing on a ROS2 topic, the moment an object is confirmed on
 screen (not tied to any counting line). This is the perception -> rest-of-robot
 bridge: nav / actuation can subscribe to learn "what am I looking at right now".
 
-One announcement is published per object, the first time its track is stable
-(>= MIN_TRACK_AGE frames). The three corn-stalk forms are reported as:
+Two things are published, each with a centered / not_centered state:
 
-    base (off-center) -> "base:not_centered"
-    base (centered)   -> "base:centered"
-    single green      -> "green_1_stalk"
-    double stalk      -> "double_stalk:yellow_first"  (yellow stalk is first)
-                         "double_stalk:green_first"   (green stalk is first)
+    base         -> "base:centered" / "base:not_centered"          (stop to seed)
+    yellow stalk -> "yellow_stalk:centered" / "yellow_stalk:not_centered"
+                                                        (stop to remove the stalk)
 
-A double stalk always has a yellow stalk over a green stalk; "which is first" is
-derived from the yellow center's horizontal position relative to the green center.
-By default the LEFTMOST stalk is called "first" -- flip it with the `leading_side`
-parameter ("left" or "right") without touching code.
+A lone green stalk (green_1_stalk) is NOT published. "yellow_stalk" fires for any
+yellow stalk the robot lines up on to remove, whether or not a green stalk sits
+under it: a double stalk (yellow over green) is centered on the yellow stalk's own
+position carried in the track meta, and a standalone yellow stalk (yellow_1_stalk,
+no green under it) is centered on its own centroid -- both are the yellow stalk's
+center.
 
-A base reports whether it is centered under the camera. Unlike the other classes
-(one announcement each), a base re-announces every time it crosses into or out of
-the centered zone, so nav/actuation get a live "the base is lined up now" signal.
-The centered band is set by the `center_tolerance` parameter (fraction of frame
-width from center; 0.15 -> middle 30% of the frame).
+Both signals re-announce every time the object crosses into or out of the centered
+zone, so nav/actuation get a live "it is lined up now" edge. The centered band is
+set by the `center_tolerance` parameter (fraction of frame width from center;
+0.15 -> middle 30% of the frame).
 
 Topic (default): detected_object   (std_msgs/String)
 """
@@ -46,29 +44,18 @@ class ObjectDetectPublisher(Node):
         super().__init__('object_detect_publisher')
 
         # --- Parameters ------------------------------------------------------
-        # Which side of the frame counts as "first". Default: leftmost stalk is
-        # first. Set to "right" if the robot's travel direction makes the right
-        # stalk the leading one.
-        self.declare_parameter('leading_side', 'left')
         self.declare_parameter('topic', 'detected_object')
         # A base is "centered" when its center is within this fraction of the frame
         # width from the horizontal center (0.15 -> middle 30% of the frame).
-        self.declare_parameter('center_tolerance', 0.15)
+        self.declare_parameter('center_tolerance', 0.20)
+        # Reject a 'base' detected in the upper part of the frame (false positive:
+        # bases sit low in view). 0.5 -> ignore any base in the top half.
+        self.declare_parameter('base_ignore_above', 0.5)
         # Serve an MJPEG debug view of the annotated frames at
         # http://<pi-ip>:<stream_port>/stream. Disable when running alongside
         # camera_node (which also binds 8080) or to save CPU.
         self.declare_parameter('streaming_video', True)
         self.declare_parameter('stream_port', 8080)
-
-        self._leading_side = (
-            self.get_parameter('leading_side').get_parameter_value().string_value
-            or 'left'
-        ).lower()
-        if self._leading_side not in ('left', 'right'):
-            self.get_logger().warn(
-                f"leading_side='{self._leading_side}' invalid; falling back to 'left'."
-            )
-            self._leading_side = 'left'
 
         topic = (
             self.get_parameter('topic').get_parameter_value().string_value
@@ -76,6 +63,9 @@ class ObjectDetectPublisher(Node):
         )
         self._center_tolerance = (
             self.get_parameter('center_tolerance').get_parameter_value().double_value
+        )
+        self._base_ignore_above = (
+            self.get_parameter('base_ignore_above').get_parameter_value().double_value
         )
         self._streaming_video = (
             self.get_parameter('streaming_video').get_parameter_value().bool_value
@@ -102,6 +92,7 @@ class ObjectDetectPublisher(Node):
             extra_tolerance_factor=0.20,
             on_detect_callback=self._on_detect,
             center_tolerance=self._center_tolerance,
+            base_ignore_above=self._base_ignore_above,
             streaming_video=self._streaming_video,
             stream_port=self._stream_port,
             use_gui=False,
@@ -114,35 +105,37 @@ class ObjectDetectPublisher(Node):
             if self._streaming_video else "stream=off"
         )
         self.get_logger().info(
-            f"Object detect publisher started; topic='{topic}', "
-            f"leading_side='{self._leading_side}', {stream_note}"
+            f"Object detect publisher started; topic='{topic}', {stream_note}"
         )
 
-    def _first_stalk(self, meta: dict) -> str:
-        """Map the raw yellow_side geometry to which stalk is 'first'."""
-        yellow_side = meta.get('yellow_side')
-        if yellow_side not in ('left', 'right'):
-            return ''
-        # The stalk on the leading side is first.
-        return 'yellow' if yellow_side == self._leading_side else 'green'
+    # Which detected class maps to which published label. Anything not listed
+    # here (e.g. green_1_stalk) is intentionally not published.
+    _LABELS = {
+        'base': 'base',
+        'double_stalk': 'yellow_stalk',
+        # A yellow stalk with no green stalk under it (not a double) still aligns
+        # on the yellow stalk, so publish it as yellow_stalk too.
+        'yellow_1_stalk': 'yellow_stalk',
+    }
 
     def _on_detect(self, config_name: str, meta: dict):
-        """Called when an object is confirmed on screen.
+        """Called when a base or a double stalk (yellow stalk) is on screen.
 
-        Fires once per object for green_1_stalk / double_stalk. For a base it also
-        fires again each time the base crosses into or out of the centered zone.
+        Publishes "<label>:centered" / "<label>:not_centered" and re-fires each
+        time the object crosses into or out of the centered zone. green_1_stalk is
+        dropped.
         """
-        payload = config_name
-        if config_name == 'double_stalk':
-            first = self._first_stalk(meta)
-            if first:
-                payload = f'double_stalk:{first}_first'
-        elif config_name == 'base':
-            centered = meta.get('centered')
-            if centered is True:
-                payload = 'base:centered'
-            elif centered is False:
-                payload = 'base:not_centered'
+        label = self._LABELS.get(config_name)
+        if label is None:
+            return  # green_1_stalk (and anything else) is not published
+
+        centered = meta.get('centered')
+        if centered is True:
+            payload = f'{label}:centered'
+        elif centered is False:
+            payload = f'{label}:not_centered'
+        else:
+            payload = label  # defensive: centering state unknown
 
         msg = String()
         msg.data = payload

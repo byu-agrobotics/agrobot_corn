@@ -1,0 +1,2 @@
+[console_scripts]
+corn_robot_fsm = agrobot_fsm.corn_robot_fsm:main

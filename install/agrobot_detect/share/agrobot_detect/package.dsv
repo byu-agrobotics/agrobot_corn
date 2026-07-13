@@ -4,6 +4,3 @@ source;share/agrobot_detect/hook/pythonpath.sh
 source;share/agrobot_detect/hook/ament_prefix_path.ps1
 source;share/agrobot_detect/hook/ament_prefix_path.dsv
 source;share/agrobot_detect/hook/ament_prefix_path.sh
-source;../../build/agrobot_detect/share/agrobot_detect/hook/pythonpath_develop.ps1
-source;../../build/agrobot_detect/share/agrobot_detect/hook/pythonpath_develop.dsv
-source;../../build/agrobot_detect/share/agrobot_detect/hook/pythonpath_develop.sh

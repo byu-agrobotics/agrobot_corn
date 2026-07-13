@@ -331,8 +331,10 @@ class TMF8801Node(Node):
             msg.data = float(distance_mm)
             self.distance_pubs[channel].publish(msg)
 
-            # Log to terminal
-            self.get_logger().info(
+            # Log to terminal (debug: was INFO firing ~num_sensors*rate lines/sec,
+            # ~80/sec at 8 sensors @10Hz, flooding ~/ros2_ws/log and lagging SSH).
+            # Data is still on the tof_distance_* topics; raise log level to see it.
+            self.get_logger().debug(
                 f'[CH{channel}] Distance: {distance_mm} mm  '
                 f'(confidence: {confidence}/63)'
             )

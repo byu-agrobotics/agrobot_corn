@@ -1,0 +1,25 @@
+[2.300s] Invoking command in '/home/agrobot/ros2_ws/build/agrobot_detect': PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/agrobot/ros2_ws/build/agrobot_detect/build --no-deps symlink_data --force
+[3.080s] running develop
+[3.319s] running egg_info
+[3.347s] writing agrobot_detect.egg-info/PKG-INFO
+[3.348s] writing dependency_links to agrobot_detect.egg-info/dependency_links.txt
+[3.352s] writing entry points to agrobot_detect.egg-info/entry_points.txt
+[3.356s] writing requirements to agrobot_detect.egg-info/requires.txt
+[3.378s] writing top-level names to agrobot_detect.egg-info/top_level.txt
+[3.442s] reading manifest file 'agrobot_detect.egg-info/SOURCES.txt'
+[3.442s] writing manifest file 'agrobot_detect.egg-info/SOURCES.txt'
+[3.477s] running build_ext
+[3.478s] Creating /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot-detect.egg-link (link to .)
+[3.478s] Installing beam_break_node script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect
+[3.479s] Installing lcd_display_publisher script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect
+[3.479s] Installing lcd_display_subscriber script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect
+[3.479s] Installing object_detect_publisher script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect
+[3.479s] Installing vision_application_publisher script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect
+[3.481s] Installing vision_application_publisher_toggle script to /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect
+[3.481s] 
+[3.481s] Installed /home/agrobot/ros2_ws/build/agrobot_detect
+[3.481s] running symlink_data
+[3.481s] symbolically linking /home/agrobot/ros2_ws/build/agrobot_detect/resource/agrobot_detect -> /home/agrobot/ros2_ws/install/agrobot_detect/share/ament_index/resource_index/packages
+[3.481s] symbolically linking /home/agrobot/ros2_ws/build/agrobot_detect/package.xml -> /home/agrobot/ros2_ws/install/agrobot_detect/share/agrobot_detect
+[3.486s] symbolically linking /home/agrobot/ros2_ws/build/agrobot_detect/data/hsv.db -> /home/agrobot/ros2_ws/install/agrobot_detect/share/agrobot_detect/data
+[3.608s] Invoked command in '/home/agrobot/ros2_ws/build/agrobot_detect' returned '0': PYTHONPATH=/home/agrobot/ros2_ws/build/agrobot_detect/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/agrobot/ros2_ws/build/agrobot_detect/build --no-deps symlink_data --force

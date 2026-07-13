@@ -27,6 +27,10 @@ class MJPEGHandler(BaseHTTPRequestHandler):
     # Class-level reference set by CameraNode before the server starts
     latest_frame: Optional[np.ndarray] = None
     frame_lock = threading.Lock()
+    # Seconds to sleep per stream iteration; set from the fps param by CameraNode.
+    # Without this the /stream loop re-encodes the same frame as fast as the CPU
+    # allows, pegging a core and starving sshd whenever the feed is being viewed.
+    frame_interval = 1.0 / 30.0
 
     def do_GET(self):
         if self.path == '/':
@@ -97,6 +101,9 @@ class MJPEGHandler(BaseHTTPRequestHandler):
                         b'\r\n')
                     self.wfile.write(data)
                     self.wfile.write(b'\r\n')
+
+                    # Pace to the camera fps instead of spinning flat-out.
+                    time.sleep(MJPEGHandler.frame_interval)
             except (BrokenPipeError, ConnectionResetError):
                 pass  # Client disconnected
 
@@ -149,6 +156,8 @@ class CameraNode(Node):
         self.image_pub = self.create_publisher(Image, '/camera/image_raw', 10)
 
         # ---- Web server (runs in a background daemon thread) --------------------
+        # Pace the /stream loop to the camera fps so it can't peg a CPU core.
+        MJPEGHandler.frame_interval = 1.0 / fps if fps > 0 else 1.0 / 30.0
         self.http_server = HTTPServer(('0.0.0.0', web_port), MJPEGHandler)
         self.server_thread = threading.Thread(
             target=self.http_server.serve_forever, daemon=True)

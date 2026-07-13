@@ -59,6 +59,8 @@ from rclpy.node import Node
 from std_msgs.msg import Float32
 from tutorial_interfaces.msg import Num
 
+from std_srvs.srv import Trigger # added so top level FSM can communicate
+
 try:
     from basicmicro import Basicmicro
 except Exception:

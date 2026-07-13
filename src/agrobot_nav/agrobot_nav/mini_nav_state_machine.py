@@ -83,6 +83,8 @@ CH_RIGHT_REAR  = 7   # right side, toward the rear of the robot
 
 class State(Enum):
     IDLE = auto()
+    BURST_FORWARD = auto()
+    DRIVE_STRAIGHT_SIMPLE = auto()
     DRIVE_ROW_LEFT = auto()
     BACKING_UP = auto()
     TURN_RIGHT_1 = auto()
@@ -98,8 +100,8 @@ class NavStateMachine(Node):
         super().__init__('nav_state_machine')
 
         # ── Parameters ───────────────────────────────────────────────────────
-        self.declare_parameter('wall_distance_mm', 325.0)
-        self.declare_parameter('drive_duty_fraction', 0.25)
+        self.declare_parameter('wall_distance_mm', 367.0)
+        self.declare_parameter('drive_duty_fraction', 0.15) # 0.25
         self.declare_parameter('turn_duty_fraction', 0.60) # Dirt: 0.60
         self.declare_parameter('backup_duty_fraction', 0.30)
         self.declare_parameter('kp', -60.0)
@@ -107,21 +109,27 @@ class NavStateMachine(Node):
         self.declare_parameter('kd', 0.0)
         self.declare_parameter('k_angle', 0)
         self.declare_parameter('control_rate_hz', 10.0)
-        self.declare_parameter('drive_duration_s', 8.0)
+        self.declare_parameter('drive_duration_s', 800.0)
         self.declare_parameter('front_stop_distance_mm', 185)
         self.declare_parameter('backup_duration_s', 0.0)
         self.declare_parameter('turn_wall_detect_mm', 60.0) # Dirt: 60.0                  # stop turning when CH_LEFT_FRONT > this
         self.declare_parameter('turn_timeout_s', 2.0)                                     # safety timeout for turn
-        self.declare_parameter('turn_min_spin_s', 0.3) # Dirt: 0.6                        # spin at least this long before checking
+        self.declare_parameter('turn_min_spin_s', 0.6) # Dirt: 0.6                        # spin at least this long before checking
 
         self.declare_parameter('between_row_wall_distance_mm', 325.0)
         self.declare_parameter('right_wall_distance_mm', 450.0)
         self.declare_parameter('between_row_front_stop_distance_mm', 365.0)
+        self.declare_parameter('burst_duty_fraction', 0.30)
+        self.declare_parameter('burst_duration_s', 0.10)
+        self.declare_parameter('straight_simple_duty_fraction', 0.10)
 
         self.wall_setpoint = self.get_parameter('wall_distance_mm').value
         self.between_row_wall_distance = self.get_parameter('between_row_wall_distance_mm').value
         self.right_wall_distance = self.get_parameter('right_wall_distance_mm').value
         self.between_row_front_stop_distance = self.get_parameter('between_row_front_stop_distance_mm').value
+        self.burst_duty_frac = self.get_parameter('burst_duty_fraction').value
+        self.burst_duration = self.get_parameter('burst_duration_s').value
+        self.straight_simple_duty_frac = self.get_parameter('straight_simple_duty_fraction').value
         self.drive_duty_frac = self.get_parameter('drive_duty_fraction').value
         self.turn_duty_frac = self.get_parameter('turn_duty_fraction').value
         self.backup_duty_frac = self.get_parameter('backup_duty_fraction').value
@@ -246,12 +254,11 @@ class NavStateMachine(Node):
     def _cmd_callback(self, msg: Num):
         """Handle keyboard commands: w=start, q=stop, c=calibrate."""
         if msg.num == 1:  # 'w' key
-            if self.state == State.IDLE:
-                self.get_logger().info('>>> START: IDLE → DRIVE_ROW_LEFT')
-                self._reset_pid()
-                self.phase_start_time = time.monotonic()
-                self.leg_count = 0
-                self.state = State.DRIVE_ROW_LEFT
+            self.get_logger().info('>>> START: → BURST_FORWARD')
+            self._reset_pid()
+            self.phase_start_time = time.monotonic()
+            self.leg_count = 0
+            self.state = State.BURST_FORWARD
         elif msg.num == 0:  # 'q' key
             if self.state != State.IDLE:
                 self.get_logger().info('>>> STOP: → IDLE')
@@ -260,7 +267,13 @@ class NavStateMachine(Node):
         elif msg.num == 5:  # 'c' key
             if self.sensor_valid[CH_LEFT_FRONT] and self.sensor_valid[CH_LEFT_REAR]:
                 self.ch3_offset = self.distances[CH_LEFT_REAR] - self.distances[CH_LEFT_FRONT]
-                self.get_logger().info(f'>>> CALIBRATION COMPLETE: CH3 offset set to {self.ch3_offset:.0f}mm')
+                
+                # Set wall_distance_mm to the current calibrated distance
+                self.wall_setpoint = float(self.distances[CH_LEFT_FRONT])
+                param = rclpy.parameter.Parameter('wall_distance_mm', rclpy.Parameter.Type.DOUBLE, self.wall_setpoint)
+                self.set_parameters([param])
+                
+                self.get_logger().info(f'>>> CALIBRATION COMPLETE: CH3 offset set to {self.ch3_offset:.0f}mm, wall_setpoint set to {self.wall_setpoint:.0f}mm')
             else:
                 self.get_logger().warn('>>> CALIBRATION FAILED: Sensors not ready')
 
@@ -283,7 +296,7 @@ class NavStateMachine(Node):
         if self.sensor_valid[CH_LEFT_FRONT] and self.distances[CH_LEFT_FRONT] > 0:
             vals.append(self.distances[CH_LEFT_FRONT])
         if self.sensor_valid[CH_LEFT_REAR] and self.distances[CH_LEFT_REAR] > 0:
-            vals.append(self.distances[CH_LEFT_REAR])
+            vals.append(self.distances[CH_LEFT_REAR] - self.ch3_offset)
         if not vals:
             return self.wall_setpoint  # no reading → assume at setpoint (no correction)
         return sum(vals) / len(vals)
@@ -428,6 +441,12 @@ class NavStateMachine(Node):
                     f'Ang:{angle_diff:.0f}'
                 )
 
+        elif self.state == State.BURST_FORWARD:
+            self._do_burst_forward()
+            
+        elif self.state == State.DRIVE_STRAIGHT_SIMPLE:
+            self._do_drive_straight_simple()
+
         elif self.state == State.DRIVE_ROW_LEFT:
             self._do_drive_row_left()
             
@@ -445,6 +464,20 @@ class NavStateMachine(Node):
             
         elif self.state == State.DRIVE_ROW_RIGHT:
             self._do_drive_row_right()
+
+    def _do_burst_forward(self):
+        elapsed = time.monotonic() - self.phase_start_time
+        if elapsed >= self.burst_duration:
+            self.get_logger().info(f'Burst complete, dropping to {self.straight_simple_duty_frac} duty cycle.')
+            self.state = State.DRIVE_ROW_LEFT
+            return
+        
+        burst_duty = int(self.burst_duty_frac * DUTY_MAX)
+        self._send_motors(burst_duty, burst_duty)
+
+    def _do_drive_straight_simple(self):
+        straight_duty = int(self.straight_simple_duty_frac * DUTY_MAX)
+        self._send_motors(straight_duty, straight_duty)
 
     def _do_drive_row_left(self):
         """PID wall-following until we reach a wall in front."""

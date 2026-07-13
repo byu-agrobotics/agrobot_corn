@@ -32,7 +32,7 @@ class BeamBreakNode(Node):
         #     HIGH = beam detected
         #
         # Change this parameter to false if your sensor behaves oppositely.
-        self.declare_parameter('active_low', True)
+        self.declare_parameter('active_low', False)
 
         # Publishing frequency in hertz.
         self.declare_parameter('publish_rate', 20.0)

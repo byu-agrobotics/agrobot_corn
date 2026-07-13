@@ -199,6 +199,7 @@ class CameraView(object):
         on_count_callback=None,
         on_detect_callback=None,
         center_tolerance=0.15,
+        base_ignore_above=0.5,
     ):
         self.cap = camera
         self.width = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -226,6 +227,9 @@ class CameraView(object):
         # Fraction of full frame width defining the "centered" band for a base:
         # centered iff |cx - width/2| <= center_tolerance * width.
         self.centerTolerance = center_tolerance
+        # Reject a 'base' whose center is in the upper baseIgnoreAbove fraction of
+        # the frame (0.5 = ignore any base in the top half of the view).
+        self.baseIgnoreAbove = base_ignore_above
 
         # Tracking system variables (per camera)
         self.activeTracks = {}  # Dictionary: {color_name: [list of TargetTrack objects]}
@@ -310,6 +314,7 @@ class CameraView(object):
             "base": [self._withMeta(d) for d in detectionsByConfig.get("base", [])],
             "green_1_stalk": [],
             "double_stalk": [],
+            "yellow_1_stalk": [],
         }
         yellowDetections = list(detectionsByConfig.get("yellow_1_stalk", []))
         usedYellow = set()
@@ -347,6 +352,15 @@ class CameraView(object):
                 "green_center": greenCentroid,
             }
             finalDetections["double_stalk"].append((combinedCentroid, combinedBBox, meta))
+
+        # Yellow stalks that never paired with a green stalk are still real yellow
+        # stalks to align on. Emit them as standalone yellow_1_stalk so the
+        # yellow_stalk centering signal fires whether or not a double stalk formed;
+        # centering falls back to the yellow blob's own centroid (see centeringRefX).
+        for idx, yellowDetection in enumerate(yellowDetections):
+            if idx in usedYellow:
+                continue
+            finalDetections["yellow_1_stalk"].append(self._withMeta(yellowDetection))
 
         return finalDetections
 
@@ -482,10 +496,18 @@ class CameraView(object):
 
                         if best_match:
                             config_name, score, within_tolerance = best_match
+
+                            centroid = self.getCentroidFromBBox((x, y, w, h))
+
+                            # A base sits low in the camera view; anything classed
+                            # as 'base' in the upper part of the frame is a false
+                            # positive -- ignore it entirely (no detection/track).
+                            if config_name == "base" and self.isBaseAboveCutoff(centroid):
+                                continue
+
                             largest = contour
                             self.tapeTargetDetected = True
 
-                            centroid = self.getCentroidFromBBox((x, y, w, h))
                             if config_name not in detectionsByConfig:
                                 detectionsByConfig[config_name] = []
                             detectionsByConfig[config_name].append((centroid, (x, y, w, h)))
@@ -530,16 +552,39 @@ class CameraView(object):
         x, y, w, h = bbox
         return (x + w // 2, y + h // 2)
 
-    def isBaseCentered(self, centroid, frameWidth):
-        """True if a centroid's x sits within the centered band of the frame.
+    def isBaseAboveCutoff(self, centroid):
+        """True if a base centroid is too high in the frame to be a real base.
+
+        Image y grows downward (0 = top). A real base sits low in view, so a base
+        whose center is above baseIgnoreAbove * frameHeight (measured from the top)
+        is rejected. baseIgnoreAbove = 0.5 rejects the entire upper half.
+        """
+        frameHeight = self.processedImage.shape[0]
+        return centroid[1] < self.baseIgnoreAbove * frameHeight
+
+    def isCentered(self, cx, frameWidth):
+        """True if an x coordinate sits within the centered band of the frame.
 
         The band is [center - tol*width, center + tol*width] where tol is
         self.centerTolerance (a fraction of the full frame width). e.g. tol=0.15
         means the middle 30% of the frame counts as centered.
         """
-        cx = centroid[0]
         center = frameWidth / 2.0
         return abs(cx - center) <= self.centerTolerance * frameWidth
+
+    def centeringRefX(self, configName, track):
+        """X coordinate used to decide whether a track is 'centered'.
+
+        A double stalk is aligned by the yellow stalk itself (the piece to be
+        removed), whose center is carried in the track meta; everything else uses
+        the track's own centroid. A standalone yellow_1_stalk therefore aligns on
+        its own centroid, which is exactly the yellow stalk's center.
+        """
+        if configName == "double_stalk":
+            yellowCenter = (track.meta or {}).get("yellow_center")
+            if yellowCenter is not None:
+                return yellowCenter[0]
+        return track.centroid[0]
 
     def loadDetectionConfigurations(self):
         """Load detection configurations from database recommendations"""
@@ -820,28 +865,33 @@ class CameraView(object):
                 # This is independent of the counting line below: it fires as soon
                 # as the track is stable (>= MIN_TRACK_AGE frames), so downstream
                 # nodes learn "what am I seeing right now" the instant it enters.
+                centeringClass = configName in ("base", "double_stalk", "yellow_1_stalk")
                 if not track.announced and track.age >= self.MIN_TRACK_AGE:
                     track.announced = True
                     announceMeta = dict(track.meta or {})
-                    if configName == "base":
-                        track.centeredState = self.isBaseCentered(track.centroid, frame_width)
+                    if centeringClass:
+                        track.centeredState = self.isCentered(
+                            self.centeringRefX(configName, track), frame_width)
                         announceMeta["centered"] = track.centeredState
                     if self.on_detect_callback:
                         self.on_detect_callback(configName, announceMeta)
-                # A base is a stop/align target: after it has entered, keep
-                # subscribers updated whenever it crosses into or out of the
-                # centered zone, so nav/actuation know when it is lined up under
-                # the camera. Only re-announced on an actual state change.
-                elif configName == "base" and track.announced:
-                    centered = self.isBaseCentered(track.centroid, frame_width)
+                # A base (stop to seed) and a double stalk's yellow stalk (stop to
+                # remove it) are stop/align targets: after entry, keep subscribers
+                # updated whenever the object crosses into or out of the centered
+                # zone. Only re-announced on an actual state change.
+                elif centeringClass and track.announced:
+                    centered = self.isCentered(
+                        self.centeringRefX(configName, track), frame_width)
                     if centered != track.centeredState:
                         track.centeredState = centered
                         if self.on_detect_callback:
                             announceMeta = dict(track.meta or {})
                             announceMeta["centered"] = centered
                             self.on_detect_callback(configName, announceMeta)
-                # check if this track should be counted
-                if self.checkEntryZone(track, frame_width):
+                # check if this track should be counted. Standalone yellow stalks
+                # drive the yellow_stalk align signal but are not part of the
+                # S/D/E tally, so they are announced (above) but never counted.
+                if configName != "yellow_1_stalk" and self.checkEntryZone(track, frame_width):
                     track.counted = True
                     # Initialize count if needed
                     if configName not in self.totalCount:
@@ -1007,6 +1057,7 @@ class VisionApplication(object):
         on_count_callback=None,
         on_detect_callback=None,
         center_tolerance=0.15,
+        base_ignore_above=0.5,
         streaming_video=False,
         stream_port=8080,
         use_gui=False,
@@ -1021,6 +1072,7 @@ class VisionApplication(object):
         self.on_count_callback = on_count_callback
         self.on_detect_callback = on_detect_callback
         self.center_tolerance = center_tolerance
+        self.base_ignore_above = base_ignore_above
         self.streaming_video = streaming_video
         self.stream_port = stream_port
         self.use_gui = use_gui
@@ -1087,6 +1139,7 @@ class VisionApplication(object):
             on_count_callback=self.on_count_callback,
             on_detect_callback=self.on_detect_callback,
             center_tolerance=self.center_tolerance,
+            base_ignore_above=self.base_ignore_above,
         )
         self.cameraList["PositioningCamera"] = self.camera
         if self.numberOfCameras == 2:
@@ -1109,6 +1162,7 @@ class VisionApplication(object):
                 on_count_callback=self.on_count_callback,
                 on_detect_callback=self.on_detect_callback,
                 center_tolerance=self.center_tolerance,
+                base_ignore_above=self.base_ignore_above,
             )
             self.cameraList["IDCamera"] = self.camera2
 
@@ -1128,7 +1182,10 @@ class VisionApplication(object):
                 if cam.tapeTargetDetected:
                     for configName, target in cam.targetList.items():
                         target.drawRectangle(cam.processedImage)
-                        print(f"{configName}: {target.x},{target.y}", end=' | ')
+                        # Print aspect ratio (and area ratio) instead of coords —
+                        # these are what the classifier tolerances match on, so this
+                        # shows why a green_1_stalk may be read as a base.
+                        print(f"{configName}: aspect={target.aspectRatio:.2f} area={target.areaRatio:.2f}", end=' | ')
                     print()
 
                 scale_factor = 1

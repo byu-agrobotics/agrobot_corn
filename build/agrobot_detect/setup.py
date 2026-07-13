@@ -1,1 +1,0 @@
-/home/agrobot/ros2_ws/src/agrobot_detect/setup.py
