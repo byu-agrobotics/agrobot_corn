@@ -1,0 +1,5 @@
+  File "/home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/mini_nav_state_machine.py", line 261
+    elif msg.num == 5:  # 'c' key
+    ^^^^
+SyntaxError: invalid syntax
+

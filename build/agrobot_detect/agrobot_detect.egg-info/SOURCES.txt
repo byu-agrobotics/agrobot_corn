@@ -13,6 +13,7 @@ agrobot_detect/__init__.py
 agrobot_detect/beam_break_node.py
 agrobot_detect/lcd_display_publisher.py
 agrobot_detect/lcd_display_subscriber.py
+agrobot_detect/object_detect_publisher.py
 agrobot_detect/vision_application_publisher.py
 agrobot_detect/vision_application_publisher_toggle.py
 agrobot_detect/vision_lcd_publisher.py

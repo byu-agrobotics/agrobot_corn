@@ -12,6 +12,7 @@ setup.py
 agrobot_nav/__init__.py
 agrobot_nav/camera_node.py
 agrobot_nav/mini_nav_state_machine.py
+agrobot_nav/mini_nav_state_machine_new.py
 agrobot_nav/nav_state_machine.py
 agrobot_nav/publisher_member_function.py
 agrobot_nav/py.typed

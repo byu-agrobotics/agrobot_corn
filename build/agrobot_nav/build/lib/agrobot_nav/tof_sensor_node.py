@@ -324,8 +324,7 @@ class TMF8801Node(Node):
             if register_contents != 0x55:
                 return
 
-            if confidence < 30:
-                return
+            # Removed confidence check per user request (always publish)
 
             # Publish
             msg = Float32()

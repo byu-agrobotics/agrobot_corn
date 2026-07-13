@@ -83,9 +83,12 @@ CH_RIGHT_REAR  = 7   # right side, toward the rear of the robot
 
 class State(Enum):
     IDLE = auto()
-    DRIVE_STRAIGHT = auto()
+    DRIVE_ROW_LEFT = auto()
     BACKING_UP = auto()
-    TURNING_RIGHT = auto()
+    TURN_RIGHT_1 = auto()
+    DRIVE_BETWEEN_ROWS = auto()
+    TURN_RIGHT_2 = auto()
+    DRIVE_ROW_RIGHT = auto()
 
 
 class NavStateMachine(Node):
@@ -95,23 +98,30 @@ class NavStateMachine(Node):
         super().__init__('nav_state_machine')
 
         # ── Parameters ───────────────────────────────────────────────────────
-        self.declare_parameter('wall_distance_mm', 295.0)
+        self.declare_parameter('wall_distance_mm', 325.0)
         self.declare_parameter('drive_duty_fraction', 0.25)
-        self.declare_parameter('turn_duty_fraction', 0.60)
+        self.declare_parameter('turn_duty_fraction', 0.60) # Dirt: 0.60
         self.declare_parameter('backup_duty_fraction', 0.30)
-        self.declare_parameter('kp', -40.0)
-        self.declare_parameter('ki', 0.00)
+        self.declare_parameter('kp', -60.0)
+        self.declare_parameter('ki', 10.00)
         self.declare_parameter('kd', 0.0)
         self.declare_parameter('k_angle', 0)
         self.declare_parameter('control_rate_hz', 10.0)
         self.declare_parameter('drive_duration_s', 8.0)
         self.declare_parameter('front_stop_distance_mm', 175)
         self.declare_parameter('backup_duration_s', 0.0)
-        self.declare_parameter('turn_wall_detect_mm', 60.0)  # stop turning when CH_LEFT_FRONT > this
-        self.declare_parameter('turn_timeout_s', 2.0)          # safety timeout for turn
-        self.declare_parameter('turn_min_spin_s', 0.6)         # spin at least this long before checking
+        self.declare_parameter('turn_wall_detect_mm', 60.0) # Dirt: 60.0                  # stop turning when CH_LEFT_FRONT > this
+        self.declare_parameter('turn_timeout_s', 2.0)                                     # safety timeout for turn
+        self.declare_parameter('turn_min_spin_s', 0.4) # Dirt: 0.6                        # spin at least this long before checking
+
+        self.declare_parameter('between_row_wall_distance_mm', 325.0)
+        self.declare_parameter('right_wall_distance_mm', 450.0)
+        self.declare_parameter('rear_clearance_mm', 350.0)
 
         self.wall_setpoint = self.get_parameter('wall_distance_mm').value
+        self.between_row_wall_distance = self.get_parameter('between_row_wall_distance_mm').value
+        self.right_wall_distance = self.get_parameter('right_wall_distance_mm').value
+        self.rear_clearance = self.get_parameter('rear_clearance_mm').value
         self.drive_duty_frac = self.get_parameter('drive_duty_fraction').value
         self.turn_duty_frac = self.get_parameter('turn_duty_fraction').value
         self.backup_duty_frac = self.get_parameter('backup_duty_fraction').value
@@ -129,6 +139,7 @@ class NavStateMachine(Node):
 
         # ── State ────────────────────────────────────────────────────────────
         self.state = State.IDLE
+        self.next_state = State.TURN_RIGHT_1  # State to transition to after BACKING_UP
         self.distances = [0.0] * NUM_SENSORS   # latest reading per channel
         self.sensor_valid = [False] * NUM_SENSORS  # have we received at least one msg?
 
@@ -236,11 +247,11 @@ class NavStateMachine(Node):
         """Handle keyboard commands: w=start, q=stop, c=calibrate."""
         if msg.num == 1:  # 'w' key
             if self.state == State.IDLE:
-                self.get_logger().info('>>> START: IDLE → DRIVE_STRAIGHT')
+                self.get_logger().info('>>> START: IDLE → DRIVE_ROW_LEFT')
                 self._reset_pid()
                 self.phase_start_time = time.monotonic()
                 self.leg_count = 0
-                self.state = State.DRIVE_STRAIGHT
+                self.state = State.DRIVE_ROW_LEFT
         elif msg.num == 0:  # 'q' key
             if self.state != State.IDLE:
                 self.get_logger().info('>>> STOP: → IDLE')
@@ -277,6 +288,32 @@ class NavStateMachine(Node):
             return self.wall_setpoint  # no reading → assume at setpoint (no correction)
         return sum(vals) / len(vals)
 
+    def _right_wall_distance(self) -> float:
+        vals = []
+        if self.sensor_valid[CH_RIGHT_FRONT] and self.distances[CH_RIGHT_FRONT] > 0:
+            vals.append(self.distances[CH_RIGHT_FRONT])
+        if self.sensor_valid[CH_RIGHT_REAR] and self.distances[CH_RIGHT_REAR] > 0:
+            vals.append(self.distances[CH_RIGHT_REAR])
+        if not vals:
+            return self.right_wall_distance
+        return sum(vals) / len(vals)
+
+    def _right_wall_angle(self) -> float:
+        if (self.sensor_valid[CH_RIGHT_FRONT] and self.distances[CH_RIGHT_FRONT] > 0 and 
+            self.sensor_valid[CH_RIGHT_REAR] and self.distances[CH_RIGHT_REAR] > 0):
+            return self.distances[CH_RIGHT_FRONT] - self.distances[CH_RIGHT_REAR]
+        return 0.0
+
+    def _rear_distance(self) -> float:
+        vals = []
+        if self.sensor_valid[CH_REAR_LEFT] and self.distances[CH_REAR_LEFT] > 0:
+            vals.append(self.distances[CH_REAR_LEFT])
+        if self.sensor_valid[CH_REAR_RIGHT] and self.distances[CH_REAR_RIGHT] > 0:
+            vals.append(self.distances[CH_REAR_RIGHT])
+        if not vals:
+            return 9999.0
+        return max(vals)  # use max so we don't turn until BOTH have cleared
+
     def _left_wall_angle(self) -> float:
         """
         Difference between front and rear left sensors.
@@ -299,7 +336,7 @@ class NavStateMachine(Node):
         self.pid_prev_error = 0.0
         self.pid_last_time = time.monotonic()
 
-    def _compute_pid(self, measured: float, angle_diff: float) -> float:
+    def _compute_pid(self, measured: float, angle_diff: float, setpoint: float, is_right_wall: bool = False) -> float:
         """
         Compute PID output for wall-following, incorporating heading angle.
 
@@ -316,7 +353,9 @@ class NavStateMachine(Node):
         dt = max(dt, 0.001)  # prevent division by zero
         self.pid_last_time = now
 
-        error = measured - self.wall_setpoint
+        error = measured - setpoint
+        if is_right_wall:
+            error = -error
 
         # Proportional
         p_term = self.kp * error
@@ -331,6 +370,8 @@ class NavStateMachine(Node):
         self.pid_prev_error = error
 
         # Angle correction (heading)
+        if is_right_wall:
+            angle_diff = -angle_diff
         angle_term = self.k_angle * angle_diff
 
         output = p_term + i_term + d_term + angle_term
@@ -380,21 +421,32 @@ class NavStateMachine(Node):
             if self._log_counter % 10 == 0:
                 angle_diff = self._left_wall_angle()
                 self.get_logger().info(
-                    f'[IDLE] CH2: {self.distances[CH_LEFT_FRONT]:.0f}mm | '
-                    f'CH3_Calibrated: {(self.distances[CH_LEFT_REAR] - self.ch3_offset):.0f}mm | '
-                    f'Angle: {angle_diff:.0f}mm'
+                    f'[IDLE] CH2:{self.distances[CH_LEFT_FRONT]:.0f} | '
+                    f'CH3_Cal:{(self.distances[CH_LEFT_REAR] - self.ch3_offset):.0f} | '
+                    f'CH4:{self.distances[CH_REAR_LEFT]:.0f} | CH5:{self.distances[CH_REAR_RIGHT]:.0f} | '
+                    f'CH6:{self.distances[CH_RIGHT_FRONT]:.0f} | CH7:{self.distances[CH_RIGHT_REAR]:.0f} | '
+                    f'Ang:{angle_diff:.0f}'
                 )
 
-        elif self.state == State.DRIVE_STRAIGHT:
-            self._do_drive_straight()
-
+        elif self.state == State.DRIVE_ROW_LEFT:
+            self._do_drive_row_left()
+            
         elif self.state == State.BACKING_UP:
             self._do_backing_up()
 
-        elif self.state == State.TURNING_RIGHT:
-            self._do_turning_right()
+        elif self.state == State.TURN_RIGHT_1:
+            self._do_turn_right_1()
+            
+        elif self.state == State.DRIVE_BETWEEN_ROWS:
+            self._do_drive_between_rows()
+            
+        elif self.state == State.TURN_RIGHT_2:
+            self._do_turn_right_2()
+            
+        elif self.state == State.DRIVE_ROW_RIGHT:
+            self._do_drive_row_right()
 
-    def _do_drive_straight(self):
+    def _do_drive_row_left(self):
         """PID wall-following until we reach a wall in front."""
 
         elapsed = time.monotonic() - self.phase_start_time
@@ -409,6 +461,7 @@ class NavStateMachine(Node):
             self._stop_motors()
             self.phase_start_time = time.monotonic()
             self.state = State.BACKING_UP
+            self.next_state = State.TURN_RIGHT_1
             return
 
         # Check timeout (fallback)
@@ -420,12 +473,13 @@ class NavStateMachine(Node):
             self._stop_motors()
             self.phase_start_time = time.monotonic()
             self.state = State.BACKING_UP
+            self.next_state = State.TURN_RIGHT_1
             return
 
         # PID wall-following
         left_dist = self._left_wall_distance()
         angle_diff = self._left_wall_angle()
-        correction = self._compute_pid(left_dist, angle_diff)
+        correction = self._compute_pid(left_dist, angle_diff, self.wall_setpoint)
 
         # Apply correction differentially:
         #   correction > 0 (too far from wall) → steer left → slow down left, speed up right
@@ -458,14 +512,14 @@ class NavStateMachine(Node):
             )
             self._stop_motors()
             self.phase_start_time = time.monotonic()
-            self.state = State.TURNING_RIGHT
+            self.state = self.next_state
             return
 
         # Drive backwards
         backup_duty = -int(self.backup_duty_frac * DUTY_MAX)
         self._send_motors(backup_duty, backup_duty)
 
-    def _do_turning_right(self):
+    def _do_turn_right_1(self):
         """Turn right until CH7 (left front sensor) reads within
         turn_wall_detect_mm of the wall, meaning we've rotated
         ~90° and are now parallel to the next wall.
@@ -483,7 +537,7 @@ class NavStateMachine(Node):
             self._stop_motors()
             self._reset_pid()
             self.phase_start_time = time.monotonic()
-            self.state = State.DRIVE_STRAIGHT
+            self.state = State.DRIVE_BETWEEN_ROWS
             return
 
         # Spin right: left forward, right backward
@@ -520,7 +574,111 @@ class NavStateMachine(Node):
                 self.state = State.DRIVE_STRAIGHT
                 return
 
+
+    def _do_drive_between_rows(self):
+        elapsed = time.monotonic() - self.phase_start_time
+
+        # Check if we've cleared the row
+        rear_dist = self._rear_distance()
+        if rear_dist >= self.rear_clearance and elapsed > 1.0:  # wait 1s so it doesn't trigger instantly
+            self.get_logger().info(
+                f'Row cleared (rear={rear_dist:.0f}mm) '
+                f'— turning right into next row'
+            )
+            self._stop_motors()
+            self.phase_start_time = time.monotonic()
+            self.state = State.TURN_RIGHT_2
+            return
+
+        # PID wall-following (left wall)
+        left_dist = self._left_wall_distance()
+        angle_diff = self._left_wall_angle()
+        correction = self._compute_pid(left_dist, angle_diff, self.between_row_wall_distance)
+
+        base_duty = int(self.drive_duty_frac * DUTY_MAX)
+        left_duty = int(base_duty - correction)
+        right_duty = int(base_duty + correction)
+
+        self._send_motors(left_duty, right_duty)
+
+        self._log_counter += 1
+        if self._log_counter % 10 == 0:
+            self.get_logger().info(
+                f'CROSS-DRIVE: L_dist={left_dist:.0f}mm L_angle={angle_diff:.0f}mm '
+                f'rear={rear_dist:.0f}mm '
+                f'CH4={self.distances[CH_REAR_LEFT]:.0f} CH5={self.distances[CH_REAR_RIGHT]:.0f} '
+                f'corr={correction:.0f}'
+            )
+
+    def _do_turn_right_2(self):
+        elapsed = time.monotonic() - self.phase_start_time
+
+        if elapsed >= self.turn_timeout:
+            self.get_logger().warn(f'Turn 2 TIMEOUT ({elapsed:.1f}s) — resuming DRIVE_ROW_RIGHT')
+            self._stop_motors()
+            self._reset_pid()
+            self.phase_start_time = time.monotonic()
+            self.state = State.DRIVE_ROW_RIGHT
+            return
+
+        turn_duty = int(self.turn_duty_frac * DUTY_MAX)
+        self._send_motors(-turn_duty, turn_duty)
+
+        if elapsed < self.turn_min_spin:
+            return
+
+        # Check CH_RIGHT_FRONT
+        if self.sensor_valid[CH_RIGHT_FRONT] and self.distances[CH_RIGHT_FRONT] > 0:
+            side_dist = self.distances[CH_RIGHT_FRONT]
+            
+            self._log_counter += 1
+            if self._log_counter % 5 == 0:
+                self.get_logger().info(f'TURN 2: CH_RIGHT_FRONT={side_dist:.0f}mm (stop at >{self.turn_wall_detect:.0f}mm)')
+
+            if side_dist > self.turn_wall_detect:
+                self.get_logger().info(f'Turn 2 complete! CH_RIGHT_FRONT={side_dist:.0f}mm — resuming DRIVE_ROW_RIGHT')
+                self._stop_motors()
+                self._reset_pid()
+                self.phase_start_time = time.monotonic()
+                self.state = State.DRIVE_ROW_RIGHT
+                return
+
+    def _do_drive_row_right(self):
+        elapsed = time.monotonic() - self.phase_start_time
+
+        front_dist = self._front_distance()
+        if front_dist <= self.front_stop_distance:
+            self.get_logger().info('End of 2nd row reached! Stopping.')
+            self._stop_motors()
+            self.state = State.IDLE
+            return
+
+        if elapsed >= self.drive_duration:
+            self.get_logger().info('Drive 2 complete by timeout. Stopping.')
+            self._stop_motors()
+            self.state = State.IDLE
+            return
+
+        right_dist = self._right_wall_distance()
+        angle_diff = self._right_wall_angle()
+        correction = self._compute_pid(right_dist, angle_diff, self.right_wall_distance, is_right_wall=True)
+
+        base_duty = int(self.drive_duty_frac * DUTY_MAX)
+        left_duty = int(base_duty - correction)
+        right_duty = int(base_duty + correction)
+
+        self._send_motors(left_duty, right_duty)
+
+        self._log_counter += 1
+        if self._log_counter % 10 == 0:
+            self.get_logger().info(
+                f'ROW-RIGHT: R_dist={right_dist:.0f}mm R_angle={angle_diff:.0f}mm '
+                f'CH6={self.distances[CH_RIGHT_FRONT]:.0f} CH7={self.distances[CH_RIGHT_REAR]:.0f} '
+                f'corr={correction:.0f}'
+            )
+
     # ── Cleanup ──────────────────────────────────────────────────────────────
+
 
     def destroy_node(self):
         self._stop_motors()

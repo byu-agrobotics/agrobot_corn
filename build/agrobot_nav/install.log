@@ -3,6 +3,7 @@
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/nav_state_machine.py
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__init__.py
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/subscriber_member_function.py
+/home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/mini_nav_state_machine_new.py
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/mini_nav_state_machine.py
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/publisher_member_function.py
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/py.typed
@@ -11,6 +12,7 @@
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__pycache__/nav_state_machine.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__pycache__/__init__.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__pycache__/subscriber_member_function.cpython-312.pyc
+/home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__pycache__/mini_nav_state_machine_new.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__pycache__/mini_nav_state_machine.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_nav/lib/python3.12/site-packages/agrobot_nav/__pycache__/publisher_member_function.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_nav/share/ament_index/resource_index/packages/agrobot_nav

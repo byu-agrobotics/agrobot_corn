@@ -197,6 +197,8 @@ class CameraView(object):
         colorDetCon,
         extra_tolerance_factor=0.30,
         on_count_callback=None,
+        on_detect_callback=None,
+        center_tolerance=0.15,
     ):
         self.cap = camera
         self.width = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -220,6 +222,10 @@ class CameraView(object):
         self.extraToleranceFactor = extra_tolerance_factor
         self.rescalePercentage = .3
         self.on_count_callback = on_count_callback
+        self.on_detect_callback = on_detect_callback
+        # Fraction of full frame width defining the "centered" band for a base:
+        # centered iff |cx - width/2| <= center_tolerance * width.
+        self.centerTolerance = center_tolerance
 
         # Tracking system variables (per camera)
         self.activeTracks = {}  # Dictionary: {color_name: [list of TargetTrack objects]}
@@ -279,15 +285,29 @@ class CameraView(object):
         y2 = max(ay + ah, by + bh)
         return (x1, y1, x2 - x1, y2 - y1)
 
+    @staticmethod
+    def _withMeta(detection):
+        """Normalize a detection to a (centroid, bbox, meta) triple."""
+        if len(detection) >= 3:
+            return detection
+        centroid, bbox = detection[0], detection[1]
+        return (centroid, bbox, {})
+
     def buildFinalPlantDetections(self, detectionsByConfig):
         """
         Build final classes:
           - base
           - green_1_stalk
           - double_stalk (green + yellow overlap, yellow centroid above green centroid)
+
+        Every detection is a (centroid, bbox, meta) triple. `meta` is a dict that
+        rides along to the track. For a double_stalk it records the raw geometry of
+        which side the yellow stalk sits on relative to the green stalk center
+        ("yellow_side": "left"/"right"); the "which stalk is first" policy is applied
+        by the publisher node, not here.
         """
         finalDetections = {
-            "base": list(detectionsByConfig.get("base", [])),
+            "base": [self._withMeta(d) for d in detectionsByConfig.get("base", [])],
             "green_1_stalk": [],
             "double_stalk": [],
         }
@@ -295,13 +315,13 @@ class CameraView(object):
         usedYellow = set()
 
         for greenDetection in detectionsByConfig.get("green_1_stalk", []):
-            greenCentroid, greenBBox = greenDetection
+            greenCentroid, greenBBox = greenDetection[0], greenDetection[1]
             matchedYellowIndex = None
 
             for idx, yellowDetection in enumerate(yellowDetections):
                 if idx in usedYellow:
                     continue
-                yellowCentroid, yellowBBox = yellowDetection
+                yellowCentroid, yellowBBox = yellowDetection[0], yellowDetection[1]
                 if not self.bboxesOverlap(greenBBox, yellowBBox):
                     continue
                 if yellowCentroid[1] >= greenCentroid[1]:
@@ -310,14 +330,23 @@ class CameraView(object):
                 break
 
             if matchedYellowIndex is None:
-                finalDetections["green_1_stalk"].append(greenDetection)
+                finalDetections["green_1_stalk"].append(self._withMeta(greenDetection))
                 continue
 
             usedYellow.add(matchedYellowIndex)
-            yellowCentroid, yellowBBox = yellowDetections[matchedYellowIndex]
+            yellowCentroid = yellowDetections[matchedYellowIndex][0]
+            yellowBBox = yellowDetections[matchedYellowIndex][1]
             combinedBBox = self.combineBBoxes(greenBBox, yellowBBox)
             combinedCentroid = self.getCentroidFromBBox(combinedBBox)
-            finalDetections["double_stalk"].append((combinedCentroid, combinedBBox))
+            # Raw geometry only: which side is the yellow center on relative to green?
+            yellowSide = "left" if yellowCentroid[0] < greenCentroid[0] else "right"
+            meta = {
+                "class": "double_stalk",
+                "yellow_side": yellowSide,
+                "yellow_center": yellowCentroid,
+                "green_center": greenCentroid,
+            }
+            finalDetections["double_stalk"].append((combinedCentroid, combinedBBox, meta))
 
         return finalDetections
 
@@ -500,6 +529,17 @@ class CameraView(object):
         """Calculate centroid from bounding box (x, y, w, h)"""
         x, y, w, h = bbox
         return (x + w // 2, y + h // 2)
+
+    def isBaseCentered(self, centroid, frameWidth):
+        """True if a centroid's x sits within the centered band of the frame.
+
+        The band is [center - tol*width, center + tol*width] where tol is
+        self.centerTolerance (a fraction of the full frame width). e.g. tol=0.15
+        means the middle 30% of the frame counts as centered.
+        """
+        cx = centroid[0]
+        center = frameWidth / 2.0
+        return abs(cx - center) <= self.centerTolerance * frameWidth
 
     def loadDetectionConfigurations(self):
         """Load detection configurations from database recommendations"""
@@ -709,8 +749,8 @@ class CameraView(object):
         distanceMatrix = []
         for track in tracks:
             row = []
-            for detCentroid, _ in detections:
-                row.append(track.getDistanceSquared(detCentroid))
+            for det in detections:
+                row.append(track.getDistanceSquared(det[0]))
             distanceMatrix.append(row)
 
         # Greedy matching: match closest pairs within threshold
@@ -722,7 +762,7 @@ class CameraView(object):
         allMatches = []
 
         for tIDx, track in enumerate(tracks):
-            for dIDx, (detCentroid, detBBox), in enumerate(detections):
+            for dIDx, det in enumerate(detections):
                 distanceSQ = distanceMatrix[tIDx][dIDx]
                 MAX_DIST_SQ = self.MAX_DISTANCE * self.MAX_DISTANCE
                 if distanceSQ <= MAX_DIST_SQ:
@@ -772,8 +812,34 @@ class CameraView(object):
             matchedPairs, unmatchedDetections, unmatchedTracks = \
                 self.matchDetectionsToTracks(detections, configName, frameNumber)
 
-            for track, (centroid, bbox) in matchedPairs:
-                track.update(centroid, bbox, frameNumber)
+            for track, det in matchedPairs:
+                centroid, bbox = det[0], det[1]
+                meta = det[2] if len(det) > 2 else {}
+                track.update(centroid, bbox, frameNumber, meta)
+                # Announce once, the moment the object is confirmed on screen.
+                # This is independent of the counting line below: it fires as soon
+                # as the track is stable (>= MIN_TRACK_AGE frames), so downstream
+                # nodes learn "what am I seeing right now" the instant it enters.
+                if not track.announced and track.age >= self.MIN_TRACK_AGE:
+                    track.announced = True
+                    announceMeta = dict(track.meta or {})
+                    if configName == "base":
+                        track.centeredState = self.isBaseCentered(track.centroid, frame_width)
+                        announceMeta["centered"] = track.centeredState
+                    if self.on_detect_callback:
+                        self.on_detect_callback(configName, announceMeta)
+                # A base is a stop/align target: after it has entered, keep
+                # subscribers updated whenever it crosses into or out of the
+                # centered zone, so nav/actuation know when it is lined up under
+                # the camera. Only re-announced on an actual state change.
+                elif configName == "base" and track.announced:
+                    centered = self.isBaseCentered(track.centroid, frame_width)
+                    if centered != track.centeredState:
+                        track.centeredState = centered
+                        if self.on_detect_callback:
+                            announceMeta = dict(track.meta or {})
+                            announceMeta["centered"] = centered
+                            self.on_detect_callback(configName, announceMeta)
                 # check if this track should be counted
                 if self.checkEntryZone(track, frame_width):
                     track.counted = True
@@ -784,13 +850,16 @@ class CameraView(object):
                     if self.on_count_callback:
                         self.on_count_callback(configName, dict(self.totalCount))
                     print(f"[{configName}] Target #{self.totalCount[configName]} counted! Track ID: {track.trackID}")
-            for centroid, bbox in unmatchedDetections:
+            for det in unmatchedDetections:
+                centroid, bbox = det[0], det[1]
+                meta = det[2] if len(det) > 2 else {}
                 newTrack = TargetTrack(
                     self.nextTrackId[configName] if configName in self.nextTrackId else 0,
                     centroid,
                     bbox,
                     frameNumber,
-                    configName
+                    configName,
+                    meta,
                 )
                 # Initialize tracking structures if needed
                 if configName not in self.activeTracks:
@@ -893,24 +962,29 @@ class TapeTarget(object):
 
 class TargetTrack(object):
     """Represents a tracked target across multiple frames"""
-    def __init__(self, track_id, centroid, bbox, frameNumber, color_name):
+    def __init__(self, track_id, centroid, bbox, frameNumber, color_name, meta=None):
         self.trackID = track_id
         self.centroid = centroid  # (cx, cy) tuple
         self.bbox = bbox  # (x, y, w, h) tuple
         self.age = 1  # Number of frames this track has existed
         self.lastSeen = frameNumber  # Frame number when last updated
         self.counted = False  # Whether this target has been counted
+        self.announced = False  # Whether this object's on-screen entry was announced
+        self.centeredState = None  # base only: last announced centered-ness (bool)
         self.entrySide = None  # 'left', 'right', or None - which side it entered from
         self.history = [centroid]  # History of centroid positions for visualization
         self.colorName = color_name  # Color name for this track
+        self.meta = meta or {}  # Extra per-object info (e.g. double_stalk yellow_side)
 
-    def update(self, centroid, bbox, frameNumber):
+    def update(self, centroid, bbox, frameNumber, meta=None):
         """Update track with new detection"""
         self.centroid = centroid
         self.bbox = bbox
         self.age += 1
         self.lastSeen = frameNumber
         self.history.append(centroid)
+        if meta:
+            self.meta = meta
         # Keep only last 10 positions for visualization
         if len(self.history) > 10:
             self.history.pop(0)
@@ -931,6 +1005,8 @@ class VisionApplication(object):
         camera_height=480,
         extra_tolerance_factor=0.20,
         on_count_callback=None,
+        on_detect_callback=None,
+        center_tolerance=0.15,
         streaming_video=False,
         use_gui=False,
     ):
@@ -942,6 +1018,8 @@ class VisionApplication(object):
         self.camera_height = camera_height
         self.extra_tolerance_factor = extra_tolerance_factor
         self.on_count_callback = on_count_callback
+        self.on_detect_callback = on_detect_callback
+        self.center_tolerance = center_tolerance
         self.streaming_video = streaming_video
         self.use_gui = use_gui
 
@@ -1005,6 +1083,8 @@ class VisionApplication(object):
             colorDetectConstants,
             extra_tolerance_factor=self.extra_tolerance_factor,
             on_count_callback=self.on_count_callback,
+            on_detect_callback=self.on_detect_callback,
+            center_tolerance=self.center_tolerance,
         )
         self.cameraList["PositioningCamera"] = self.camera
         if self.numberOfCameras == 2:
@@ -1025,6 +1105,8 @@ class VisionApplication(object):
                 colorDetectConstants,
                 extra_tolerance_factor=self.extra_tolerance_factor,
                 on_count_callback=self.on_count_callback,
+                on_detect_callback=self.on_detect_callback,
+                center_tolerance=self.center_tolerance,
             )
             self.cameraList["IDCamera"] = self.camera2
 

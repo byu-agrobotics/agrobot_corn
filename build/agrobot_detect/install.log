@@ -1,3 +1,4 @@
+/home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/object_detect_publisher.py
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/vision_module.py
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/lcd_display_publisher.py
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__init__.py
@@ -6,6 +7,7 @@
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/vision_application_publisher_toggle.py
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/vision_lcd_publisher.py
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/beam_break_node.py
+/home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__pycache__/object_detect_publisher.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__pycache__/vision_module.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__pycache__/lcd_display_publisher.cpython-312.pyc
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/python3.12/site-packages/agrobot_detect/__pycache__/__init__.cpython-312.pyc
@@ -27,5 +29,6 @@
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect/beam_break_node
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect/lcd_display_publisher
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect/lcd_display_subscriber
+/home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect/object_detect_publisher
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect/vision_application_publisher
 /home/agrobot/ros2_ws/install/agrobot_detect/lib/agrobot_detect/vision_application_publisher_toggle
